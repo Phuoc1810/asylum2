@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory I { get; private set; }
 
-    [SerializeField] private int slotCount = 20;  // s? ô b?n mu?n spawn
+    [SerializeField] private int slotCount = 20;  // so o muon spawn
     public List<InventorySlot> slots = new List<InventorySlot>();
 
     public event Action OnChanged;
@@ -58,6 +58,6 @@ public class Inventory : MonoBehaviour
             }
         }
         OnChanged?.Invoke();
-        return false; // h?t ch?
+        return false; 
     }
 }

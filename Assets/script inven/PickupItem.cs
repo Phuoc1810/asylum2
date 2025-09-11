@@ -5,11 +5,11 @@ public class PickupItem : MonoBehaviour
 {
     public ItemSO item;
     public int amount = 1;
-    public KeyCode pickupKey = KeyCode.F;   // <-- phím nh?t: F
+    public KeyCode pickupKey = KeyCode.F;   //nhan phim F de nhat
 
     bool _inRange;
 
-    void Reset() { GetComponent<Collider>().isTrigger = true; } // b?t Trigger cho collider 3D
+    void Reset() { GetComponent<Collider>().isTrigger = true; } // bat Trigger cho collider 3D
 
     void OnTriggerEnter(Collider other) { if (other.CompareTag("Player")) _inRange = true; }
     void OnTriggerExit(Collider other) { if (other.CompareTag("Player")) _inRange = false; }
