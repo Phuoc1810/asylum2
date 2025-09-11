@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class gamemaneger2 : MonoBehaviour
 {
+    private const bool V = false;
+    private const bool v = V;
     [SerializeField] private Transform gameTransfrom;
     [SerializeField] private Transform pieacePrefab;
     public List<Transform> pieces;
@@ -80,7 +82,7 @@ public class gamemaneger2 : MonoBehaviour
         piece8 = pieces[8].transform.eulerAngles.z;
         if (checkcompletion())
         {
-            unlock.locks = false;
+            unlock.locks = v;
                 Debug.Log("complet");
             
         }

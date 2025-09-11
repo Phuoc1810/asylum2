@@ -4,17 +4,18 @@ using UnityEngine.UI;
 public class Door : MonoBehaviour
 {
 
-    public bool trig, open;//trig-проверка входа выхода в триггер(игрок должен быть с тегом Player) open-закрыть и открыть дверь
+    bool trig, open;//trig-проверка входа выхода в триггер(игрок должен быть с тегом Player) open-закрыть и открыть дверь
     public float smooth = 2.0f;//скорость вращения
     public float DoorOpenAngle = 90.0f;//угол вращения 
     private Vector3 defaulRot;
     private Vector3 openRot;
     public Text txt;//text 
-    public bool locks;
+
+    public bool locks { get; internal set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        locks = true;
         defaulRot = transform.eulerAngles;
         openRot = new Vector3(defaulRot.x, defaulRot.y + DoorOpenAngle, defaulRot.z);
     }
@@ -30,7 +31,7 @@ public class Door : MonoBehaviour
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
         }
-        if (Input.GetKeyDown(KeyCode.E) && trig && !locks)
+        if (Input.GetKeyDown(KeyCode.E) && trig)
         {
             open = !open;
         }
@@ -48,9 +49,8 @@ public class Door : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)//вход и выход в\из  триггера 
     {
-        if (coll.CompareTag("Player"))
+        if (coll.tag == "Player")
         {
-         
             if (!open)
             {
                 txt.text = "Close E ";
@@ -64,7 +64,7 @@ public class Door : MonoBehaviour
     }
     private void OnTriggerExit(Collider coll)//вход и выход в\из  триггера 
     {
-        if (coll.CompareTag("Player"))
+        if (coll.tag == "Player")
         {
             txt.text = " ";
             trig = false;
