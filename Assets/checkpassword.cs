@@ -5,9 +5,14 @@ public class checkpassword : MonoBehaviour
     public int[] passsword = { 1, 2, 3, 4, 5, 6 };
     public int[] checkdoor = { 5, 1, 2, 2, 3, 4 };
     public Door unlock;
+    public bool checkwrong ;
+    private void Start()
+    {
+        checkwrong = true;
+    }
     private void Update()
     {
-       if (check())
+       if (check() && checkwrong)
         {
             unlock.locks = false;
         }

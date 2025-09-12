@@ -22,6 +22,7 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (open)//открыть
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
