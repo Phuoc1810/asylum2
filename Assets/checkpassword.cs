@@ -25,8 +25,8 @@ public class checkpassword : MonoBehaviour
             //Debug.Log(("point : ", checkdoor[0], checkdoor[1], checkdoor[2], checkdoor[3], checkdoor[4], checkdoor[5]));
             if (passsword[i] != checkdoor[i]) 
             {
-               Debug.Log( (passsword[i], "", checkdoor[i]));
-                Debug.Log("false");
+              // Debug.Log( (passsword[i], "", checkdoor[i]));
+                //Debug.Log("false");
                 return false;
 
             }
