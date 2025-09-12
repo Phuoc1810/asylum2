@@ -33,7 +33,7 @@ public class PlayerMovementHN : MonoBehaviour
     public float fadeInSpeed = 20f;
     public float fadeOutSpeed = 25f;
 
-    // --- private ---
+    // private 
     CharacterController controller;
     float xRotation, bobTimer, verticalVelocity;
     Vector3 cameraInitialLocalPos;
@@ -64,10 +64,10 @@ public class PlayerMovementHN : MonoBehaviour
         HandleMouseLook();
         bool isRunning = HandleMovement();
         HandleHeadBob(isRunning);
-        HandleFootstepLoop(isRunning);   // <-- ch? phát khi ?ang gi? phím
+        HandleFootstepLoop(isRunning);   //  ch? phát khi ?ang gi? phím
     }
 
-    // ===== Look =====
+    // Look 
     void HandleMouseLook()
     {
         if (!cameraTransform) return;
@@ -82,7 +82,7 @@ public class PlayerMovementHN : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    // ===== Move (+gravity) =====
+    //  Move gravity
     bool HandleMovement()
     {
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -103,7 +103,7 @@ public class PlayerMovementHN : MonoBehaviour
         return isRunning;
     }
 
-    // ===== Head Bob =====
+    //  Head Bob 
     void HandleHeadBob(bool isRunning)
     {
         if (!cameraTransform) return;
@@ -129,7 +129,7 @@ public class PlayerMovementHN : MonoBehaviour
         }
     }
 
-    // ===== Footstep LOOP (ch? phát khi ?ang gi? input) =====
+    // ch? phát khi ?ang gi? input
     void HandleFootstepLoop(bool isRunning)
     {
         if (!footSource) return;
