@@ -67,8 +67,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 429368918, guid: d1dcc1999cd6db6458799015e3f48204, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -109,6 +109,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5622859143047571728}
     m_Modifications:
+    - target: {fileID: 1212985430702142601, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1644834742, guid: ac546e4d97058e448b3e3fa8abc62fb2, type: 3}
+    - target: {fileID: 1212985430702142601, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212985430702142601, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.11534355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212985430702142601, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.11534355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1212985430702142601, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9056604
+      objectReference: {fileID: 0}
     - target: {fileID: 2233008928525208629, guid: 8259297644b42d84aa929e1c5a702c9d, type: 3}
       propertyPath: m_Name
       value: itemslot
