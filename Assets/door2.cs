@@ -9,6 +9,10 @@ public class door2 : MonoBehaviour
     private Vector3 openRot;
     public Text txt;//text 
     public bool locks;
+    public GameObject door;
+    public int ID;
+    public int number;
+    public checkpassword passwork;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +24,17 @@ public class door2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        defaulRot.x = 0;   
         if (open)//открыть
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
+            passwork.checkdoor[number] = ID;
         }
         else//закрыть
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
+            passwork.checkdoor[number] = 10;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -38,7 +46,7 @@ public class door2 : MonoBehaviour
             // if (hit)
             {
                
-                
+                if(hit.transform == transform)
                     open = !open;
                 
             }
