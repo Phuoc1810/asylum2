@@ -7,12 +7,15 @@ public class PlayerMovement : MonoBehaviour
     public float mouseSensitivity = 100f;
     public Animator animator;
 
+    private float _velocityVertical = 0f;
+    private float _gravity = -9.81f;
+
     [Header("Head Bobbing Settings")]
     public Transform cameraTransform;
     //public float walkBobFrequency = 4f;
     //public float walkBobAmplitude = 0.1f;
     //public float runBobFrequency = 7f;
-    //public float runBobAmplitude = 0.2f;
+    // public float runBobAmplitude = 0.2f;
 
     private CharacterController controller;
     private float xRotation = 0f;
@@ -42,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -70f, 70f);
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
@@ -56,13 +59,24 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        Vector3 moveHorizontal = transform.right * moveX + transform.forward * moveZ;
+        Vector3 move = moveHorizontal;
+        if (!controller.isGrounded)
+        {
+            _velocityVertical += _gravity * Time.deltaTime;
+        }
+        else
+        {
+            _velocityVertical = 0f; // Reset vertical velocity when grounded
+        }
+        move.y = _velocityVertical; // Apply vertical velocity for gravity
         controller.Move(move * currentSpeed * Time.deltaTime);
 
-        bool isMoving = move.sqrMagnitude > 0f;
+        bool isMoving = moveHorizontal.sqrMagnitude > 0f;
         animator.SetBool("isWalking", isMoving);
+
     }
-    
+
     //void HandleHeadBob()
     //{
     //    Vector3 velocity = new Vector3(controller.velocity.x, 0, controller.velocity.z);
