@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private float xRotation = 0f;
-    private float bobTimer = 0f;
+    //private float bobTimer = 0f;
     private Vector3 cameraInitialPosition;
 
     void Start()
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -75f, 75f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
