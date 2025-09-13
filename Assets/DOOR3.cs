@@ -1,0 +1,102 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+public class DOOR3 : MonoBehaviour
+{
+    public bool trig, open;//trig-проверка входа выхода в триггер(игрок должен быть с тегом Player) open-закрыть и открыть дверь
+    public float smooth = 2.0f;//скорость вращения
+    public float DoorOpenAngle = 35f;//угол вращения 
+    private Vector3 defaulRot;
+    private Vector3 openRot;
+    public Text txt;//text 
+    public bool locks;
+    public Transform door;
+    public int ID;
+    public int number;
+    public checkpassword passwork;
+    public int count = 1;
+    // Start is called before the first frame update
+    void Start()
+    {
+        count = 1;
+        DoorOpenAngle = -36.5f;
+        locks = true;
+        defaulRot = transform.eulerAngles;
+        openRot = new Vector3(0f, 0f , 0f);
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            
+            openRot.x += DoorOpenAngle;
+          
+            count++;
+
+            if (count == 1)
+            {
+                openRot.x = 0f;
+            }
+            else if (count > 9)
+            {
+                count = 0;
+
+            }
+            transform.eulerAngles = new Vector3(openRot.x, 0, 0);
+        }
+       
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out hit, 3f))
+
+            // RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.transform.forward);
+            // if (hit)
+            {
+
+                if (hit.transform == transform)
+                    open = !open;
+
+            }
+        }
+        if (trig)
+        {
+            if (open)
+            {
+                //txt.text = "Close E";
+            }
+            else
+            {
+                // txt.text = "Open E";
+            }
+        }
+    }
+    private void OnTriggerEnter(Collider coll)//вход и выход в\из  триггера 
+    {
+        if (coll.CompareTag("Player"))
+        {
+
+            if (!open)
+            {
+                //txt.text = "Close E ";
+            }
+            else
+            {
+                //txt.text = "Open E";
+            }
+            trig = true;
+        }
+    }
+    private void OnTriggerExit(Collider coll)//вход и выход в\из  триггера 
+    {
+        if (coll.CompareTag("Player"))
+        {
+            txt.text = " ";
+            trig = false;
+        }
+    }
+}
