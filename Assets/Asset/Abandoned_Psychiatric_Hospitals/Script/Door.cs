@@ -23,6 +23,7 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (open)//открыть
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
@@ -39,11 +40,11 @@ public class Door : MonoBehaviour
         {
             if (open)
             {
-                txt.text = "Close E";
+                //txt.text = "Close E";
             }
             else
             {
-                txt.text = "Open E";
+               // txt.text = "Open E";
             }
         }
     }
@@ -53,11 +54,11 @@ public class Door : MonoBehaviour
         {
             if (!open)
             {
-                txt.text = "Close E ";
+                //txt.text = "Close E ";
             }
             else
             {
-                txt.text = "Open E";
+                //txt.text = "Open E";
             }
             trig = true;
         }
