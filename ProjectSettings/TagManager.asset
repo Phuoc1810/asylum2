@@ -6,6 +6,7 @@ TagManager:
   tags:
   - art
   - door
+  - quiz
   layers:
   - Default
   - TransparentFX
