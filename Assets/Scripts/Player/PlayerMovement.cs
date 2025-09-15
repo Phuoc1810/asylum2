@@ -28,14 +28,18 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+       
         cameraInitialPosition = cameraTransform.localPosition;
     }
 
     void Update()
     {
-        HandleMovement();
-        HandleMouseLook();
+        //Cursor.lockState = CursorLockMode.Confined; Cursor.visible = true;
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            HandleMovement();
+            HandleMouseLook();
+        }
         //HandleHeadBob();
     }
 

@@ -5,11 +5,11 @@ public class DOOR3 : MonoBehaviour
     public bool trig, open;//trig-проверка входа выхода в триггер(игрок должен быть с тегом Player) open-закрыть и открыть дверь
     public float smooth = 2.0f;//скорость вращения
     public float DoorOpenAngle = 35f;//угол вращения 
-    private Vector3 defaulRot;
+    public Vector3 defaulRot;
     private Vector3 openRot;
     public Text txt;//text 
     public bool locks;
-    public Transform door;
+   
     public int ID;
     public int number;
     public checkpassword passwork;
@@ -28,7 +28,9 @@ public class DOOR3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = true;
+        defaulRot = transform.eulerAngles;
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             
@@ -45,7 +47,7 @@ public class DOOR3 : MonoBehaviour
                 count = 0;
 
             }
-            transform.eulerAngles = new Vector3(openRot.x, 0, 0);
+            transform.eulerAngles = new Vector3(openRot.x, 0f, 0f);
         }
        
         if (Input.GetKeyDown(KeyCode.E))
