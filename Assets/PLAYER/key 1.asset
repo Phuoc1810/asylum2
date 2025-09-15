@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33623337aece29d4796b8efbd16a5adf, type: 3}
-  m_Name: key
+  m_Name: key 1
   m_EditorClassIdentifier: 
-  rust_key_01: 
-  Key: 
-  type: 0
+  id: 
+  displayName: 
+  icon: {fileID: -538369311, guid: 95143a36710772f43b6231371d669764, type: 3}
   stackable: 1
-  icon: {fileID: 1439655199, guid: dee30b28e5abd0440a580e5c874b1ceb, type: 3}
+  maxStack: 99
