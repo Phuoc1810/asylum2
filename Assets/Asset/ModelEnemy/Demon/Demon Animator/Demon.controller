@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-8272967589625878639
+--- !u!1102 &-7375669960297433541
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mutant Run
+  m_Name: metarig_StrongWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,20 +20,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: e109a1a1a5830a541a7d33b9d5b1c13b, type: 3}
+  m_Motion: {fileID: 7400000, guid: 2e304cead491f2141a46d2a403d43e4d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-6401456717757965736
+--- !u!1102 &-5315565824146143092
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|ClawWallScrape
+  m_Name: metarig_AlertToRunTransition
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2160826377905707375, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: f71042cfbd9b1f1459afbfbd2cbde8a6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -65,44 +65,44 @@ AnimatorStateMachine:
     m_State: {fileID: 1840448015353224825}
     m_Position: {x: 240, y: 110, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 4753333570942550661}
-    m_Position: {x: 510, y: 360, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 8604444936598564018}
-    m_Position: {x: 650, y: 220, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 389975138663468566}
-    m_Position: {x: 50, y: 390, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 3490842022425584561}
     m_Position: {x: 500, y: 30, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4933241988784734156}
-    m_Position: {x: 820, y: 280, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4757774441633911418}
-    m_Position: {x: 520, y: 450, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4090061943682610419}
-    m_Position: {x: 360, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8360705266432003713}
     m_Position: {x: 410, y: 270, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -8272967589625878639}
-    m_Position: {x: 301.38605, y: 429.48926, z: 0}
+    m_State: {fileID: 7178855554845223107}
+    m_Position: {x: -107.03067, y: 544.5942, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -2974979796442262238}
-    m_Position: {x: -110, y: 220, z: 0}
+    m_State: {fileID: -5315565824146143092}
+    m_Position: {x: -90, y: 460, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 4717720086650335394}
-    m_Position: {x: 343.1506, y: 340.33304, z: 0}
+    m_State: {fileID: 8182759682900265134}
+    m_Position: {x: 193.46506, y: 528.04144, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6401456717757965736}
-    m_Position: {x: 172.07608, y: 316.87927, z: 0}
+    m_State: {fileID: -4703614323952792225}
+    m_Position: {x: 190, y: 470, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 717780609051849780}
-    m_Position: {x: -90, y: 330, z: 0}
+    m_State: {fileID: -3330428756134612852}
+    m_Position: {x: 475.95996, y: 501.27805, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 63555348239331389}
+    m_Position: {x: 250, y: 390, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6131030791584736420}
+    m_Position: {x: 629.9549, y: 372.45547, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1205702339779315581}
+    m_Position: {x: 226.39746, y: 300.39166, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4844409313892175301}
+    m_Position: {x: 864.1623, y: 529.79486, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7375669960297433541}
+    m_Position: {x: 942.2315, y: 430.10654, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1104178617137227086}
+    m_Position: {x: 995.0783, y: 355.6406, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -114,14 +114,14 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1840448015353224825}
---- !u!1102 &-4933241988784734156
+--- !u!1102 &-4703614323952792225
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|StaggeringWalk
+  m_Name: metarig_ClawWallScrape
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -134,20 +134,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6391291821843871971, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: 077a0c5d307de7f4b9e8cf4a44bea7e4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-4757774441633911418
+--- !u!1102 &-3330428756134612852
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|StrongWalk
+  m_Name: metarig_DizzyIdle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -160,20 +160,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1162476292835007191, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: c4fdb8220d2e9ed4fbc73acada960b6e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-2974979796442262238
+--- !u!1102 &-1205702339779315581
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Jumpscare
+  m_Name: metarig_IdleHeadTilt
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -186,7 +186,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -380586053840944199, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: 32c891fc0efe0b244a4a9da70b68bb1b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -220,14 +220,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &389975138663468566
+--- !u!1102 &63555348239331389
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|SlashFromSideForward
+  m_Name: metarig_FastRun
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -240,7 +240,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -380586053840944199, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: 0264f45394ad005429862d790c0b5f3b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -260,14 +260,14 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
---- !u!1102 &717780609051849780
+--- !u!1102 &1104178617137227086
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|ClawLicking
+  m_Name: metarig_TwitchyWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -280,7 +280,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -218579147346538129, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: db44ca0b2ecaf864aad7f59af71b7992, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -306,7 +306,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1152396526981368814, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: eab11fe4246d3af4492644503533d01e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -332,20 +332,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1623087763721687904, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: 2db793eb5b46fae4ea767e9d571f2eb7, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4090061943682610419
+--- !u!1102 &4844409313892175301
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|TwitchyWalk
+  m_Name: metarig_StaggeringWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -358,20 +358,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1179305971773358454, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: d1299e9660700e840ba2ea5feb955067, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4717720086650335394
+--- !u!1102 &6131030791584736420
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|DizzyIdle
+  m_Name: metarig_GimpWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -384,20 +384,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 4681500036535329643, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: beee34805138e174fbffef3ff88a0983, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4753333570942550661
+--- !u!1102 &7178855554845223107
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|GimpWalk
+  m_Name: Jumpscare
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -410,7 +410,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4244719107729918463, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
+  m_Motion: {fileID: 7400000, guid: aedf3ce3355e7a84496b4be8ffc8effe, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8182759682900265134
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: metarig_ClawLicking
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 09307e0a8f7b31b4389bea96dc6d02e9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -437,32 +463,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -8604002893823734246, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &8604444936598564018
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: metarig|IdleHeadTilt
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: -9133283592470931189, guid: 442aaca8299330a45b4bff25ffbe80bf, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
