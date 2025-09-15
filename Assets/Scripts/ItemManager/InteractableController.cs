@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class InteractableController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class InteractableController : MonoBehaviour
     void Update()
     {
         UpdateNormalState();
+        HandleInput();
     }
     #region Thiết lập ban đầu
     /// <summary>
@@ -77,6 +79,47 @@ public class InteractableController : MonoBehaviour
     {
         pointPanel.SetActive(false);
         currentInteractable = null;
+    }
+    #endregion
+
+    #region Pickup item
+    ///<summary>
+    ///Xu ly input tu nguoi choi
+    ///</summary>
+    private void HandleInput()
+    {
+        if(Input.GetMouseButtonDown(0)&& currentInteractable != null)
+        {
+            HandleInteraction();
+        }
+    }
+    
+    ///<summary>
+    ///Xu ly tuong tac dua tren loai item
+    ///</summary>
+    private void HandleInteraction()
+    {
+        switch (currentInteractable.Type)
+        {
+            case Interactable.InteracType.Screwdriver:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.KeyMaintance:
+                PickupItem(currentInteractable.gameObject);
+                break;
+        }
+    }
+    ///<summary>
+    ///Nhat item va them vao inventory
+    ///</summary>
+    private void PickupItem(GameObject item)
+    {
+        if (InventoryManager.instance == null)
+        {
+            return;
+        }
+        InventoryManager.instance.AddItems(item);
+        item.SetActive(false);
     }
     #endregion
 }

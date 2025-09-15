@@ -5,7 +5,7 @@ public class Door : MonoBehaviour
 {
 
     public bool trig, open;
-    public float smooth = 2.0f;
+    public float smooth = 1.0f;
     public float DoorOpenAngle = 90.0f;
     private Vector3 defaulRot;
     private Vector3 openRot;
