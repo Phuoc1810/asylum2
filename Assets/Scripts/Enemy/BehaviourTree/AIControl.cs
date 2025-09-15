@@ -13,6 +13,7 @@ public class AIControl : MonoBehaviour
     private btNode root;
     private NavMeshAgent agent;
     private Animator anim;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -20,28 +21,26 @@ public class AIControl : MonoBehaviour
 
         if (agent == null)
             Debug.LogError("Thiếu NavMeshAgent trên AI!");
+        else
+        {
+            agent.stoppingDistance = 0.5f;
+            agent.autoBraking = true;
+            agent.speed = speed;
+            agent.acceleration = 15f;
+            agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
+        }
     }
+
     void Start()
     {
-        var checkPlayer = new CheckPlayerInRange(transform, player, detectRange);
         var chase = new ChasePlayer(agent, player, anim, "Run");
+        var closeToPlayer = new CloseToPlayer(transform, player, 0.5f);
+        var jumpscare = new Jumpscare(agent, anim, transform, Camera.main.transform, "Jumpscare");
         var patrol = new Patrol(agent, patrolPoints, anim, "Walk", "Idle", 0, pauseAtWaypoint: true, 0.8f, 1.8f);
-        var closeToPlayer = new CloseToPlayer(transform, player, 1.5f);
-        var jumpscare = new Jumpscare(
-            GetComponent<Animator>(),
-            transform,
-            Camera.main.transform, // camera player
-            "Jumpscare"
-        );
-        //nhóm nhỏ dùng để gọi hành động
-        btNode[] arrayAction = {checkPlayer, chase};
-        var sequenceAction = new sequence(arrayAction);
-        btNode[] arrayAction2 = { closeToPlayer, jumpscare };
-        var sequenceAction2 = new sequence(arrayAction2);
-       //nhóm tổng để check tất cả hành động
-        btNode[] arraySelector = { sequenceAction2,sequenceAction,patrol };
-        root = new selector(arraySelector);
 
+        btNode[] chaseToJumpscareSequence = { chase, closeToPlayer, jumpscare };
+        btNode[] arraySelector = { new sequence(chaseToJumpscareSequence), patrol };
+        root = new selector(arraySelector);
     }
 
     void Update()

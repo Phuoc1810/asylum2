@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.AI;
@@ -85,14 +86,13 @@ public class ChasePlayer : btNode
     private NavMeshAgent agent;
     private Transform player;
     private Animator animator;
-    private string runAnim;          // <-- thay bằng string
+    private string runAnim;
     private int animLayer;
     private bool playedRunOnce = false;
 
-    private float repathInterval = 0.2f;
+    private float repathInterval = 0.1f;
     private float repathTimer = 0f;
 
-    // runAnimName: tên state bạn muốn play (giống kiểu bạn dùng ở Jumpscare/Patrol)
     public ChasePlayer(
         NavMeshAgent agent,
         Transform player,
@@ -113,26 +113,30 @@ public class ChasePlayer : btNode
         if (agent == null || player == null || !agent.enabled)
             return StateNode.Fail;
 
-        // Play animation Run 1 lần khi bắt đầu chase
         if (animator != null && !playedRunOnce)
         {
             PlayIfNotCurrent(runAnim);
             playedRunOnce = true;
         }
 
-        // Cập nhật đường đi liên tục
         repathTimer -= Time.deltaTime;
-        if (repathTimer <= 0f)
+        if (repathTimer <= 0f || Vector3.Distance(agent.transform.position, player.position) > 1f)
         {
             if (NavMesh.SamplePosition(player.position, out var hit, 2.0f, NavMesh.AllAreas))
                 agent.SetDestination(hit.position);
             repathTimer = repathInterval;
         }
 
-        if (agent.pathPending) return StateNode.Running;
-        if (agent.remainingDistance > agent.stoppingDistance) return StateNode.Running;
+        float distance = Vector3.Distance(agent.transform.position, player.position);
+        if (distance <= 0.6f)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            return StateNode.Sucess;
+        }
 
-        return StateNode.Sucess; // đã áp sát
+        if (agent.pathPending) return StateNode.Running;
+        return StateNode.Running;
     }
 
     private void PlayIfNotCurrent(string stateName)
@@ -144,54 +148,6 @@ public class ChasePlayer : btNode
             animator.Play(stateName, animLayer, 0f);
     }
 }
-//public class ChasePlayer : btNode
-//{
-//    private NavMeshAgent agent;
-//    private Transform player;
-//    private Animator animator;
-//    private int runHash;
-//    private bool playedRunOnce = false;
-
-//    private float repathInterval = 0.2f;
-//    private float repathTimer = 0f;
-
-//    // runAnimName: tên state/trigger bạn muốn phát (tuỳ controller)
-//    public ChasePlayer(NavMeshAgent agent, Transform player, Animator animator = null, string runAnimName = "Run")
-//    {
-//        this.agent = agent;
-//        this.player = player;
-//        this.animator = animator;
-//        this.runHash = Animator.StringToHash(runAnimName);
-//    }
-
-//    public override StateNode evaluate()
-//    {
-//        if (agent == null || player == null || !agent.enabled) return StateNode.Fail;
-
-//        if (animator != null && !playedRunOnce)
-//        {
-//            // Nếu dùng Trigger: animator.SetTrigger(runHash);
-//            // Nếu dùng state:   animator.Play(runHash);
-//            animator.Play(runHash);
-//            playedRunOnce = true;
-//        }
-
-//        repathTimer -= Time.deltaTime;
-//        if (repathTimer <= 0f)
-//        {
-//            if (NavMesh.SamplePosition(player.position, out var hit, 2.0f, NavMesh.AllAreas))
-//                agent.SetDestination(hit.position);
-//            repathTimer = repathInterval;
-//        }
-
-//        if (agent.pathPending) return StateNode.Running;
-//        if (agent.remainingDistance > agent.stoppingDistance) return StateNode.Running;
-
-//        return StateNode.Sucess; // đã áp sát
-//    }
-//}
-
-// PATROL bằng NavMeshAgent
 public class Patrol : btNode
 {
     private NavMeshAgent agent;
@@ -343,13 +299,14 @@ public class Patrol : btNode
             animator.Play(stateName, animLayer, 0f);
     }
 }
+
 public class CloseToPlayer : btNode
 {
     private Transform ai;
     private Transform player;
     private float closeRange;
 
-    public CloseToPlayer(Transform ai, Transform player, float closeRange = 1.5f)
+    public CloseToPlayer(Transform ai, Transform player, float closeRange = 0.5f) // Đổi thành 0.5m
     {
         this.ai = ai;
         this.player = player;
@@ -363,54 +320,67 @@ public class CloseToPlayer : btNode
     }
 }
 
+public class Jumpscare : btNode
+{
+    private NavMeshAgent agent;
+    private Animator animator;
+    private string jumpscareTrigger;
+    private bool started = false;
+    private Transform playerCamera;
+    private Transform ai;
+    private float rotationTime = 0.3f;
+    private float rotationElapsed = 0f;
 
-    public class Jumpscare : btNode
+    public Jumpscare(NavMeshAgent agent, Animator animator, Transform ai, Transform playerCamera, string jumpscareTrigger = "Jumpscare")
     {
-        private Animator animator;
-        private string jumpscareTrigger;
-        private bool started = false;
-        private Transform playerCamera;
-        private Transform ai;
-        private float rotationTime = 0.3f; // thời gian xoay mượt
-        private float rotationElapsed = 0f;
+        this.agent = agent;
+        this.animator = animator;
+        this.jumpscareTrigger = jumpscareTrigger;
+        this.playerCamera = playerCamera;
+        this.ai = ai;
+    }
 
-        public Jumpscare(Animator animator, Transform ai, Transform playerCamera, string jumpscareTrigger = "Jumpscare")
+    public override StateNode evaluate()
+    {
+        if (!started)
         {
-            this.animator = animator;
-            this.jumpscareTrigger = jumpscareTrigger;
-            this.playerCamera = playerCamera;
-            this.ai = ai;
+            animator.Play(jumpscareTrigger);
+            // Vô hiệu hóa CharacterController của player
+            CharacterController playerController = ai.GetComponentInParent<CharacterController>();
+            if (playerController != null)
+            {
+                playerController.enabled = false; // Khóa di chuyển player
+            }
+            started = true;
+            rotationElapsed = 0f;
+            return StateNode.Running;
         }
 
-        public override StateNode evaluate()
+        if (rotationElapsed < rotationTime)
         {
-            if (!started)
+            rotationElapsed += Time.deltaTime;
+            Vector3 lookDir = (ai.position - playerCamera.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, targetRotation, rotationElapsed / rotationTime);
+            return StateNode.Running;
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(jumpscareTrigger))
+        {
+            return StateNode.Running;
+        }
+
+        // Kết thúc jumpscare, kích hoạt lại CharacterController
+        if (rotationElapsed >= rotationTime && !animator.GetCurrentAnimatorStateInfo(0).IsName(jumpscareTrigger))
+        {
+            CharacterController playerController = ai.GetComponentInParent<CharacterController>();
+            if (playerController != null)
             {
-                // Bắt đầu jumpscare
-                animator.Play(jumpscareTrigger);
-                started = true;
-                rotationElapsed = 0f;
-                return StateNode.Running;
-
+                playerController.enabled = true; // Mở khóa di chuyển player
             }
-
-            // Trong lúc xoay mượt camera
-            if (rotationElapsed < rotationTime)
-            {
-                rotationElapsed += Time.deltaTime;
-                Vector3 lookDir = (ai.position - playerCamera.position).normalized;
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, targetRotation, rotationElapsed / rotationTime);
-                return StateNode.Running;
-
-            }
-
-            // Kiểm tra xem animation jumpscare còn chạy không
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(jumpscareTrigger))
-            {
-                return StateNode.Running;
-            }
-
             return StateNode.Sucess;
         }
+
+        return StateNode.Running;
     }
+}
