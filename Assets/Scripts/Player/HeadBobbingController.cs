@@ -46,7 +46,7 @@ public class HeadBobbingController : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         float speed = new Vector3(_controller.velocity.x, 0, _controller.velocity.z).magnitude;
-        bool isRunning = speed >= 5;
+        bool isRunning = speed >= 3;
         float currentAplitude = isRunning ? _amplitudeForRun : _amplitude;
         float currentFrequecy = isRunning ? _frequenceForRun : _frequency;
         Vector3 pos = Vector3.zero;
