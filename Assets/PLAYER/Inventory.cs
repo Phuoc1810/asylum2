@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
     {
         if (item == null || amount <= 0) return false;
 
-        // 1) N?u cho phép stack & không ép t?o stack m?i -> g?p vào slot ?ang có
+        // 1) Neu cho phép stack & không ép tao stack moi -> ghep vào slot dang co
         if (item.stackable && !forceNewStack)
         {
             foreach (var s in slots)
@@ -54,7 +54,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        // 2) Nhét vào Ô TR?NG ??U TIÊN (=> món 2 s? vào slot 2 n?u slot 1 ?ã có món 1)
+        // 2) nhet vào Ô TRONG UU TIEN (=> món 2 so vào slot 2 neu slot 1 da co mon 1)
         foreach (var s in slots)
         {
             if (s.IsEmpty)
@@ -66,8 +66,6 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-
-        // 3) N?u v?n còn amount mà h?t ch? -> báo ??y
         OnChanged?.Invoke();
         return amount == 0;
     }

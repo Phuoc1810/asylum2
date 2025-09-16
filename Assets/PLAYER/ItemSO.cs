@@ -10,4 +10,5 @@ public class ItemSO : ScriptableObject
     public ItemType type = ItemType.Key;
     public bool stackable = false;
     public Sprite icon;
+    internal int maxStack;
 }
