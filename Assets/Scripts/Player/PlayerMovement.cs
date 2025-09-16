@@ -31,8 +31,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleMovement();
-        HandleMouseLook();
+        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = true;
+        if (Cursor.visible == false)
+        {
+            HandleMovement();
+            HandleMouseLook();
+        }
     }
 
     void HandleMouseLook()
