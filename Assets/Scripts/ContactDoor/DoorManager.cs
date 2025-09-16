@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoorManager : MonoBehaviour
@@ -24,6 +25,11 @@ public class DoorManager : MonoBehaviour
 
     void Start()
     {
+        if (isBreak == true)
+        {
+            isLooked = true;
+            isOpen = false;
+        }
         defaultRotation = transform.eulerAngles;
         openRotation = new Vector3(defaultRotation.x, defaultRotation.y + doorOpenAngle, defaultRotation.z);
     }
@@ -34,7 +40,7 @@ public class DoorManager : MonoBehaviour
     }
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerInRange)
+        if (Input.GetKey(KeyCode.E) && playerInRange)
         {
             TryOpenDoor();
         }
@@ -76,7 +82,7 @@ public class DoorManager : MonoBehaviour
     }
     private void FixDoor()
     {
-        isBreak = !isBreak;
+        isBreak = false;
         PlaySound(fixDoorSound);
     }
     
