@@ -9,11 +9,12 @@ public class DOOR3 : MonoBehaviour
     private Vector3 openRot;
     public Text txt;//text 
     public bool locks;
-   
+
     public int ID;
     public int number;
     public checkpassword passwork;
     public int count = 1;
+    public GameObject lockpannel;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class DOOR3 : MonoBehaviour
         DoorOpenAngle = -36.5f;
         locks = true;
         defaulRot = transform.eulerAngles;
-        openRot = new Vector3(0f, 0f , 0f);
+        openRot = new Vector3(0f, 0f, 0f);
 
     }
 
@@ -31,25 +32,8 @@ public class DOOR3 : MonoBehaviour
         //Cursor.lockState = CursorLockMode.Confined;
         //Cursor.visible = true;
         defaulRot = transform.eulerAngles;
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            
-            openRot.x += DoorOpenAngle;
-          
-            count++;
-
-            if (count == 1)
-            {
-                openRot.x = 0f;
-            }
-            else if (count > 9)
-            {
-                count = 0;
-
-            }
-            transform.eulerAngles = new Vector3(openRot.x, 0f, 0f);
-        }
        
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit hit;
@@ -61,44 +45,29 @@ public class DOOR3 : MonoBehaviour
             {
 
                 if (hit.transform == transform)
-                    open = !open;
+                    lockpannel.SetActive(true);
 
             }
         }
-        if (trig)
-        {
-            if (open)
-            {
-                //txt.text = "Close E";
-            }
-            else
-            {
-                // txt.text = "Open E";
-            }
-        }
+        
     }
-    private void OnTriggerEnter(Collider coll)//вход и выход в\из  триггера 
+    public void locknumber()
     {
-        if (coll.CompareTag("Player"))
-        {
+        openRot.x += DoorOpenAngle;
 
-            if (!open)
-            {
-                //txt.text = "Close E ";
-            }
-            else
-            {
-                //txt.text = "Open E";
-            }
-            trig = true;
-        }
-    }
-    private void OnTriggerExit(Collider coll)//вход и выход в\из  триггера 
-    {
-        if (coll.CompareTag("Player"))
+        count++;
+
+        if (count == 1)
         {
-            txt.text = " ";
-            trig = false;
+            openRot.x = 0f;
         }
+        else if (count > 9)
+        {
+            count = 0;
+
+        }
+        transform.eulerAngles = new Vector3(openRot.x, 0f, 0f);
     }
 }
+   
+

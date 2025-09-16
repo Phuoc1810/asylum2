@@ -34,6 +34,21 @@ public class Door : MonoBehaviour
         {
             open = !open;
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out hit, 2f))
+
+            // RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.transform.forward);
+            // if (hit)
+            {
+
+                if (hit.transform == transform)
+                    open = !open;
+
+            }
+        }
         if (trig)
         {
             if (open)
@@ -46,28 +61,28 @@ public class Door : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider coll)
-    {
-        if (coll.CompareTag("Player"))
-        {
+    //private void OnTriggerEnter(Collider coll)
+    //{
+    //    if (coll.CompareTag("Player"))
+    //    {
          
-            if (!open)
-            {
-                //txt.text = "Close E ";
-            }
-            else
-            {
-                //txt.text = "Open E";
-            }
-            trig = true;
-        }
-    }
-    private void OnTriggerExit(Collider coll)
-    {
-        if (coll.CompareTag("Player"))
-        {
-            txt.text = " ";
-            trig = false;
-        }
-    }
+    //        if (!open)
+    //        {
+    //            //txt.text = "Close E ";
+    //        }
+    //        else
+    //        {
+    //            //txt.text = "Open E";
+    //        }
+    //        trig = true;
+    //    }
+    //}
+    //private void OnTriggerExit(Collider coll)
+    //{
+    //    if (coll.CompareTag("Player"))
+    //    {
+    //        txt.text = " ";
+    //        trig = false;
+    //    }
+    //}
 }
