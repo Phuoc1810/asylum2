@@ -11,10 +11,9 @@ public class DOOR3 : MonoBehaviour
     public bool locks;
 
     public int ID;
-    public int number;
-    public checkpassword passwork;
+    public checklock passwork;
     public int count = 1;
-    public GameObject lockpannel;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,26 +28,7 @@ public class DOOR3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = true;
-        defaulRot = transform.eulerAngles;
        
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            RaycastHit hit;
-            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            if (Physics.Raycast(ray, out hit, 3f))
-
-            // RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.transform.forward);
-            // if (hit)
-            {
-
-                if (hit.transform == transform)
-                    lockpannel.SetActive(true);
-
-            }
-        }
         
     }
     public void locknumber()
@@ -67,6 +47,7 @@ public class DOOR3 : MonoBehaviour
 
         }
         transform.eulerAngles = new Vector3(openRot.x, 0f, 0f);
+        passwork.checkdoor[ID]= count;
     }
 }
    
