@@ -32,7 +32,10 @@ public class door2 : MonoBehaviour
         
         if (open)//открыть
         {
-            count++;
+            if (count < 1)
+            {
+                count++;
+            } 
             
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
             
@@ -44,7 +47,13 @@ public class door2 : MonoBehaviour
             }
             else if (ID ==10 ) 
             {
-                passwork.checkwrong=false;
+                if (count <= 1)
+                {
+                    passwork.countcheck+=1;
+                    count++;
+                    
+                }
+                
             }
         }
         else//закрыть
@@ -52,10 +61,11 @@ public class door2 : MonoBehaviour
             
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
          
-            if (count > +1)
+            if (count > +1 && ID==10)
             {
+                passwork.countcheck--;
                 count--;
-                passwork.checkwrong = true;
+                
             }
         }
         if (Input.GetKeyDown(KeyCode.E))

@@ -6,15 +6,25 @@ public class checkpassword : MonoBehaviour
     public int[] checkdoor = { 5, 1, 2, 2, 3, 4 };
     public Door unlock;
     public bool checkwrong ;
+    public int countcheck=0;
     private void Start()
     {
-        checkwrong = true;
+        checkwrong = false;
     }
     private void Update()
     {
-       if (check() && checkwrong)
+        if (countcheck<=0)
+        {
+            checkwrong = true;
+        }
+        else
+        {
+            checkwrong=false;
+        }
+        if (check() && checkwrong)
         {
             unlock.locks = false;
+            Debug.Log("true");
         }
     }
     public bool check()
@@ -31,7 +41,7 @@ public class checkpassword : MonoBehaviour
 
             }
         }
-        Debug.Log("true");
+     
         return true;
     }
 }
