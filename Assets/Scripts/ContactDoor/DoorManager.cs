@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class DoorManager : MonoBehaviour
@@ -22,6 +23,8 @@ public class DoorManager : MonoBehaviour
     private Vector3 defaultRotation;
     private Vector3 openRotation;
     private bool playerInRange = false;
+    [SerializeField] private TextMeshProUGUI text;
+    public int count = 0;
 
     void Start()
     {
@@ -32,6 +35,7 @@ public class DoorManager : MonoBehaviour
         }
         defaultRotation = transform.eulerAngles;
         openRotation = new Vector3(defaultRotation.x, defaultRotation.y + doorOpenAngle, defaultRotation.z);
+        text.text = "";
     }
     void Update()
     {
@@ -40,22 +44,27 @@ public class DoorManager : MonoBehaviour
     }
     private void HandleInput()
     {
-        if (Input.GetKey(KeyCode.E) && playerInRange)
+        
+       
+            if (Input.GetKeyDown(KeyCode.E) && playerInRange && !isBreak)
+            {
+                TryOpenDoor();
+            }
+        
+       else if (Input.GetKeyDown(KeyCode.E) && playerInRange && isBreak)
         {
-            TryOpenDoor();
+            TryFIxDoor();
+            
         }
+
     }
     private void TryOpenDoor()
     {
         bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
         bool hasKeyMaintance = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintance);
-        if (hasScrewdriver && !hasKeyMaintance)
-        {
-            requiresScrewdriver = true;
-            FixDoor();
-        }
-        else if (hasScrewdriver)
-        {
+        
+         if (hasScrewdriver)
+        { 
             if (hasKeyMaintance)
             {
                 requiresKeyMaintance = true;
@@ -65,6 +74,16 @@ public class DoorManager : MonoBehaviour
         else
         {
             Debug.Log("Dont has a screwdriver, get it!");
+        }
+    }
+    private void TryFIxDoor()
+    {
+        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
+        
+        if (hasScrewdriver )
+        {
+            requiresScrewdriver = true;
+            FixDoor();
         }
     }
     private void ToggleDoor()
@@ -82,8 +101,10 @@ public class DoorManager : MonoBehaviour
     }
     private void FixDoor()
     {
+        text.text = "Xong!";
         isBreak = false;
         PlaySound(fixDoorSound);
+        text.text = "";
     }
     
     private void UpdateDoorRotation()
@@ -112,4 +133,5 @@ public class DoorManager : MonoBehaviour
             playerInRange = false;
         }
     }
+
 }
