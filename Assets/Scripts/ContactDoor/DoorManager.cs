@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -8,8 +8,6 @@ public class DoorManager : MonoBehaviour
     [SerializeField] private bool isOpen = false;
     [SerializeField] private float smooth = 2f;
     [SerializeField] private float doorOpenAngle = 90f;
-    [SerializeField] private bool requiresScrewdriver = false;
-    [SerializeField] private bool requiresKeyMaintance = false;
     [SerializeField] private bool isLooked = true;
     [SerializeField] private bool isBreak = true;
 
@@ -24,7 +22,6 @@ public class DoorManager : MonoBehaviour
     private Vector3 openRotation;
     private bool playerInRange = false;
     [SerializeField] private TextMeshProUGUI text;
-    public int count = 0;
 
     void Start()
     {
@@ -41,6 +38,7 @@ public class DoorManager : MonoBehaviour
     {
         UpdateDoorRotation();
         HandleInput();
+        UpdateText();
     }
     private void HandleInput()
     {
@@ -63,12 +61,16 @@ public class DoorManager : MonoBehaviour
         { 
             if (hasKeyMaintance)
             {
-                requiresKeyMaintance = true;
                 ToggleDoor();
+            }
+            else
+            {
+                PlaySound(lockedSound);
             }
         }
         else
         {
+            PlaySound(lockedSound);
             Debug.Log("Dont has a screwdriver, get it!");
         }
     }
@@ -78,8 +80,11 @@ public class DoorManager : MonoBehaviour
         
         if (hasScrewdriver )
         {
-            requiresScrewdriver = true;
-            FixDoor();
+            StartCoroutine(FixDoorProcess());
+        }
+        else
+        {
+            PlaySound(lockedSound);
         }
     }
     private void ToggleDoor()
@@ -95,14 +100,49 @@ public class DoorManager : MonoBehaviour
             PlaySound(doorOpenSound);
         }
     }
+    private IEnumerator FixDoorProcess()
+    {
+        text.text = "Đang sửa";
+        yield return new WaitForSeconds(2f);
+
+        FixDoor();
+        text.text = "Xong!";
+
+        yield return new WaitForSeconds(1f);
+
+        UpdateText();
+    }
     private void FixDoor()
     {
-        text.text = "Xong!";
         isBreak = false;
         PlaySound(fixDoorSound);
-        text.text = "";
     }
-    
+    private void UpdateText()
+    {
+        if (!playerInRange)
+        {
+            text.text = "";
+            return;
+        }
+        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
+        bool hasKeyMaintance = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintance);
+
+        if (isBreak)
+        {
+            if (!hasScrewdriver)
+            {
+                text.text = "Cửa bị hỏng";
+            }
+        }
+        else
+        {
+            if (!hasKeyMaintance)
+            {
+                text.text = "Đã bị khóa";
+            }
+        }
+
+    }
     private void UpdateDoorRotation()
     {
         Vector3 targetRotation = isOpen ? openRotation : defaultRotation;
