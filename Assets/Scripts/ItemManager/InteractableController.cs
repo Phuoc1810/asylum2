@@ -107,6 +107,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.KeyMaintance:
                 PickupItem(currentInteractable.gameObject);
                 break;
+            case Interactable.InteracType.keymorgue:
+                PickupItem(currentInteractable.gameObject);
+                break;
         }
     }
     ///<summary>
