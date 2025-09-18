@@ -44,19 +44,15 @@ public class DoorManager : MonoBehaviour
     }
     private void HandleInput()
     {
-        
-       
-            if (Input.GetKeyDown(KeyCode.E) && playerInRange && !isBreak)
-            {
-                TryOpenDoor();
-            }
-        
-       else if (Input.GetKeyDown(KeyCode.E) && playerInRange && isBreak)
+        if (Input.GetMouseButtonDown(0) && playerInRange && !isBreak)
         {
-            TryFIxDoor();
-            
+            TryOpenDoor();
         }
 
+        else if (Input.GetMouseButtonDown(0) && playerInRange && isBreak)
+        {
+            TryFIxDoor();
+        }
     }
     private void TryOpenDoor()
     {

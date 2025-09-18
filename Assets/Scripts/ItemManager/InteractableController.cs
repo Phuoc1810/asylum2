@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class InteractableController : MonoBehaviour
 {
+    [Header("Raycast Setting")]
     [SerializeField] private float distanceRay = 3f;
+
     [SerializeField] private GameObject pointPanel;
     [SerializeField] Camera playerCamera;
 
+    private Animator targetAnimation;
     private Interactable currentInteractable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,6 +85,76 @@ public class InteractableController : MonoBehaviour
     }
     #endregion
 
+    #region ElectricBox System
+    [Header("Electric Box Setting")]
+    [SerializeField] private GameObject fuseObject;
+    [SerializeField] private GameObject[] light;
+    private void HandleElectricBoxInteraction()
+    {
+        if (currentInteractable.Type == Interactable.InteracType.HanldeElectricBox)
+        {
+            if(InventoryManager.instance!=null && InventoryManager.instance.HasItem(Interactable.InteracType.Fuse))
+            {
+                ActivateElectricSystem();
+            }
+            else
+            {
+                DeactivateElectricSystem();
+            }
+        }
+        else if (currentInteractable.Type == Interactable.InteracType.ElectricBox)
+        {
+            InstallFuse();
+        }
+    }
+    private void InstallFuse()
+    {
+        if (InventoryManager.instance != null && InventoryManager.instance.HasItem(Interactable.InteracType.Fuse))
+        {
+            if (fuseObject != null)
+            {
+                fuseObject.SetActive(true);
+            }
+        }
+    }
+    private void ActivateElectricSystem()
+    {
+        if (currentInteractable.Anim != null)
+        {
+            currentInteractable.Anim.SetTrigger("Open");
+        }
+        InventoryManager.instance.RemoveItem(Interactable.InteracType.Fuse);
+        PlayOpenSound(currentInteractable);
+        TurnOnLights();
+
+    }
+    private void DeactivateElectricSystem()
+    {
+        if (currentInteractable.Anim != null)
+        {
+            currentInteractable.Anim.SetTrigger("Close");
+        }
+        PlayCloseSound(currentInteractable);
+    }
+    private void TurnOnLights()
+    {
+        if (light != null)
+        {
+            foreach(GameObject light in light)
+            {
+                if (light != null)
+                {
+                    light.SetActive(true);
+                    Light pointLight = light.GetComponent<Light>();
+                    if (pointLight != null)
+                    {
+                        pointLight.enabled = true;
+                    }
+                }
+            }
+        }
+    }
+    #endregion
     #region Pickup item
     ///<summary>
     ///Xu ly input tu nguoi choi
@@ -110,6 +183,12 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.Fuse:
                 PickupItem(currentInteractable.gameObject);
                 break;
+            case Interactable.InteracType.ElectricBox:
+                HandleElectricBoxInteraction();
+                break;
+            case Interactable.InteracType.HanldeElectricBox:
+                HandleElectricBoxInteraction();
+                break;
         }
     }
     ///<summary>
@@ -123,6 +202,20 @@ public class InteractableController : MonoBehaviour
         }
         InventoryManager.instance.AddItems(item);
         item.SetActive(false);
+    }
+    #endregion
+
+    #region Audio System
+    private void PlayOpenSound(Interactable interactable) 
+    {
+        if (interactable != null)
+        {
+            AudioSource.PlayClipAtPoint(interactable.Open, interactable.transform.position);
+        }
+    }
+    private void PlayCloseSound(Interactable interactable)
+    {
+        AudioSource.PlayClipAtPoint(interactable.Close, interactable.transform.position);
     }
     #endregion
 }
