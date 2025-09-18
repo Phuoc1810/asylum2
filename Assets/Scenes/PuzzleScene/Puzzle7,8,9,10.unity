@@ -1242,9 +1242,33 @@ PrefabInstance:
       value: 0.69
       objectReference: {fileID: 0}
     - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: doorText
+      value: 
+      objectReference: {fileID: 814110152}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
       propertyPath: fuseObject
       value: 
       objectReference: {fileID: 155553484}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: fixDoorSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8cc0d581056a7e74581be966fe02c2d2, type: 3}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: doorOpenSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: doorAudioSource
+      value: 
+      objectReference: {fileID: 1391708035}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: doorClosedSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
+    - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
+      propertyPath: doorLockedSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 946b59139915137449f911c47d72592a, type: 3}
     - target: {fileID: 2171880006060472801, guid: 7dcb94f2b9d0b454b853435d48978c16, type: 3}
       propertyPath: light.Array.size
       value: 1
@@ -1659,6 +1683,10 @@ PrefabInstance:
       propertyPath: locks
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3392050810552912983, guid: 5df55da3edd7a4c46a7f4f056450ad01, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6917133213671452396, guid: 5df55da3edd7a4c46a7f4f056450ad01, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -1717,10 +1745,10 @@ PrefabInstance:
       addedObject: {fileID: 1391708034}
     - targetCorrespondingSourceObject: {fileID: 5951875646402302491, guid: 5df55da3edd7a4c46a7f4f056450ad01, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1391708036}
+      addedObject: {fileID: 1391708035}
     - targetCorrespondingSourceObject: {fileID: 5951875646402302491, guid: 5df55da3edd7a4c46a7f4f056450ad01, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1391708035}
+      addedObject: {fileID: 1391708042}
   m_SourcePrefab: {fileID: 100100000, guid: 5df55da3edd7a4c46a7f4f056450ad01, type: 3}
 --- !u!1 &1391708027 stripped
 GameObject:
@@ -1840,7 +1868,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1391708036
+--- !u!114 &1391708042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1852,17 +1880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231aa578550c0a544bd5462fcba3e888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOpen: 0
-  smooth: 1.8
-  doorOpenAngle: 90
-  isLooked: 1
-  isBreak: 1
-  audioSource: {fileID: 1391708035}
-  fixDoorSound: {fileID: 8300000, guid: 8cc0d581056a7e74581be966fe02c2d2, type: 3}
-  doorOpenSound: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
-  lockedSound: {fileID: 8300000, guid: 946b59139915137449f911c47d72592a, type: 3}
-  closedSound: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
-  text: {fileID: 814110152}
 --- !u!1 &1428646563
 GameObject:
   m_ObjectHideFlags: 0
