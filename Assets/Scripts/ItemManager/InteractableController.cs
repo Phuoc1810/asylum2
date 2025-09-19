@@ -403,6 +403,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.Crowbar:
                 PickupItem(currentInteractable.gameObject);
                 break;
+            case Interactable.InteracType.DirectorKey:
+                PickupItem(currentInteractable.gameObject);
+                break;
         }
     }
     ///<summary>
