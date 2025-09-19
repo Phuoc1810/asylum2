@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Unity.VisualScripting.Metadata;
 
 public class Sequence : Node
 {
@@ -20,7 +18,7 @@ public class Sequence : Node
                     continue;
                 case NodeState.Running:
                     anyChildRunning = true;
-                    break;
+                    continue; // Changed from break to continue to check remaining children
                 case NodeState.Failure:
                     State = NodeState.Failure;
                     return State;

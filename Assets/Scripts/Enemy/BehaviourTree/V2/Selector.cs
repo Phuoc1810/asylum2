@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static Unity.VisualScripting.Metadata;
 
 public class Selector : Node
 {
@@ -16,7 +14,8 @@ public class Selector : Node
             switch (child.Evaluate())
             {
                 case NodeState.Success:
-                    return NodeState.Success;
+                    State = NodeState.Success;
+                    return State;
                 case NodeState.Running:
                     State = NodeState.Running;
                     return State;

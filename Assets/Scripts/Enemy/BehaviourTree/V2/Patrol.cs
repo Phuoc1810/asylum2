@@ -47,20 +47,40 @@ public class Patrol : Node
         this.pauseMin = Mathf.Max(0f, pauseMin);
         this.pauseMax = Mathf.Max(this.pauseMin, pauseMax);
 
-        // Lọc null waypoint
+        // Lọc null waypoint và validate NavMesh positions
         if (points != null)
         {
             var list = new System.Collections.Generic.List<Transform>();
-            foreach (var p in points) if (p != null) list.Add(p);
+            foreach (var p in points)
+            {
+                if (p != null)
+                {
+                    // Check if point is on NavMesh
+                    if (NavMesh.SamplePosition(p.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+                    {
+                        list.Add(p);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Patrol point {p.name} is not on NavMesh, skipping...");
+                    }
+                }
+            }
             this.points = list.ToArray();
         }
-        else this.points = System.Array.Empty<Transform>();
+        else
+        {
+            this.points = System.Array.Empty<Transform>();
+        }
     }
 
     public override NodeState Evaluate()
     {
-        if (agent == null || !agent.enabled || points == null || points.Length == 0)
-            return NodeState.Failure;
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh || points == null || points.Length == 0)
+        {
+            State = NodeState.Failure;
+            return State;
+        }
 
         if (!started)
         {
@@ -68,7 +88,8 @@ public class Patrol : Node
             SetNext();
             started = true;
             PlayIfNotCurrent(walkAnim);
-            return NodeState.Running;
+            State = NodeState.Running;
+            return State;
         }
 
         // Đang pause tại waypoint?
@@ -80,7 +101,17 @@ public class Patrol : Node
                 if (agent.isStopped) agent.isStopped = false;
                 NextPointAndGo();
             }
-            return NodeState.Running;
+            State = NodeState.Running;
+            return State;
+        }
+
+        // Check for path calculation issues
+        if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            Debug.LogWarning("Invalid path in patrol, trying next point");
+            NextPointAndGo();
+            State = NodeState.Running;
+            return State;
         }
 
         // Điều kiện coi là "đã đến" (có hysteresis chống nháy)
@@ -100,13 +131,15 @@ public class Patrol : Node
                         pauseEndTime = Time.time + Random.Range(pauseMin, pauseMax);
                         if (!agent.isStopped) agent.isStopped = true;
                         PlayIfNotCurrent(idleAnim);
-                        return NodeState.Running;
+                        State = NodeState.Running;
+                        return State;
                     }
                     else
                     {
                         // Không pause: chuyển waypoint ngay, KHÔNG phát Idle để tránh nháy
                         NextPointAndGo();
-                        return NodeState.Running;
+                        State = NodeState.Running;
+                        return State;
                     }
                 }
             }
@@ -125,32 +158,56 @@ public class Patrol : Node
         if (agent.velocity.sqrMagnitude > 0.01f)
             PlayIfNotCurrent(walkAnim);
 
-        return NodeState.Running;
+        State = NodeState.Running;
+        return State;
     }
 
     private void NextPointAndGo()
     {
+        if (points.Length == 0) return;
+
         index = (index + 1) % points.Length;
         SetNext();
         if (agent.isStopped) agent.isStopped = false;
         PlayIfNotCurrent(walkAnim);
+        arrivedStillTime = 0f; // Reset arrival timer
     }
 
     private void SetNext()
     {
+        if (points.Length == 0 || index < 0 || index >= points.Length) return;
+
         var target = points[index].position;
         if (NavMesh.SamplePosition(target, out var hit, 2.0f, NavMesh.AllAreas))
+        {
             agent.SetDestination(hit.position);
+        }
         else
         {
-            // Retry if fail
-            Debug.LogWarning("NavMesh sample failed for patrol point");
+            // If current point fails, try next point
+            Debug.LogWarning($"NavMesh sample failed for patrol point {index}, trying next point");
+            index = (index + 1) % points.Length;
+            if (NavMesh.SamplePosition(points[index].position, out hit, 2.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+            else
+            {
+                Debug.LogError("All patrol points seem to be invalid!");
+            }
         }
     }
 
     private void PlayIfNotCurrent(string stateName)
     {
         if (animator == null || string.IsNullOrEmpty(stateName)) return;
+
+        // Check if animation exists
+        if (!animator.HasState(animLayer, Animator.StringToHash(stateName)))
+        {
+            Debug.LogWarning($"Animation state '{stateName}' not found in animator!");
+            return;
+        }
 
         var st = animator.GetCurrentAnimatorStateInfo(animLayer);
         if (!st.IsName(stateName))
