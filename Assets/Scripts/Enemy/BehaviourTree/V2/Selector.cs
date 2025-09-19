@@ -1,22 +1,19 @@
-using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Unity.VisualScripting.Metadata;
 
 public class Selector : Node
 {
-    public Selector() : base()
-    {
+    public Selector() : base() { }
 
-    }
-    public Selector(List<Node> children) : base(children)
-    {
+    public Selector(List<Node> children) : base(children) { }
 
-    }
     public override NodeState Evaluate()
     {
-        foreach(var child in children)
+        foreach (var child in children)
         {
-            switch(child.Evaluate())
+            switch (child.Evaluate())
             {
                 case NodeState.Success:
                     return NodeState.Success;
