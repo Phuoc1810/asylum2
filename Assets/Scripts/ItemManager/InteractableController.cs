@@ -397,6 +397,12 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.DoorMaintance:
                 HandleDoorMaintanceInteraction();
                 break;
+            case Interactable.InteracType.BoltCutter:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.Crowbar:
+                PickupItem(currentInteractable.gameObject);
+                break;
         }
     }
     ///<summary>
