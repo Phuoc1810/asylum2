@@ -23,6 +23,11 @@ public class PaperInventory : MonoBehaviour
         }
     }
 
+    public bool[] GetPieces()
+    {
+        return collectedPieces;
+    }
+
     public bool HasAllPieces()
     {
         foreach (bool piece in collectedPieces)
