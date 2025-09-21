@@ -8,6 +8,8 @@ TagManager:
   - door
   - quiz
   - puzzle
+  - safe
+  - doc
   layers:
   - Default
   - TransparentFX
