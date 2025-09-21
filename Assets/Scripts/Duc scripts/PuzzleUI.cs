@@ -4,6 +4,8 @@ public class PuzzleUI : MonoBehaviour
 {
     public GameObject PaperInventory;
     public GameObject[] Pieces;
+
+    bool isOpen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -11,6 +13,7 @@ public class PuzzleUI : MonoBehaviour
         {
             Pieces[i].SetActive(false);
         }
+        isOpen = false;
     }
 
     // Update is called once per frame
@@ -18,10 +21,20 @@ public class PuzzleUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
         {
-            bool[] pieces = PaperInventory.gameObject.GetComponent<PaperInventory>().GetPieces();
-            for (int i = 0; i < Pieces.Length; i++)
+            if (!isOpen)
             {
-                Pieces[i].SetActive(pieces[i]);
+                bool[] pieces = PaperInventory.gameObject.GetComponent<PaperInventory>().GetPieces();
+                for (int i = 0; i < Pieces.Length; i++)
+                {
+                    Pieces[i].SetActive(pieces[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Pieces.Length; i++)
+                {
+                    Pieces[i].SetActive(false);
+                }
             }
         }
     }
