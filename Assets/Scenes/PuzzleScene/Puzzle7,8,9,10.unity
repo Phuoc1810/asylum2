@@ -607,8 +607,8 @@ MonoBehaviour:
   isOpen: 0
   isLocked: 1
   isBreak: 0
-  doorOpenAngle: 90
   smooth: 2
+  doorOpenAngle: 90
   doorAudioSource: {fileID: 333474333}
   doorOpenSound: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
   doorClosedSound: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
@@ -2375,9 +2375,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpen: 0
   isLocked: 1
-  isBreak: 0
-  doorOpenAngle: 90
+  isBreak: 1
   smooth: 2
+  doorOpenAngle: 90
   doorAudioSource: {fileID: 1391708035}
   doorOpenSound: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
   doorClosedSound: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}

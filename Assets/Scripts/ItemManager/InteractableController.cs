@@ -177,7 +177,7 @@ public class InteractableController : MonoBehaviour
             DoorManager doorManager = currentInteractable.GetComponent<DoorManager>();
             if (doorManager != null&& doorManager.IsPlayerInRange)
             {
-                doorManager.HandleDoorInteractation();
+                doorManager.HandleDoorInteraction();
             }
         }
     }
@@ -185,7 +185,7 @@ public class InteractableController : MonoBehaviour
     private bool IsDoorType(Interactable.InteracType type)
     {
         return type == Interactable.InteracType.DoorMaintance ||
-               type == Interactable.InteracType.DirectorKey;
+               type == Interactable.InteracType.DitectorDoor;
     }
     public void SetDoorPlayerInRange(bool inRange, DoorManager doorManager)
     {
