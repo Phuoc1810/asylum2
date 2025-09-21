@@ -474,6 +474,147 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317477801}
   m_Mesh: {fileID: -4045700852423296513, guid: 61f0b63d484d02e4681cc1b4b4dc9a15, type: 3}
+--- !u!1 &333474325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3612927489962293171, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+  m_PrefabInstance: {fileID: 2118376932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &333474332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333474325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactype: 12
+  anim: {fileID: 0}
+  open: {fileID: 0}
+  close: {fileID: 0}
+--- !u!82 &333474333
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333474325}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &333474334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333474325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 231aa578550c0a544bd5462fcba3e888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
+  isLocked: 1
+  isBreak: 0
+  doorOpenAngle: 90
+  smooth: 2
+  doorAudioSource: {fileID: 333474333}
+  doorOpenSound: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
+  doorClosedSound: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
+  doorLockedSound: {fileID: 8300000, guid: 946b59139915137449f911c47d72592a, type: 3}
+  fixDoorSound: {fileID: 8300000, guid: a25216a7ab3d26c4293ef4c88af82c4a, type: 3}
+  doorText: {fileID: 814110152}
 --- !u!1 &378519994
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,7 +781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactype: 0
+  interactype: 11
   anim: {fileID: 0}
   open: {fileID: 0}
   close: {fileID: 0}
@@ -2232,6 +2373,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231aa578550c0a544bd5462fcba3e888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpen: 0
+  isLocked: 1
+  isBreak: 0
+  doorOpenAngle: 90
+  smooth: 2
+  doorAudioSource: {fileID: 1391708035}
+  doorOpenSound: {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
+  doorClosedSound: {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
+  doorLockedSound: {fileID: 8300000, guid: 946b59139915137449f911c47d72592a, type: 3}
+  fixDoorSound: {fileID: 8300000, guid: a25216a7ab3d26c4293ef4c88af82c4a, type: 3}
+  doorText: {fileID: 814110152}
 --- !u!1 &1428646563
 GameObject:
   m_ObjectHideFlags: 0
@@ -3138,6 +3290,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2118376932
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 21.45233
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1086376
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 120.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258456440951371180, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6742258447306796822, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      propertyPath: m_Name
+      value: Interior_Wall_Door_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8903781805273216126, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3612927489962293171, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 333474332}
+    - targetCorrespondingSourceObject: {fileID: 3612927489962293171, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 333474334}
+    - targetCorrespondingSourceObject: {fileID: 3612927489962293171, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 333474333}
+  m_SourcePrefab: {fileID: 100100000, guid: feb33812d6e24f448acb22912cc1c9af, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3161,3 +3380,4 @@ SceneRoots:
   - {fileID: 1952382542}
   - {fileID: 1721916307}
   - {fileID: 614202051}
+  - {fileID: 2118376932}
