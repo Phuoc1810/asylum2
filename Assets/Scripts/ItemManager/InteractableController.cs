@@ -166,6 +166,23 @@ public class InteractableController : MonoBehaviour
     }
     #endregion
 
+    #region Xử lý đóng/ mở ngắn kéo
+    ///<summary>
+    ///
+    ///</summary>
+    private void HandleDrawerInteractation()
+    {
+        targetAnimation = currentInteractable.Anim;
+        if (currentInteractable.Type == Interactable.InteracType.DirectorDrawers)
+        {
+            if (targetAnimation != null)
+            {
+                Debug.Log("Set Animation");
+                targetAnimation.SetTrigger("Open");
+            }
+        }
+    }
+    #endregion
     #region Tương tác cửa
     ///<summary>
     ///
@@ -248,6 +265,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.DoorMaintance:
             case Interactable.InteracType.DitectorDoor:
                 HandleDoorInteraction();
+                break;
+            case Interactable.InteracType.DirectorDrawers:
+                HandleDrawerInteractation();
                 break;
         }
     }

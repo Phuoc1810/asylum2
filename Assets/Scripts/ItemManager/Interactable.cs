@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public enum InteracType { Screwdriver, Fuse, ElectricBox, HanldeElectricBox, Door , art,quiz, KeyMaintance, DoorMaintance, BoltCutter, Crowbar, DirectorKey, DitectorDoor}
+    public enum InteracType { Screwdriver, Fuse, ElectricBox, HanldeElectricBox, Door , art,quiz, 
+                              KeyMaintance, DoorMaintance, BoltCutter, Crowbar, DirectorKey, DitectorDoor, 
+                              DirectorDrawers}
     [SerializeField] private InteracType interactype;
     [SerializeField] private Animator anim;
     [SerializeField] private AudioClip open;
