@@ -11,6 +11,7 @@ public class Door : MonoBehaviour
     private Vector3 openRot;
     public Text txt;
     public bool locks;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,8 +45,10 @@ public class Door : MonoBehaviour
             // if (hit)
             {
 
-                if (hit.transform == transform)
+                if (hit.transform == transform && !locks)
                     open = !open;
+                else if (hit.transform == transform && locks)
+                    animator.SetTrigger("lock");
 
             }
         }

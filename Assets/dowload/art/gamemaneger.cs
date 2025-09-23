@@ -12,7 +12,9 @@ public class gamemaneger : MonoBehaviour
     public int size;
     private bool shuffling = false;
     private int count = 0;
-    public Door unlock;
+    public int ID;
+    public int number;
+    public piccheck piccheck;
     private void creatGamePice(float gapThickness)
     {
         float width = 1/(float)size;
@@ -70,7 +72,7 @@ public class gamemaneger : MonoBehaviour
             }
             else
             {
-                unlock.locks = false;
+                piccheck.password[ID]=number;
                 Debug.Log("complet");
             }
         }
