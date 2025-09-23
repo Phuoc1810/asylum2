@@ -3,7 +3,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
 
-    public enum InteracType { Screwdriver, Sparkplug, Door , art,quiz, KeyMaintance , locks,keymorgue}
+    public enum InteracType { Screwdriver, Sparkplug, Door , art,quiz, KeyMaintance , locks,keymorgue,keytools}
     [SerializeField] private InteracType interactype;
     [SerializeField] private Animator anim;
 

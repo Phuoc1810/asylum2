@@ -18,6 +18,7 @@ public class lock3 : MonoBehaviour
     public GameObject picdown;
     public GameObject picleft;
     public GameObject picright;
+    public GameObject lockss;
     public Animator anim;
     public lockmaneger lockmaneger;
     public int count = 0;
@@ -42,6 +43,7 @@ public class lock3 : MonoBehaviour
             anim.SetBool("open", true);
             Debug.Log("true");
             lockmaneger.close();
+            lockss.SetActive(false);
         }
         if (count >= 6 && !check())
         {
