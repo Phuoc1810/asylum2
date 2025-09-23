@@ -3,6 +3,7 @@ using UnityEngine;
 public class lockmaneger : MonoBehaviour
 {
     public GameObject lockpannel;
+    public GameObject cameralock;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,6 +25,7 @@ public class lockmaneger : MonoBehaviour
 
                 if (hit.transform == transform)
                 {
+                    cameralock.SetActive(true);
                     lockpannel.SetActive(true);
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = true;

@@ -10,16 +10,10 @@ public class gamemaneger2 : MonoBehaviour
     public int size;
     private bool shuffling = false;
     private int count = 0;
-    public float piece1;
-    public float piece2;
-    public float piece3;
-    public float piece4;
-    public float piece5;
-    public float piece6;
-    public float piece7;
-    public float piece8;
-    public Door unlock;
-  
+    public int ID;
+    public int number;
+    public piccheck piccheck;
+
     private void creatGamePice(float gapThickness)
     {
         float width = 1 / (float)size;
@@ -70,18 +64,11 @@ public class gamemaneger2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        piece1 = pieces[1].transform.eulerAngles.z;
-        piece2 = pieces[2].transform.eulerAngles.z;
-        piece3 = pieces[3].transform.eulerAngles.z;
-        piece4 = pieces[4].transform.eulerAngles.z;
-        piece5 = pieces[5].transform.eulerAngles.z;
-        piece6 = pieces[6].transform.eulerAngles.z;
-        piece7 = pieces[7].transform.eulerAngles.z;
-        piece8 = pieces[8].transform.eulerAngles.z;
+       
         if (checkcompletion())
         {
-            unlock.locks = false;
-                Debug.Log("complet");
+            piccheck.password[ID] = number;
+            Debug.Log("complet");
             
         }
         

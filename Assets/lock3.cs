@@ -10,8 +10,6 @@ public class lock3 : MonoBehaviour
    
     public bool locks;
     public Transform door;
-    public int ID;
-    public int number;
     public int[] passsword = { 2, 4, 3, 1, 2, 3};
     public int[] checkdoor = { 1, 1, 1, 1, 1, 1};
     public GameObject picup;

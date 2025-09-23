@@ -6,6 +6,7 @@ public class checklock : MonoBehaviour
     public int[] checkdoor = { 1,1,1,1,1 };
     public Animator anim;
     public lockmaneger lockmaneger;
+    public GameObject locks;
  
 
     private void Start()
@@ -18,8 +19,10 @@ public class checklock : MonoBehaviour
         if (check() )
         {
            anim.SetBool("open",true);
+            
             Debug.Log("true");
             lockmaneger.close();
+            gameObject.SetActive(false);
         }
     }
     public bool check()
