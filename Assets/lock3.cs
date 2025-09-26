@@ -10,13 +10,15 @@ public class lock3 : MonoBehaviour
    
     public bool locks;
     public Transform door;
-    public int[] passsword = { 2, 4, 3, 1, 2, 3};
+    public int[] passsword = { 4, 3, 2, 1, 4, 2};
     public int[] checkdoor = { 1, 1, 1, 1, 1, 1};
     public GameObject picup;
     public GameObject picdown;
     public GameObject picleft;
     public GameObject picright;
     public GameObject lockss;
+    public GameObject cameralock;
+    public GameObject lockpannel;
     public Animator anim;
     public lockmaneger lockmaneger;
     public int count = 0;
@@ -125,6 +127,19 @@ public class lock3 : MonoBehaviour
         }
        Debug.Log(true);
         return true;
+    }
+    public void close()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        lockpannel.SetActive(false);
+        cameralock.SetActive(false);
+        count = 0;
+        transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        picdown.SetActive(false);
+        picleft.SetActive(false);
+        picright.SetActive(false);
+        picup.SetActive(true);
     }
 
 }

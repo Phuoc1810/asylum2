@@ -13,6 +13,7 @@ public class lockmaneger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit hit;
@@ -40,5 +41,6 @@ public class lockmaneger : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         lockpannel.SetActive(false);
+        cameralock.SetActive(false);
     }
 }

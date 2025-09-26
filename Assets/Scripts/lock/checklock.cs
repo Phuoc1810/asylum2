@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class checklock : MonoBehaviour
 {
-    public int[] passsword = { 1, 8, 1, 0, 0};
-    public int[] checkdoor = { 1,1,1,1,1 };
+    public int[] passsword = { 1, 8, 1, 0,0};
+    public int[] checkdoor = { 2,1,1,2,1 };
     public Animator anim;
     public lockmaneger lockmaneger;
     public GameObject locks;

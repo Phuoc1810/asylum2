@@ -113,6 +113,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.keytools:
                 PickupItem(currentInteractable.gameObject);
                 break;
+            case Interactable.InteracType.blackkey:
+                PickupItem(currentInteractable.gameObject);
+                break;
         }
     }
     ///<summary>
