@@ -1,29 +1,57 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // Thêm để sử dụng OrderByDescending
 
 public class Selector : Node
 {
-    public Selector() : base() { }
-
-    public Selector(List<Node> children) : base(children) { }
-
-    public override NodeState Evaluate()
+    public Selector(string name, int priority = 0) : base(name, priority)
     {
-        foreach (var child in children)
+    }
+
+    public override NodeStatus Process()
+    {
+        // Sắp xếp children theo priority descending mỗi lần process để đảm bảo ưu tiên cao chạy trước
+        Children = Children.OrderByDescending(c => c.Priority).ToList();
+
+        if (CurrentChildIndex >= Children.Count)
         {
-            switch (child.Evaluate())
+            Reset();
+            return NodeStatus.Failure; // Tất cả các con đều thất bại
+        }
+
+        NodeStatus childStatus = Children[CurrentChildIndex].Process();
+
+        if (childStatus == NodeStatus.Running)
+        {
+            CurrentStatus = NodeStatus.Running;
+            return CurrentStatus;
+        }
+        else if (childStatus == NodeStatus.Success)
+        {
+            Reset();
+            CurrentStatus = NodeStatus.Success; // Một con thành công
+            return CurrentStatus;
+        }
+        else // childStatus == NodeStatus.Failure
+        {
+            CurrentChildIndex++;
+            if (CurrentChildIndex < Children.Count)
             {
-                case NodeState.Success:
-                    State = NodeState.Success;
-                    return State;
-                case NodeState.Running:
-                    State = NodeState.Running;
-                    return State;
-                case NodeState.Failure:
-                    continue;
+                CurrentStatus = NodeStatus.Running; // Thử nút con tiếp theo
+                return CurrentStatus;
+            }
+            else
+            {
+                Reset();
+                CurrentStatus = NodeStatus.Failure; // Tất cả các con đều thất bại
+                return CurrentStatus;
             }
         }
-        State = NodeState.Failure;
-        return State;
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        CurrentChildIndex = 0;
     }
 }

@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Sequence : Node
+public class BehaviorTree : Node
 {
-    public Sequence(string name, int priority = 0) : base(name, priority)
+    public BehaviorTree(string name = "BehaviorTree") : base(name)
     {
     }
 
     public override NodeStatus Process()
     {
+        // Trong một BehaviorTree đơn giản, nó có thể chỉ xử lý nút con đầu tiên
+        // hoặc xử lý tất cả các nút con theo một logic nhất định.
+        // Ví dụ này xử lý tương tự như một Sequence đơn giản nếu có nhiều con.
+        if (Children.Count == 0)
+        {
+            return NodeStatus.Success; // Hoặc Failure nếu không có hành vi
+        }
+
         if (CurrentChildIndex >= Children.Count)
         {
-            Reset(); // Đặt lại nếu đã xử lý hết các con
+            Reset();
             return NodeStatus.Success;
         }
 
@@ -33,21 +40,15 @@ public class Sequence : Node
             CurrentChildIndex++;
             if (CurrentChildIndex < Children.Count)
             {
-                CurrentStatus = NodeStatus.Running; // Tiếp tục chạy nếu còn con
+                CurrentStatus = NodeStatus.Running;
                 return CurrentStatus;
             }
             else
             {
                 Reset();
-                CurrentStatus = NodeStatus.Success; // Tất cả các con đều thành công
+                CurrentStatus = NodeStatus.Success;
                 return CurrentStatus;
             }
         }
-    }
-
-    public override void Reset()
-    {
-        base.Reset();
-        CurrentChildIndex = 0;
     }
 }

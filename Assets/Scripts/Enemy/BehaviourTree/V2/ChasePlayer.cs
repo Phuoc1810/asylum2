@@ -6,39 +6,41 @@ public class CheckPlayerInRange : Node
     private Transform ai;
     private Transform player;
     private float detectRange;
-    private float hysteresisRange; // Vùng đệm để tránh nhảy trạng thái
-    private bool wasInRange = false; // Theo dõi trạng thái trước đó
+    private float hysteresisRange;
+    private bool wasInRange = false;
 
-    public CheckPlayerInRange(Transform ai, Transform player, float detectRange = 2.0f, float hysteresisRange = 0.5f)
+    public CheckPlayerInRange(Transform ai, Transform player, float detectRange = 15f, float hysteresisRange = 0.5f)
     {
         this.ai = ai;
         this.player = player;
-        this.detectRange = detectRange; // Phạm vi phát hiện mặc định 2m
-        this.hysteresisRange = hysteresisRange; // Vùng đệm mặc định 0.5m
+        this.detectRange = detectRange;
+        this.hysteresisRange = hysteresisRange;
     }
 
-    public override NodeState Evaluate()
+    public override NodeStatus Process()
     {
         if (ai == null || player == null)
         {
-            State = NodeState.Failure;
-            return State;
+            Debug.LogWarning("CheckPlayerInRange: AI or Player is null");
+            CurrentStatus = NodeStatus.Failure;
+            return CurrentStatus;
         }
 
         float dist = Vector3.Distance(ai.position, player.position);
-        float threshold = wasInRange ? detectRange + hysteresisRange : detectRange; // Thêm vùng đệm khi đã phát hiện
+        float threshold = wasInRange ? detectRange + hysteresisRange : detectRange;
 
         if (dist <= threshold)
         {
             wasInRange = true;
-            State = NodeState.Success;
+            CurrentStatus = NodeStatus.Success;
         }
         else
         {
             wasInRange = false;
-            State = NodeState.Failure;
+            CurrentStatus = NodeStatus.Failure;
         }
-        return State;
+        Debug.Log($"CheckPlayerInRange: Distance={dist:F2}, Threshold={threshold:F2}, Result={CurrentStatus}");
+        return CurrentStatus;
     }
 }
 
@@ -53,10 +55,9 @@ public class ChasePlayer : Node
     private bool playedRunOnce = false;
     private float repathInterval = 0.1f;
     private float repathTimer = 0f;
-    private float lostSightTimer = 0f; // Timer để "mất dấu" player
-    private float lostSightTime = 1.5f; // Sau 1.5s mất dấu, fallback Failure
-    private float lastSeenDistance = float.MaxValue; // Khoảng cách lần cuối thấy player
-    private float detectRange; // Lấy từ CheckPlayerInRange hoặc hardcode
+    private float lostSightTimer = 0f;
+    private float lostSightTime = 2f; // Tăng lên 2f để giữ chase lâu hơn nếu player di chuyển ra ngoài nhẹ
+    private float detectRange;
 
     public ChasePlayer(
         NavMeshAgent agent,
@@ -64,8 +65,8 @@ public class ChasePlayer : Node
         Animator animator = null,
         string runAnim = "Run",
         int animLayer = 0,
-        float stoppingDistance = 0.5f,
-        float detectRange = 2.0f // Truyền detectRange để đồng bộ
+        float stoppingDistance = 5f, // Đồng bộ với jumpscareRange
+        float detectRange = 15f
     )
     {
         this.agent = agent;
@@ -77,32 +78,46 @@ public class ChasePlayer : Node
         this.detectRange = detectRange;
     }
 
-    public override NodeState Evaluate()
+    public override NodeStatus Process()
     {
+        
         if (agent == null || player == null || !agent.enabled || !agent.isOnNavMesh)
         {
-            State = NodeState.Failure;
-            return State;
+            //Debug.LogWarning($"ChasePlayer failed: Agent={agent}, Player={player}, Enabled={agent?.enabled}, OnNavMesh={agent?.isOnNavMesh}");
+            CurrentStatus = NodeStatus.Failure;
+            return CurrentStatus;
         }
 
-        // Reset state when starting chase
         if (!playedRunOnce)
         {
             PlayIfNotCurrent(runAnim);
+            agent.SetDestination(player.position);
             playedRunOnce = true;
             lostSightTimer = 0f;
+            agent.speed = 3.5f; // Đặt tốc độ đuổi
+            Debug.Log("Chase started");
         }
 
         float currentDistance = Vector3.Distance(agent.transform.position, player.position);
-        lastSeenDistance = currentDistance;
+
+        // Check if too close (in jumpscare range)
+        if (currentDistance <= stoppingDistance)
+        {
+            Debug.Log("ChasePlayer: Within jumpscare range, stopping to allow jumpscare");
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            CurrentStatus = NodeStatus.Success;
+            return CurrentStatus;
+        }
 
         // Update destination periodically
         repathTimer -= Time.deltaTime;
-        if (repathTimer <= 0f || currentDistance > stoppingDistance * 2)
+        if (repathTimer <= 0f || currentDistance > stoppingDistance * 1.5f)
         {
             if (NavMesh.SamplePosition(player.position, out var hit, 2.0f, NavMesh.AllAreas))
             {
                 agent.SetDestination(hit.position);
+                Debug.Log($"ChasePlayer: Set destination to {hit.position}");
             }
             else
             {
@@ -111,36 +126,28 @@ public class ChasePlayer : Node
             repathTimer = repathInterval;
         }
 
-        // Check if close enough to player
-        if (currentDistance <= stoppingDistance)
-        {
-            agent.isStopped = true;
-            agent.velocity = Vector3.zero;
-            State = NodeState.Success;
-            return State;
-        }
-
-        // Logic lost sight: Nếu player ra ngoài detectRange quá lâu, fallback Failure
+        // Logic lost sight
         if (currentDistance > detectRange)
         {
             lostSightTimer += Time.deltaTime;
             if (lostSightTimer > lostSightTime)
             {
-                Debug.Log("Lost sight of player, fallback to patrol");
-                agent.isStopped = true; // Dừng agent khi mất dấu
-                playedRunOnce = false; // Reset for next chase
-                State = NodeState.Failure;
-                return State; // Fallback sang patrol
+                Debug.Log("ChasePlayer: Lost sight of player, stopping chase");
+                agent.isStopped = true;
+                playedRunOnce = false;
+                CurrentStatus = NodeStatus.Failure;
+                return CurrentStatus;
             }
         }
         else
         {
-            lostSightTimer = 0f; // Reset nếu thấy player
+            lostSightTimer = 0f;
         }
 
         agent.isStopped = false;
-        State = NodeState.Running;
-        return State;
+        CurrentStatus = NodeStatus.Running;
+        Debug.Log($"ChasePlayer: Running, Distance={currentDistance:F2}, Destination={agent.destination}");
+        return CurrentStatus;
     }
 
     private void PlayIfNotCurrent(string stateName)
@@ -149,6 +156,9 @@ public class ChasePlayer : Node
 
         var st = animator.GetCurrentAnimatorStateInfo(animLayer);
         if (!st.IsName(stateName))
+        {
             animator.Play(stateName, animLayer, 0f);
+            Debug.Log($"Playing animation: {stateName}");
+        }
     }
 }

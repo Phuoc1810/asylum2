@@ -1,33 +1,32 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class CloseToPlayer : Node
 {
-    private Transform ai;
-    private Transform player;
-    private float closeRange;
-
-    public CloseToPlayer(Transform ai, Transform player, float closeRange = 0.5f) // Default 0.5m cho jumpscare
+    public CloseToPlayer(Transform ai, Transform player, float closeRange = 5f, string name = "CloseToPlayer", int priority = 0)
+        : base(name, priority)
     {
-        this.ai = ai;
-        this.player = player;
-        this.closeRange = closeRange;
+        IStrategy strategy = new ConditionStrategy(() =>
+        {
+            if (ai == null || player == null)
+            {
+                Debug.LogWarning("CloseToPlayer: AI or Player is null");
+                return false;
+            }
+            float dist = Vector3.Distance(ai.position, player.position);
+            Debug.Log($"CloseToPlayer: Distance to player = {dist:F2}, CloseRange = {closeRange}");
+            return dist <= closeRange;
+        });
+        AddChild(new Leaf(name, strategy, priority));
     }
 
-    public override NodeState Evaluate()
+    public override NodeStatus Process()
     {
-        if (ai == null || player == null)
-        {
-            State = NodeState.Failure;
-            return State;
-        }
-
-        float dist = Vector3.Distance(ai.position, player.position);
-        State = dist <= closeRange ? NodeState.Success : NodeState.Failure;
-        return State;
+        return base.Process();
     }
 }
 
-public class Jumpscare : Node
+public class JumpscareStrategy : IStrategy
 {
     private Transform player;
     private Transform enemy;
@@ -38,10 +37,12 @@ public class Jumpscare : Node
     private float rotationElapsed = 0f;
     private bool started = false;
     private bool playerLocked = false;
-    private float jumpscareTimeout = 5f; // Timeout để tránh stuck
+    private float jumpscareTimeout = 5f;
     private float jumpscareTimer = 0f;
+    private NavMeshAgent agent;
 
-    public Jumpscare(Transform player, Transform enemy, Animator animator, Transform playerCamera, string jumpscareTrigger = "Jumpscare", float rotationTime = 0.3f)
+    public JumpscareStrategy(Transform player, Transform enemy, Animator animator, Transform playerCamera,
+        string jumpscareTrigger = "Jumpscare", float rotationTime = 0.3f)
     {
         this.player = player;
         this.enemy = enemy;
@@ -49,39 +50,42 @@ public class Jumpscare : Node
         this.jumpscareTrigger = jumpscareTrigger;
         this.playerCamera = playerCamera;
         this.rotationTime = rotationTime;
+        this.agent = enemy.GetComponent<NavMeshAgent>();
     }
 
-    public override NodeState Evaluate()
+    public NodeStatus Process()
     {
         // Safety checks
-        if (player == null || enemy == null || animator == null || playerCamera == null)
+        if (player == null || enemy == null || animator == null || playerCamera == null || agent == null)
         {
-            State = NodeState.Failure;
-            return State;
+            //Debug.LogError($"JumpscareStrategy failed: player={player}, enemy={enemy}, animator={animator}, playerCamera={playerCamera}, agent={agent}");
+            return NodeStatus.Failure;
         }
 
         if (!started)
         {
             // Start jumpscare
-            if (animator.HasState(0, Animator.StringToHash(jumpscareTrigger)))
+            int triggerHash = Animator.StringToHash(jumpscareTrigger);
+            if (animator.HasState(0, triggerHash))
             {
-                animator.Play(jumpscareTrigger);
+                animator.Play(triggerHash);
+                Debug.Log($"Playing jumpscare animation: {jumpscareTrigger}");
             }
             else
             {
                 Debug.LogError($"Animation state '{jumpscareTrigger}' not found in animator!");
-                State = NodeState.Failure;
-                return State;
+                return NodeStatus.Failure;
             }
 
-            // Lock player movement
+            // Lock player movement and stop agent
             LockPlayer();
-
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
             started = true;
             rotationElapsed = 0f;
             jumpscareTimer = 0f;
-            State = NodeState.Running;
-            return State;
+            Debug.Log("Jumpscare started");
+            return NodeStatus.Running;
         }
 
         // Update timers
@@ -92,9 +96,8 @@ public class Jumpscare : Node
         {
             Debug.LogWarning("Jumpscare timeout reached, ending jumpscare");
             UnlockPlayer();
-            ResetJumpscare();
-            State = NodeState.Success;
-            return State;
+            Reset();
+            return NodeStatus.Success;
         }
 
         // Handle camera rotation during jumpscare
@@ -105,9 +108,7 @@ public class Jumpscare : Node
             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
             float t = Mathf.Clamp01(rotationElapsed / rotationTime);
             playerCamera.rotation = Quaternion.Slerp(playerCamera.rotation, targetRotation, t);
-
-            State = NodeState.Running;
-            return State;
+            return NodeStatus.Running;
         }
 
         // Check if animation is still playing
@@ -117,45 +118,57 @@ public class Jumpscare : Node
 
         if (isPlayingJumpscare && !animationComplete)
         {
-            State = NodeState.Running;
-            return State;
+            return NodeStatus.Running;
         }
 
         // Animation finished, end jumpscare
         UnlockPlayer();
-        ResetJumpscare();
-        State = NodeState.Success;
-        return State;
+        Reset();
+        Debug.Log("Jumpscare completed successfully");
+        return NodeStatus.Success;
+    }
+
+    public void Reset()
+    {
+        started = false;
+        rotationElapsed = 0f;
+        jumpscareTimer = 0f;
+        if (agent != null)
+        {
+            agent.isStopped = false;
+        }
     }
 
     private void LockPlayer()
     {
         if (player != null && !playerLocked)
         {
+            // Try CharacterController
             CharacterController controller = player.GetComponent<CharacterController>();
             if (controller != null)
             {
                 controller.enabled = false;
                 playerLocked = true;
-                Debug.Log("Player locked during jumpscare");
+                Debug.Log("Player locked during jumpscare (CharacterController)");
+                return;
             }
-            else
-            {
-                // Try other movement components
-                MonoBehaviour[] movementScripts = player.GetComponents<MonoBehaviour>();
-                foreach (var script in movementScripts)
-                {
-                    if (script.GetType().Name.Contains("Move") || script.GetType().Name.Contains("Control"))
-                    {
-                        script.enabled = false;
-                        playerLocked = true;
-                        Debug.Log($"Disabled {script.GetType().Name} during jumpscare");
-                    }
-                }
 
-                if (!playerLocked)
-                    Debug.LogWarning("No movement controller found on player to disable");
+            // Try common movement scripts
+            MonoBehaviour[] movementScripts = player.GetComponents<MonoBehaviour>();
+            bool foundMovement = false;
+            foreach (var script in movementScripts)
+            {
+                string scriptName = script.GetType().Name.ToLower();
+                if (scriptName.Contains("move") || scriptName.Contains("control") || scriptName.Contains("player"))
+                {
+                    script.enabled = false;
+                    foundMovement = true;
+                    playerLocked = true;
+                    Debug.Log($"Disabled {script.GetType().Name} during jumpscare");
+                }
             }
+            if (!foundMovement)
+                Debug.LogWarning("No movement controller found on player to disable");
         }
     }
 
@@ -163,33 +176,42 @@ public class Jumpscare : Node
     {
         if (player != null && playerLocked)
         {
+            // Try CharacterController
             CharacterController controller = player.GetComponent<CharacterController>();
             if (controller != null)
             {
                 controller.enabled = true;
-                Debug.Log("Player unlocked after jumpscare");
+                Debug.Log("Player unlocked after jumpscare (CharacterController)");
             }
-            else
+
+            // Try common movement scripts
+            MonoBehaviour[] movementScripts = player.GetComponents<MonoBehaviour>();
+            foreach (var script in movementScripts)
             {
-                // Re-enable other movement components
-                MonoBehaviour[] movementScripts = player.GetComponents<MonoBehaviour>();
-                foreach (var script in movementScripts)
+                string scriptName = script.GetType().Name.ToLower();
+                if (scriptName.Contains("move") || scriptName.Contains("control") || scriptName.Contains("player"))
                 {
-                    if (script.GetType().Name.Contains("Move") || script.GetType().Name.Contains("Control"))
-                    {
-                        script.enabled = true;
-                        Debug.Log($"Re-enabled {script.GetType().Name} after jumpscare");
-                    }
+                    script.enabled = true;
+                    Debug.Log($"Re-enabled {script.GetType().Name} after jumpscare");
                 }
             }
             playerLocked = false;
         }
     }
+}
 
-    private void ResetJumpscare()
+public class Jumpscare : Node
+{
+    public Jumpscare(Transform player, Transform enemy, Animator animator, Transform playerCamera,
+        string jumpscareTrigger = "Jumpscare", float rotationTime = 0.3f, string name = "Jumpscare", int priority = 0)
+        : base(name, priority)
     {
-        started = false;
-        rotationElapsed = 0f;
-        jumpscareTimer = 0f;
+        IStrategy strategy = new JumpscareStrategy(player, enemy, animator, playerCamera, jumpscareTrigger, rotationTime);
+        AddChild(new Leaf(name, strategy, priority));
+    }
+
+    public override NodeStatus Process()
+    {
+        return base.Process();
     }
 }
