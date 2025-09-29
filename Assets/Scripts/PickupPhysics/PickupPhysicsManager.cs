@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class PickupPhysicsManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PickupPhysicsManager : MonoBehaviour
 
     [Header("UI reference")]
     [SerializeField] private GameObject inspectionInforPanel;
+    [SerializeField] private TextMeshProUGUI inspectionInforText;
 
     [Header("Item Scaling")]
     [SerializeField] private float boxDirectorKeyScale = 0.6f;
@@ -129,14 +131,7 @@ public class PickupPhysicsManager : MonoBehaviour
 
         ShowInspectionPanel(true);
 
-        if(currentItemType == Interactable.InteracType.BoxDirectorKey)
-        {
-            BoxKnockPuzzle puzzle = currentItem.GetComponent<BoxKnockPuzzle>();
-            if (puzzle != null)
-            {
-                puzzle.StartInspecting();
-            }
-        }
+        UpdateFuntion();
     }
     private void HandleItemRotation()
     {
@@ -184,6 +179,28 @@ public class PickupPhysicsManager : MonoBehaviour
         if (controller != null)
         {
             controller.OnInspectionComplete();
+        }
+    }
+    private void UpdateFuntion()
+    {
+        if (currentItemType == Interactable.InteracType.BoxDirectorKey)
+        {
+            BoxKnockPuzzle puzzle = currentItem.GetComponent<BoxKnockPuzzle>();
+            if (puzzle != null)
+            {
+                puzzle.StartInspecting();
+            }
+        }
+        if (currentItemType == Interactable.InteracType.NoteKnock)
+        {
+            if (inspectionInforText != null)
+            {
+                inspectionInforText.text = "3-3-2-1 ?";
+            }
+        }
+        else
+        {
+            inspectionInforText.text = "";
         }
     }
 }

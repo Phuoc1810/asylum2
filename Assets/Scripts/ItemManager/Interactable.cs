@@ -38,11 +38,13 @@ public class Interactable : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip openSound;
     [SerializeField] private AudioClip closeSound;
+    [SerializeField] private AudioClip inspectorSound;
 
     public InteracType Type => type;
     public Animator Animator => animator;
     public AudioClip OpenSound => openSound;
     public AudioClip CloseSound => closeSound;
+    public AudioClip InspectorSound => inspectorSound;
 
     /// <summary>
     /// Kiểm tra xem có phải là item có thể nhặt không

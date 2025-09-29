@@ -157,6 +157,12 @@ public class InteractableController : MonoBehaviour
     {
         if (isHoldingItem) return;
 
+        Interactable interactable = item.GetComponent<Interactable>();
+        if (interactable != null && interactable.InspectorSound != null)
+        {
+            AudioSource.PlayClipAtPoint(interactable.InspectorSound, item.transform.position);
+        }
+
         if (pickupPhysicsManager != null)
         {
             pickupPhysicsManager.StartPickupItem(item, playerCamera, itemType);
