@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class AlertState : StateMachineBehaviour
@@ -7,8 +6,8 @@ public class AlertState : StateMachineBehaviour
     float timer;
     Transform player;
     NavMeshAgent agent;
-    float chaseRange = 10f;
-    float losePlayerRange = 15f;
+    float chaseRange = 20f;
+    float losePlayerRange = 20f;
     float alertDuration = 3f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -30,11 +29,6 @@ public class AlertState : StateMachineBehaviour
 
         float distance = Vector3.Distance(player.position, animator.transform.position);
 
-        // Quay mặt về phía người chơi
-        Vector3 direction = (player.position - animator.transform.position).normalized;
-        animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation,
-            Quaternion.LookRotation(direction), Time.deltaTime * 2f);
-
         // Jumpscare nếu người chơi đến quá gần
         if (distance <= 2.5f)
         {
@@ -42,6 +36,11 @@ public class AlertState : StateMachineBehaviour
             Debug.Log("Direct jumpscare from alert");
             return;
         }
+
+        // Quay mặt về phía người chơi
+        Vector3 direction = (player.position - animator.transform.position).normalized;
+        animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation,
+            Quaternion.LookRotation(direction), Time.deltaTime * 2f);
 
         // Chuyển sang chase nếu đã alert đủ lâu
         if (distance < chaseRange && timer > 1f)

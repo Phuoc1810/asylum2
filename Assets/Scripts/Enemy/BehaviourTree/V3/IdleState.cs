@@ -35,11 +35,19 @@ public class IdleState : StateMachineBehaviour
     {
         timer += Time.deltaTime;
 
-        // Check for player detection
+        // Check for player jumpscare range first
         if (player != null)
         {
             float distanceToPlayer = Vector3.Distance(player.position, animator.transform.position);
 
+            if (distanceToPlayer <= 2.5f)
+            {
+                animator.SetBool("IsJumpscaring", true);
+                Debug.Log("Direct jumpscare from idle");
+                return;
+            }
+
+            // Check for player detection
             if (distanceToPlayer <= detectionRange)
             {
                 animator.SetBool("IsAlert", true);

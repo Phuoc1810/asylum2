@@ -15,8 +15,8 @@ public class PatrolState : StateMachineBehaviour
         agent.speed = 2.5f;
         timer = 0;
         GameObject go = GameObject.FindGameObjectWithTag("Patrol point");
-        foreach (Transform t in go.transform) 
-        patrolList.Add(t);
+        foreach (Transform t in go.transform)
+            patrolList.Add(t);
 
         agent.SetDestination(patrolList[Random.Range(0, patrolList.Count)].position);
 
@@ -24,13 +24,22 @@ public class PatrolState : StateMachineBehaviour
     }
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(agent.remainingDistance <= agent.stoppingDistance)
+        if (agent.remainingDistance <= agent.stoppingDistance)
             agent.SetDestination(patrolList[Random.Range(0, patrolList.Count)].position);
         timer += Time.deltaTime;
+
+        // Check for player jumpscare range first
+        float distance = Vector3.Distance(player.position, animator.transform.position);
+        if (distance <= 2.5f)
+        {
+            animator.SetBool("IsJumpscaring", true);
+            Debug.Log("Direct jumpscare from patrol");
+            return;
+        }
+
         if (timer > 10)
             animator.SetBool("IsPatrolling", false);
 
-        float distance = Vector3.Distance(player.position, animator.transform.position);
         if (distance < chaseRange)
             animator.SetBool("IsAlert", true);
     }

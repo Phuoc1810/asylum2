@@ -30,15 +30,15 @@ public class Chase : StateMachineBehaviour
 
         float distance = Vector3.Distance(player.position, animator.transform.position);
 
-        // Cập nhật đích đến là vị trí người chơi
-        agent.SetDestination(player.position);
-
         // PRIORITY 1: Kiểm tra jumpscare
         if (distance <= jumpscareRange)
         {
             animator.SetBool("IsJumpscaring", true);
             return;
         }
+
+        // Cập nhật đích đến là vị trí người chơi
+        agent.SetDestination(player.position);
 
         // Quản lý timer mất tích người chơi
         if (distance > losePlayerRange)

@@ -16,7 +16,6 @@ public class JumpscareState : StateMachineBehaviour
     MonoBehaviour[] playerMovementScripts;
 
     // References để gọi jumpscare effects
-    GameObject jumpscareUI;
     AudioSource audioSource;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,9 +33,10 @@ public class JumpscareState : StateMachineBehaviour
         jumpscareTimer = 0f;
         playerWasLocked = false;
 
-        // Tìm UI và audio references
-        jumpscareUI = GameObject.FindGameObjectWithTag("JumpscareUI");
+        // Tìm audio references
         audioSource = animator.GetComponent<AudioSource>();
+        // Get player controller reference
+        playerController = player.GetComponent<CharacterController>();
 
         // Lock player movement
         LockPlayer();
@@ -67,33 +67,20 @@ public class JumpscareState : StateMachineBehaviour
             // Unlock player
             UnlockPlayer();
 
-            // Hide jumpscare UI
-            if (jumpscareUI != null)
-            {
-                jumpscareUI.SetActive(false);
-            }
-
             // Reset tất cả các parameters về trạng thái ban đầu
             animator.SetBool("IsJumpscaring", false);
             animator.SetBool("IsRunning", false);
             animator.SetBool("IsAlert", false);
-
-            // Có thể teleport quái vật về vị trí ban đầu
-            TeleportAwayFromPlayer(animator);
-
             Debug.Log("Jumpscare completed, returning to idle");
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        UnlockPlayer();
+        // Đảm bảo reset IsJumpscaring để ngăn kẹt
+        animator.SetBool("IsJumpscaring", false);
 
-        // Hide jumpscare UI
-        if (jumpscareUI != null)
-        {
-            jumpscareUI.SetActive(false);
-        }
+        UnlockPlayer();
 
         if (agent != null)
         {
@@ -103,12 +90,6 @@ public class JumpscareState : StateMachineBehaviour
 
     void TriggerJumpscare()
     {
-        // Hiển thị UI jumpscare
-        if (jumpscareUI != null)
-        {
-            jumpscareUI.SetActive(true);
-        }
-
         // Phát âm thanh jumpscare
         if (audioSource != null)
         {
@@ -119,18 +100,7 @@ public class JumpscareState : StateMachineBehaviour
         // CameraShake.Instance.ShakeCamera(1f, 0.5f);
     }
 
-    void TeleportAwayFromPlayer(Animator animator)
-    {
-        // Tìm vị trí xa người chơi để teleport
-        Vector3 randomDirection = Random.insideUnitSphere * 20f;
-        randomDirection += animator.transform.position;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, 20f, NavMesh.AllAreas))
-        {
-            animator.transform.position = hit.position;
-        }
-    }
 
     void LockPlayer()
     {
