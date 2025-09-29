@@ -134,12 +134,16 @@ public class InteractableController : MonoBehaviour
 
             case Interactable.InteracType.BoxDirectorKey:
             case Interactable.InteracType.NoteKnock:
+            case Interactable.InteracType.NoteDrawer:
                 StartInspectingItem(interactable.gameObject, interactable.Type);
                 break;
 
             case Interactable.InteracType.DoorMaintenance:
             case Interactable.InteracType.DirectorDoor:
                 HandleDoorInteraction(interactable);
+                break;
+            case Interactable.InteracType.DirectorDrawers:
+                HandleDrawerInteraction(interactable);
                 break;
         }
     }
@@ -222,7 +226,13 @@ public class InteractableController : MonoBehaviour
     }
     private void HandleDrawerInteraction(Interactable interactable)
     {
+        DrawerFocusController drawerController = interactable.GetComponent<DrawerFocusController>();
 
+        if (drawerController != null && !drawerController.IsSolved)
+        {
+            drawerController.StartFocusMode(playerCamera);
+            DisablePlayerControls();
+        }
     }
     private void DisablePlayerControls()
     {
@@ -250,6 +260,10 @@ public class InteractableController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    public void OnDrawerPuzzleComplete()
+    {
+        EnablePlayerControls();
     }
     private void ShowInteractionPrompt(bool show)
     {

@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
         // === INSPECTABLE ITEMS ===
         BoxDirectorKey,
         NoteKnock,
+        NoteDrawer,
 
         // === MINI-GAMES ===
         ArtPiece,

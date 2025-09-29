@@ -6,6 +6,7 @@ public class PickupPhysicsManager : MonoBehaviour
     [Header("Hold Positions")]
     [SerializeField] private Transform boxDirectorKeyHoldPosition;
     [SerializeField] private Transform noteKnock;
+    [SerializeField] private Transform noteDrawer;
 
     [Header("Movement Setting")]
     [SerializeField] private float moveSpeed = 2f;
@@ -18,6 +19,7 @@ public class PickupPhysicsManager : MonoBehaviour
     [Header("Item Scaling")]
     [SerializeField] private float boxDirectorKeyScale = 0.6f;
     [SerializeField] private float noteKnockScale = 0.5f;
+    [SerializeField] private float noteDrawerScale = 0.6f;
 
     [SerializeField] private Transform targetHoldPosition;
 
@@ -78,6 +80,9 @@ public class PickupPhysicsManager : MonoBehaviour
                 break;
             case Interactable.InteracType.NoteKnock:
                 currentItem.transform.localScale = originalScale * noteKnockScale;
+                break;
+            case Interactable.InteracType.NoteDrawer:
+                currentItem.transform.localScale = originalScale * noteDrawerScale;
                 break;
         }
     }
