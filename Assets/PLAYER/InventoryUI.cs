@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class InventoryUI : MonoBehaviour
 
     private List<slotUI> spawned = new List<slotUI>();
 
+    public static object Instance { get; internal set; }
+    public GameObject rowitems;
+
     void Start()
     {
-        // Spawn ?úng b?ng s? slot c?a Inventory
+       
         for (int i = 0; i < inventory.slots.Count; i++)
         {
             var go = Instantiate(slotUIPrefab, slotsRoot);
@@ -31,5 +35,10 @@ public class InventoryUI : MonoBehaviour
             if (s == null || s.IsEmpty) spawned[i].Set(null, 0);
             else spawned[i].Set(s.item ? s.item.icon : null, s.quantity);
         }
+    }
+
+    public static implicit operator InventoryUI(UIinven v)
+    {
+        throw new NotImplementedException();
     }
 }
