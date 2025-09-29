@@ -4,137 +4,129 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    [Header("Door Settings")]
+    [Header("Door State")]
     [SerializeField] private bool isOpen = false;
     [SerializeField] private bool isLocked = true;
-    [SerializeField] private bool isBreak = false;
-    [SerializeField] private float smooth = 2f;
+    [SerializeField] private bool isBroken = false;
+
+    [Header("Door Animation Setting")]
+    [SerializeField] private float animationSmooth = 2f;
     [SerializeField] private float doorOpenAngle = 90f;
 
-    [Header("Audio Settings")]
+    [Header("Audio Setting")]
     [SerializeField] private AudioSource doorAudioSource;
     [SerializeField] private AudioClip doorOpenSound;
     [SerializeField] private AudioClip doorClosedSound;
     [SerializeField] private AudioClip doorLockedSound;
     [SerializeField] private AudioClip fixDoorSound;
 
-    [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI doorText;
+    [Header("UI Setting")]
+    [SerializeField] private TextMeshProUGUI doorStatusText;
 
-    private InteractableController controller;
+    [Header("Fix Setting")]
+    [SerializeField] private float fixDuration = 6f;
+    [SerializeField] private float textDisplayDuration = 3f;
+
     private Interactable doorInteractable;
     private Vector3 defaultRotation;
     private Vector3 openRotation;
-    private bool playerInDoorRange = false;
-    private bool doorInitialized = false;
+    private bool playerInRange = false;
+    private bool isInitialized = false;
+    private bool isFixing = false;
 
-    void Start()
+    public bool IsPlayerInRange => playerInRange;
+    public bool IsOpen => isOpen;
+    public bool IsLocked => isLocked;
+    public bool IsBroken => isBroken;
+
+    private void Start()
     {
-        Debug.Log("Start - isBreak initial value: " + isBreak);
-        controller = FindObjectOfType<InteractableController>();
-        doorInteractable = GetComponent<Interactable>();
         InitializeDoor();
-        Debug.Log("Start - isBreak after InitializeDoor: " + isBreak);
     }
-
-    void Update()
+    private void Update()
     {
         UpdateDoorRotation();
-        //UpdateDoorText();
+        UpdateDoorText();
     }
-
     private void InitializeDoor()
     {
-        if (!doorInitialized && doorInteractable != null)
+        if (isInitialized) return;
+
+        doorInteractable = GetComponent<Interactable>();
+        if (doorInteractable == null)
         {
-            // Chỉ cửa DoorMaintance mới có thể bị hỏng
-            if (doorInteractable.Type == Interactable.InteracType.DoorMaintance && isBreak)
-            {
-                isLocked = true;
-                isOpen = false;
-            }
-
-            defaultRotation = transform.eulerAngles;
-            openRotation = new Vector3(defaultRotation.x, defaultRotation.y + doorOpenAngle, defaultRotation.z);
-
-            if (doorText != null)
-            {
-                doorText.text = "";
-            }
-
-            doorInitialized = true;
+            return;
         }
-    }
 
+        defaultRotation = transform.eulerAngles;
+        openRotation = new Vector3(
+            defaultRotation.x,
+            defaultRotation.y + doorOpenAngle,
+            defaultRotation.z
+            );
+        if (doorInteractable.Type == Interactable.InteracType.DoorMaintenance && isBroken)
+        {
+            isLocked = true;
+            isOpen = false;
+        }
+        if (doorStatusText != null)
+        {
+            doorStatusText.text = "";
+        }
+
+        isInitialized = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && controller != null)
+        if (other.CompareTag("Player"))
         {
-            playerInDoorRange = true;
-            controller.SetDoorPlayerInRange(true, this);
+            playerInRange = true;
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && controller != null)
+        if (other.CompareTag("Player"))
         {
-            playerInDoorRange = false;
-            controller.SetDoorPlayerInRange(false, this);
+            playerInRange = false;
+
+            if (doorStatusText != null)
+            {
+                doorStatusText.text = "";
+            }
         }
     }
-
-    // Được gọi từ InteractableController để xử lý tương tác cửa
     public void HandleDoorInteraction()
     {
-        Debug.Log("HandleDoorInteraction called. playerInDoorRange: " + playerInDoorRange);
-        if (!playerInDoorRange) return;
+        if (!playerInRange || isFixing) return;
 
-        Debug.Log("Door Type: " + doorInteractable.Type);
         switch (doorInteractable.Type)
         {
-            case Interactable.InteracType.DoorMaintance:
+            case Interactable.InteracType.DoorMaintenance:
                 HandleMaintenanceDoor();
                 break;
-            case Interactable.InteracType.DitectorDoor:
+            case Interactable.InteracType.DirectorDoor:
                 HandleDirectorDoor();
                 break;
+                
         }
     }
-
     private void HandleMaintenanceDoor()
     {
-
-        if (isBreak)
+        if (isBroken)
         {
             TryFixDoor();
+            return;
         }
-        else
-        {
-            TryOpenMaintenanceDoor();
-        }
-    }
 
-    private void HandleDirectorDoor()
-    {
-        if (InventoryManager.instance != null && InventoryManager.instance.HasItem(Interactable.InteracType.DirectorKey))
-        {
-            ToggleDoor();
-        }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
+        TryOpenMaintenanceDoor();
     }
-
     private void TryOpenMaintenanceDoor()
     {
         if (InventoryManager.instance == null) return;
 
-        //bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
-        bool hasKeyMaintance = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintance);
+        bool hasKey = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintenance);
 
-        if (hasKeyMaintance && isBreak == false)
+        if (hasKey)
         {
             ToggleDoor();
         }
@@ -143,7 +135,6 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
-
     private void TryFixDoor()
     {
         if (InventoryManager.instance == null) return;
@@ -159,132 +150,141 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
-
-    private void ToggleDoor()
-    {
-        isLocked = false;
-        isOpen = !isOpen;
-
-        if (isOpen)
-        {
-            PlayDoorSound(doorOpenSound);
-        }
-        else
-        {
-            PlayDoorSound(doorClosedSound);
-        }
-    }
-
-    private IEnumerator FixDoorProcess()
-    {
-        Debug.Log("Cửa đang sửa");
-        if (doorText != null)
-        {
-            doorText.text = "Đang sửa";
-        }
-        yield return new WaitForSeconds(6f);
-        FixDoor();
-
-        if (doorText != null)
-        {
-            doorText.text = "Xong!";
-        }
-
-        yield return new WaitForSeconds(3f);
-        UpdateDoorText();
-    }
-
-    private void FixDoor()
-    {
-        isBreak = false;
-        PlayDoorSound(fixDoorSound);
-    }
-
-    private void UpdateDoorText()
-    {
-        if (doorText == null || !playerInDoorRange || doorInteractable == null)
-        {
-            if (doorText != null)
-            {
-                doorText.text = "";
-            }
-            return;
-        }
-
-        switch (doorInteractable.Type)
-        {
-            case Interactable.InteracType.DoorMaintance:
-                UpdateMaintenanceDoorText();
-                break;
-            case Interactable.InteracType.DitectorDoor:
-                UpdateDirectorDoorText();
-                break;
-        }
-    }
-
-    private void UpdateMaintenanceDoorText()
-    {
-        if (InventoryManager.instance == null) return;
-
-        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
-        bool hasKeyMaintance = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintance);
-
-        if (isBreak)
-        {
-            if (!hasScrewdriver)
-            {
-                doorText.text = "Bị hỏng";
-            }
-        }
-        else
-        {
-            if (!hasKeyMaintance)
-            {
-                doorText.text = "Đã bị khóa";
-            }
-            else
-            {
-                doorText.text = "";
-            }
-        }
-    }
-
-    private void UpdateDirectorDoorText()
+    private void HandleDirectorDoor()
     {
         if (InventoryManager.instance == null) return;
 
         bool hasDirectorKey = InventoryManager.instance.HasItem(Interactable.InteracType.DirectorKey);
 
-        if (!hasDirectorKey)
+        if (hasDirectorKey)
         {
-            doorText.text = "Cần chìa khóa giám đốc";
+            ToggleDoor();
         }
         else
         {
-            doorText.text = "";
+            PlayDoorSound(doorLockedSound);
         }
     }
+    private void ToggleDoor()
+    {
+        isLocked = false;
+        isOpen = !isOpen;
 
+        PlayDoorSound(isOpen ? doorOpenSound : doorClosedSound);
+    }
+    private IEnumerator FixDoorProcess()
+    {
+        isFixing = true;
+        if (doorStatusText != null)
+        {
+            doorStatusText.text = "Đang sửa ...";
+        }
+
+        yield return new WaitForSeconds(fixDuration);
+
+        CompleteDoorFix();
+
+        if (doorStatusText != null)
+        {
+            doorStatusText.text = "Xong";
+        }
+
+        yield return new WaitForSeconds(textDisplayDuration);
+
+        if(doorStatusText != null)
+        {
+            doorStatusText.text = "";
+        }
+        isFixing = false;
+    }
+    private void CompleteDoorFix()
+    {
+        isBroken = false;
+        PlayDoorSound(fixDoorSound);
+    }
     private void UpdateDoorRotation()
     {
-        if (doorInitialized)
+        if (!isInitialized) return;
+        Vector3 targetRotation = isOpen ? openRotation : defaultRotation;
+
+        transform.eulerAngles = Vector3.Lerp(
+            transform.eulerAngles,
+            targetRotation,
+            Time.deltaTime * animationSmooth
+            );
+    }
+    private void UpdateDoorText()
+    {
+        if (doorStatusText == null || !playerInRange || isFixing)
         {
-            Vector3 targetRotation = isOpen ? openRotation : defaultRotation;
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * smooth);
+            return;
+        }
+
+        if (doorInteractable == null)
+        {
+            doorStatusText.text = "";
+            return;
+        }
+
+        switch (doorInteractable.Type)
+        {
+            case Interactable.InteracType.DoorMaintenance:
+                UpdateMaintenceDoorText();
+                break;
+            case Interactable.InteracType.DirectorDoor:
+                UpdateDirectorDoorText();
+                break;
         }
     }
+    private void UpdateMaintenceDoorText()
+    {
+        if(InventoryManager.instance == null)
+        {
+            doorStatusText.text = "";
+            return;
+        }
 
+        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
+        bool hasKey = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintenance);
+
+        if (isBroken)
+        {
+            doorStatusText.text = hasScrewdriver ? "" : "Bị hỏng";
+            return;
+        }
+        if (isLocked || !hasKey)
+        {
+            doorStatusText.text = hasKey ? "" : "Bị khóa";
+        }
+        doorStatusText.text = "";
+    }
+    private void UpdateDirectorDoorText()
+    {
+        if (InventoryManager.instance == null)
+        {
+            doorStatusText.text = "";
+            return;
+        }
+        bool hasDirectorKey = InventoryManager.instance.HasItem(Interactable.InteracType.DirectorKey);
+
+        doorStatusText.text = hasDirectorKey ? "" : "Bị khóa";
+    }
     private void PlayDoorSound(AudioClip clip)
     {
-        if (doorAudioSource != null && clip != null)
+        if (doorAudioSource == null || clip == null) return;
+
+        doorAudioSource.PlayOneShot(clip);
+    }
+    private void OnValidate()
+    {
+        if (doorAudioSource == null)
         {
-            doorAudioSource.PlayOneShot(clip);
+            doorAudioSource = GetComponent<AudioSource>();
+        }
+
+        if (doorInteractable == null)
+        {
+            doorInteractable = GetComponent<Interactable>();
         }
     }
-
-    // Getter methods để InteractableController có thể truy cập thông tin cửa
-    public bool IsPlayerInRange => playerInDoorRange;
-    public bool IsOpen => isOpen;
-    public bool IsLocked => isLocked;
-    public bool IsBroken => isBreak;
 }

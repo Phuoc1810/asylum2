@@ -5,297 +5,251 @@ using UnityEngine;
 
 public class InteractableController : MonoBehaviour
 {
-    [Header("Raycast Setting")]
-    [SerializeField] private float distanceRay = 3f;
+    [Header("Detection Setting")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float detectionDistance = 3f;
+    [SerializeField] private LayerMask interactableLayer = -1;
 
-    [SerializeField] private GameObject pointPanel;
-    [SerializeField] Camera playerCamera;
+    [Header("Player Components")]
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private HeadBobbingController headBobbingController;
 
-    private Animator targetAnimation;
+    [Header("Pickup System")]
+    [SerializeField] private PickupPhysicsManager pickupPhysicsManager;
+
+    [Header("UI Panels")]
+    [SerializeField] private GameObject interactionPromptPanel;
+    [SerializeField] private GameObject aimPanel;
+
     private Interactable currentInteractable;
-    private DoorManager currentDoorManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        InitializeComponents();
-    }
+    private bool isHoldingItem = false;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        UpdateNormalState();
-        HandleInput();
+        InitializeController();
     }
-    #region Thiết lập ban đầu
-    /// <summary>
-    /// Khởi tạo các components cần thiết
-    /// </summary>
-    private void InitializeComponents()
+    private void Update()
     {
-        pointPanel.SetActive(false);
+        if (isHoldingItem)
+        {
+            UpdateHoldingState();
+        }
+        else
+        {
+            UpdateNormalState();
+        }
+        HanldeInteractionInput();
     }
-    #endregion
-    #region trạng thái bình thường (Normal State)
-    /// <summary>
-    /// Cập nhật trạng thái bình thường
-    /// </summary>
+    private void InitializeController()
+    {
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main;
+        }
+        if (interactionPromptPanel != null)
+        {
+            interactionPromptPanel.SetActive(false);
+        }
+    }
     private void UpdateNormalState()
     {
-        PerformRaycast();
+        DetecInteractableObject();
     }
-    /// <summary>
-    /// Thực hiện raycast để phát hiện item
-    /// </summary>
-    private void PerformRaycast()
+    private void DetecInteractableObject()
     {
-        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0f));
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, distanceRay))
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        if(Physics.Raycast(ray, out RaycastHit hit, detectionDistance, interactableLayer))
         {
             Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null)
+
+            if(interactable != null)
             {
                 SetCurrentInteractable(interactable);
-            }
-            else
-            {
-                ClearCurrentInteractable();
+                return;
             }
         }
-        else
-        {
-            ClearCurrentInteractable();
-        }
+        ClearCurrentInteractable();
     }
-    /// <summary>
-    /// Đặt object tương tác và hiện thị UI
-    /// </summary>
     private void SetCurrentInteractable(Interactable interactable)
     {
-        if (currentInteractable != interactable || !pointPanel.activeSelf)
+        if (currentInteractable != interactable)
         {
             currentInteractable = interactable;
-            pointPanel.SetActive(true);
+            ShowInteractionPrompt(true);
         }
     }
-    /// <summary>
-    /// Xóa object tương tác và ẩn UI
-    /// </summary>
     private void ClearCurrentInteractable()
     {
-        pointPanel.SetActive(false);
-        currentInteractable = null;
+        if (currentInteractable != null)
+        {
+            currentInteractable = null;
+            ShowInteractionPrompt(false);
+        }
     }
-    #endregion
+    private void UpdateHoldingState()
+    {
+        if (pickupPhysicsManager != null)
+        {
+            pickupPhysicsManager.UpdateItemPickup();
+        }
 
-    #region ElectricBox System
-    /// <summary>
-    /// Các biến liên quan
-    /// </summary>
-    [Header("Electric Box Setting")]
-    [SerializeField] private GameObject fuseObject;
-    [SerializeField] private GameObject[] light;
-
-    /// <summary>
-    /// Cập nhật các trạng thái của Electric Box
-    /// </summary>
-    private void HandleElectricBoxInteraction()
-    {
-        if (currentInteractable.Type == Interactable.InteracType.HanldeElectricBox)
+        if (Input.GetMouseButtonDown(1))
         {
-            if(InventoryManager.instance!=null && InventoryManager.instance.HasItem(Interactable.InteracType.Fuse))
-            {
-                ActivateElectricSystem();
-            }
-            else
-            {
-                DeactivateElectricSystem();
-            }
-        }
-        else if (currentInteractable.Type == Interactable.InteracType.ElectricBox)
-        {
-            InstallFuse();
+            ExitInspectMode();
         }
     }
-    private void InstallFuse()
+    public void OnInspectionComplete()
     {
-        if (InventoryManager.instance != null && InventoryManager.instance.HasItem(Interactable.InteracType.Fuse))
+        EnablePlayerControls();
+        isHoldingItem = false;
+    }
+    private void HanldeInteractionInput()
+    {
+        if (Input.GetMouseButtonDown(0) && currentInteractable != null && !isHoldingItem)
         {
-            if (fuseObject != null)
-            {
-                fuseObject.SetActive(true);
-            }
+            ProcessInteraction(currentInteractable);
         }
     }
-    private void ActivateElectricSystem()
+    private void ProcessInteraction(Interactable interactable)
     {
-        if (currentInteractable.Anim != null)
-        {
-            currentInteractable.Anim.SetTrigger("Open");
-        }
-        InventoryManager.instance.RemoveItem(Interactable.InteracType.Fuse);
-        PlayOpenSound(currentInteractable);
-        TurnOnLights();
-
-    }
-    private void DeactivateElectricSystem()
-    {
-        if (currentInteractable.Anim != null)
-        {
-            currentInteractable.Anim.SetTrigger("Close");
-        }
-        PlayCloseSound(currentInteractable);
-    }
-    private void TurnOnLights()
-    {
-        if (light != null)
-        {
-            foreach(GameObject light in light)
-            {
-                if (light != null)
-                {
-                    light.SetActive(true);
-                    Light pointLight = light.GetComponent<Light>();
-                    if (pointLight != null)
-                    {
-                        pointLight.enabled = true;
-                    }
-                }
-            }
-        }
-    }
-    #endregion
-
-    #region Xử lý đóng/ mở ngắn kéo
-    ///<summary>
-    ///
-    ///</summary>
-    private void HandleDrawerInteractation()
-    {
-        targetAnimation = currentInteractable.Anim;
-        if (currentInteractable.Type == Interactable.InteracType.DirectorDrawers)
-        {
-            if (targetAnimation != null)
-            {
-                Debug.Log("Set Animation");
-                targetAnimation.SetTrigger("Open");
-            }
-        }
-    }
-    #endregion
-    #region Tương tác cửa
-    ///<summary>
-    ///
-    ///</summary>
-    private void HandleDoorInteraction()
-    {
-        if (IsDoorType(currentInteractable.Type))
-        {
-            DoorManager doorManager = currentInteractable.GetComponent<DoorManager>();
-            if (doorManager != null&& doorManager.IsPlayerInRange)
-            {
-                doorManager.HandleDoorInteraction();
-            }
-        }
-    }
-
-    private bool IsDoorType(Interactable.InteracType type)
-    {
-        return type == Interactable.InteracType.DoorMaintance ||
-               type == Interactable.InteracType.DitectorDoor;
-    }
-    public void SetDoorPlayerInRange(bool inRange, DoorManager doorManager)
-    {
-        if (inRange)
-        {
-            currentDoorManager = doorManager;
-        }
-        else
-        {
-            if (currentDoorManager == doorManager)
-            {
-                currentDoorManager = null;
-            }
-        }
-    }
-    #endregion
-    #region Pickup item
-    ///<summary>
-    ///Xu ly input tu nguoi choi
-    ///</summary>
-    private void HandleInput()
-    {
-        if(Input.GetMouseButtonDown(0) && currentInteractable != null)
-        {
-            HandleInteraction();
-        }
-    }
-    
-    ///<summary>
-    ///Xu ly tuong tac dua tren loai item
-    ///</summary>
-    private void HandleInteraction()
-    {
-        switch (currentInteractable.Type)
+        switch (interactable.Type)
         {
             case Interactable.InteracType.Screwdriver:
-                PickupItem(currentInteractable.gameObject);
-                break;
-            case Interactable.InteracType.KeyMaintance:
-                PickupItem(currentInteractable.gameObject);
-                break;
             case Interactable.InteracType.Fuse:
-                PickupItem(currentInteractable.gameObject);
-                break;
-            case Interactable.InteracType.ElectricBox:
-                HandleElectricBoxInteraction();
-                break;
-            case Interactable.InteracType.HanldeElectricBox:
-                HandleElectricBoxInteraction();
-                break;
+            case Interactable.InteracType.KeyMaintenance:
             case Interactable.InteracType.BoltCutter:
-                PickupItem(currentInteractable.gameObject);
-                break;
             case Interactable.InteracType.Crowbar:
-                PickupItem(currentInteractable.gameObject);
-                break;
             case Interactable.InteracType.DirectorKey:
-                PickupItem(currentInteractable.gameObject);
+                PickupItem(interactable.gameObject);
                 break;
-            case Interactable.InteracType.DoorMaintance:
-            case Interactable.InteracType.DitectorDoor:
-                HandleDoorInteraction();
+
+            case Interactable.InteracType.ElectricBox:
+                HandleElectricBoxInteraction(interactable);
                 break;
-            case Interactable.InteracType.DirectorDrawers:
-                HandleDrawerInteractation();
+
+            case Interactable.InteracType.ElectricBoxHandle:
+                HanldeElectricBoxHanldeInteraction(interactable);
+                break;
+
+            case Interactable.InteracType.BoxDirectorKey:
+            case Interactable.InteracType.NoteKnock:
+                StartInspectingItem(interactable.gameObject, interactable.Type);
+                break;
+
+            case Interactable.InteracType.DoorMaintenance:
+            case Interactable.InteracType.DirectorDoor:
+                HandleDoorInteraction(interactable);
                 break;
         }
     }
-    ///<summary>
-    ///Nhat item va them vao inventory
-    ///</summary>
-    private void PickupItem(GameObject item)
+    private  void PickupItem(GameObject item)
     {
         if (InventoryManager.instance == null)
         {
             return;
         }
         InventoryManager.instance.AddItems(item);
+
         item.SetActive(false);
     }
-    #endregion
-
-    #region Audio System
-    private void PlayOpenSound(Interactable interactable) 
+    private void StartInspectingItem(GameObject item, Interactable.InteracType itemType)
     {
-        if (interactable != null)
+        if (isHoldingItem) return;
+
+        if (pickupPhysicsManager != null)
         {
-            AudioSource.PlayClipAtPoint(interactable.Open, interactable.transform.position);
+            pickupPhysicsManager.StartPickupItem(item, playerCamera, itemType);
+            isHoldingItem = true;
+            DisablePlayerControls();
         }
     }
-    private void PlayCloseSound(Interactable interactable)
+    private void ExitInspectMode()
     {
-        AudioSource.PlayClipAtPoint(interactable.Close, interactable.transform.position);
+        if (pickupPhysicsManager != null)
+        {
+            pickupPhysicsManager.StopInspecting();
+        }
+
+        EnablePlayerControls();
+        isHoldingItem = false;
     }
-    #endregion
+    private void HandleElectricBoxInteraction(Interactable interactable)
+    {
+        ElectricBoxController controller = interactable.GetComponent<ElectricBoxController>();
+
+        if(controller != null)
+        {
+            bool success = controller.InstallFuse();
+
+            if (success)
+            {
+                interactable.PlaySound(interactable.OpenSound);
+            }
+            else
+            {
+                interactable.PlaySound(interactable.CloseSound);
+            }
+        }
+    }
+    private void HanldeElectricBoxHanldeInteraction(Interactable interactable)
+    {
+        ElectricBoxController controller = interactable.GetComponentInParent<ElectricBoxController>();
+
+        if (controller == null)
+        {
+            controller = FindObjectOfType<ElectricBoxController>();
+        }
+        if (controller != null)
+        {
+            controller.ToggleElectricBox();
+        }
+    }
+    private void HandleDoorInteraction(Interactable interactable)
+    {
+        DoorManager doorManager = interactable.GetComponent<DoorManager>();
+
+        if (doorManager != null)
+        {
+            doorManager.HandleDoorInteraction();
+        }
+    }
+    private void HandleDrawerInteraction(Interactable interactable)
+    {
+
+    }
+    private void DisablePlayerControls()
+    {
+        if (playerMovement != null)
+            playerMovement.enabled = false;
+        if (headBobbingController != null)
+            headBobbingController.enabled = false;
+
+        ShowInteractionPrompt(false);
+
+        if (aimPanel != null)
+            aimPanel.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    private void EnablePlayerControls()
+    {
+        if (playerMovement != null)
+            playerMovement.enabled = true;
+        if (headBobbingController != null)
+            headBobbingController.enabled = true;
+        if (aimPanel != null)
+            aimPanel.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    private void ShowInteractionPrompt(bool show)
+    {
+        if (interactionPromptPanel != null)
+        {
+            interactionPromptPanel.SetActive(show);
+        }
+    }
 }
