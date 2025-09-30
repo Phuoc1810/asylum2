@@ -15,8 +15,11 @@ public class Interactable : MonoBehaviour
         blackkey,
         locks,
         keymorgue,
-        keytools,
-        
+
+        //=== DOOR ===//
+        DoorMaintenance,
+        DirectorDoor,
+
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
         ElectricBoxHandle,
