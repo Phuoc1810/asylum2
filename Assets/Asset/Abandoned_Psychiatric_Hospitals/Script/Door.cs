@@ -1,73 +1,134 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Door : MonoBehaviour
 {
 
-    bool trig, open;//trig-проверка входа выхода в триггер(игрок должен быть с тегом Player) open-закрыть и открыть дверь
-    public float smooth = 2.0f;//скорость вращения
-    public float DoorOpenAngle = 90.0f;//угол вращения 
+    public bool trig, open;
+    public float smooth = 2.0f;
+    public float DoorOpenAngle = 90.0f;
     private Vector3 defaulRot;
     private Vector3 openRot;
-    public Text txt;//text 
-
-    public bool locks { get; internal set; }
-
+    private Vector3 lockRot;
+    public TextMeshProUGUI txt;
+    public bool locks;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
+        locks = false;
         defaulRot = transform.eulerAngles;
         openRot = new Vector3(defaulRot.x, defaulRot.y + DoorOpenAngle, defaulRot.z);
+        lockRot = new Vector3(defaulRot.x, defaulRot.y + 4f, defaulRot.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (open)//открыть
+        if (!locks)
+        {
+            animator.enabled = false;
+        }
+        if (open)
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
+            
         }
-        else//закрыть
+        else
         {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
         }
-        if (Input.GetKeyDown(KeyCode.E) && trig)
+        //if (Input.GetKeyDown(KeyCode.E) && trig && !locks)
+        //{
+        //    open = !open;
+        //}
+        RaycastHit hits;
+        Ray rays = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        if (Physics.Raycast(rays, out hits, 4f))
         {
-            open = !open;
+            if (hits.collider.tag == "door")
+            {
+                if (open)
+                {
+                    txt.text = "PRESS E TO Close ";
+                    
+
+
+                }
+                else if (!open && transform.eulerAngles.y==0) 
+                {
+                    txt.text = "PRESS E TO OPEN";
+                    Debug.Log("open");
+
+                }
+            }
+            else if (hits.collider.tag != "door")
+            {
+                txt.text = " ";
+
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.E) )
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out hit, 2f))
+
+            // RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.transform.forward);
+            // if (hit)
+            {
+
+                if (hit.transform == transform && !locks)
+                {
+                  
+                    open = !open;
+                }
+                else if (hit.transform == transform && locks)
+                {
+                    animator.SetTrigger("lock");
+
+                }
+                  
+
+
+            }
         }
         if (trig)
         {
             if (open)
             {
-                txt.text = "Close E";
+                //txt.text = "Close E";
             }
             else
             {
-                txt.text = "Open E";
+               // txt.text = "Open E";
             }
         }
     }
-    private void OnTriggerEnter(Collider coll)//вход и выход в\из  триггера 
-    {
-        if (coll.tag == "Player")
-        {
-            if (!open)
-            {
-                txt.text = "Close E ";
-            }
-            else
-            {
-                txt.text = "Open E";
-            }
-            trig = true;
-        }
-    }
-    private void OnTriggerExit(Collider coll)//вход и выход в\из  триггера 
-    {
-        if (coll.tag == "Player")
-        {
-            txt.text = " ";
-            trig = false;
-        }
-    }
+    //private void OnTriggerEnter(Collider coll)
+    //{
+    //    if (coll.CompareTag("Player"))
+    //    {
+         
+    //        if (!open)
+    //        {
+    //            //txt.text = "Close E ";
+    //        }
+    //        else
+    //        {
+    //            //txt.text = "Open E";
+    //        }
+    //        trig = true;
+    //    }
+    //}
+    //private void OnTriggerExit(Collider coll)
+    //{
+    //    if (coll.CompareTag("Player"))
+    //    {
+    //        txt.text = " ";
+    //        trig = false;
+    //    }
+    //}
 }
