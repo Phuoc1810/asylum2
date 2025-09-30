@@ -7,8 +7,7 @@ TagManager:
   - art
   - door
   - quiz
-  - Patrol point
-  - AudioDetect
+  - item
   layers:
   - Default
   - TransparentFX
@@ -16,9 +15,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Detect Audio
-  - 
-  - 
+  - locklayer
+  - locklayer2
+  - locklayer3
   - 
   - 
   - 
