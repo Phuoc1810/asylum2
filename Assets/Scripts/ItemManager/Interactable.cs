@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public enum InteracType { Screwdriver, Sparkplug, Door}
+
+    public enum InteracType { Screwdriver, Sparkplug, Door , art,quiz, KeyMaintance , locks,keymorgue,keytools, NOTE, blackkey}
     [SerializeField] private InteracType interactype;
     [SerializeField] private Animator anim;
 
