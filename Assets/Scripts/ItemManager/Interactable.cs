@@ -15,10 +15,14 @@ public class Interactable : MonoBehaviour
         blackkey,
         locks,
         keymorgue,
+      
+        
+
 
         //=== DOOR ===//
         DoorMaintenance,
         DirectorDoor,
+
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
@@ -29,6 +33,7 @@ public class Interactable : MonoBehaviour
         BoxDirectorKey,
         NoteKnock,
         NoteDrawer,
+
 
         // === MINI-GAMES ===
         ArtPiece,
