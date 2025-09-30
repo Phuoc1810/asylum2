@@ -1,12 +1,89 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    public enum InteracType
+    {
+        // === ITEMS (Có thể nhặt) ===
+        Screwdriver,
+        Fuse,
+        KeyMaintenance,
+        BoltCutter,
+        Crowbar,
+        DirectorKey,
+        keytools,
+        blackkey,
+        locks,
+        keymorgue,
+        keytools,
+        
+        // === INTERACTIVE OBJECTS ===
+        ElectricBox,
+        ElectricBoxHandle,
+        DirectorDrawers,
 
-    public enum InteracType { Screwdriver, Sparkplug, Door , art,quiz, KeyMaintance , locks,keymorgue,keytools, NOTE, blackkey}
-    [SerializeField] private InteracType interactype;
-    [SerializeField] private Animator anim;
+        // === INSPECTABLE ITEMS ===
+        BoxDirectorKey,
+        NoteKnock,
+        NoteDrawer,
 
-    public InteracType Type => interactype;
-    public Animator Anim => anim;
+        // === MINI-GAMES ===
+        ArtPiece,
+        Quiz
+    }
+    [Header("Interaction Setting")]
+    [SerializeField] private InteracType type;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
+    [SerializeField] private AudioClip inspectorSound;
+
+    public InteracType Type => type;
+    public Animator Animator => animator;
+    public AudioClip OpenSound => openSound;
+    public AudioClip CloseSound => closeSound;
+    public AudioClip InspectorSound => inspectorSound;
+
+    /// <summary>
+    /// Kiểm tra xem có phải là item có thể nhặt không
+    /// </summary>
+    public bool IsPickupableItem()
+    {
+        return type == InteracType.Screwdriver ||
+               type == InteracType.Fuse ||
+               type == InteracType.KeyMaintenance ||
+               type == InteracType.BoltCutter ||
+               type == InteracType.Crowbar ||
+               type == InteracType.DirectorKey;
+    }
+
+    /// <summary>
+    /// Kiểm tra có phải là cửa không
+    /// </summary>
+    public bool IsDoor()
+    {
+        return type == InteracType.DoorMaintenance ||
+               type == InteracType.DirectorDoor;
+    }
+    /// <summary>
+    /// Kiểm tra có phải là inspectable item không
+    /// </summary>
+    public bool IsInspectable()
+    {
+        return type == InteracType.BoxDirectorKey;
+    }
+    /// <summary>
+    /// Play audio clip tại vị trí object
+    /// </summary>
+    public void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            AudioSource.PlayClipAtPoint(clip, transform.position);
+        }
+    }
 }
