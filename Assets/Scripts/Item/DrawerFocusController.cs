@@ -65,10 +65,13 @@ public class DrawerFocusController : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
-
         if (drawerAnimator != null)
         {
             drawerAnimator.SetTrigger(OPEN_TRIGGER);
+        }
+        if(drawerAnimator!=null && isTransitioning)
+        {
+            drawerAnimator.SetTrigger(CLOSE_TRIGGER);
         }
 
         currentState = DrawerState.Normal;
@@ -96,7 +99,7 @@ public class DrawerFocusController : MonoBehaviour
     }
     private void HandleForcusModeInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             ExitForcusMode(false);
         }
@@ -125,6 +128,12 @@ public class DrawerFocusController : MonoBehaviour
         }
 
         isInFocusMode = false;
+
+        InteractableController controller = FindObjectOfType<InteractableController>();
+        if (controller != null)
+        {
+            controller.OnDrawerPuzzleComplete();
+        }
     }
     private void SolvedPuzzle()
     {

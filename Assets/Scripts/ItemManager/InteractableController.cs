@@ -94,7 +94,7 @@ public class InteractableController : MonoBehaviour
             pickupPhysicsManager.UpdateItemPickup();
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             ExitInspectMode();
         }

@@ -15,6 +15,7 @@ public class PickupPhysicsManager : MonoBehaviour
     [Header("UI reference")]
     [SerializeField] private GameObject inspectionInforPanel;
     [SerializeField] private TextMeshProUGUI inspectionInforText;
+    [SerializeField] private TextMeshProUGUI itemsInformationText;
 
     [Header("Item Scaling")]
     [SerializeField] private float boxDirectorKeyScale = 0.6f;
@@ -196,16 +197,21 @@ public class PickupPhysicsManager : MonoBehaviour
                 puzzle.StartInspecting();
             }
         }
-        if (currentItemType == Interactable.InteracType.NoteKnock)
+        if (inspectionInforText!=null && itemsInformationText!=null)
         {
-            if (inspectionInforText != null)
+            if(currentItemType == Interactable.InteracType.NoteKnock)
             {
                 inspectionInforText.text = "3-3-2-1 ?";
             }
-        }
-        else
-        {
-            inspectionInforText.text = "";
+            else if(currentItemType == Interactable.InteracType.NoteDrawer)
+            {
+                inspectionInforText.text = "Bức vẽ kì lạ";
+                itemsInformationText.text = "Một bức vẽ kì lạ với né vẽ nguệch ngoặc, và một cái cây bị ngược? Mà khoan! Một cánh tay phải?";
+            }
+            else
+            {
+                inspectionInforText.text = "";
+            }
         }
     }
 }
