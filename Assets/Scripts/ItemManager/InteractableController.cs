@@ -145,6 +145,15 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.DirectorDrawers:
                 HandleDrawerInteraction(interactable);
                 break;
+            case Interactable.InteracType.keymorgue:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.keytools:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.blackkey:
+                PickupItem(currentInteractable.gameObject);
+                break;
         }
     }
     private  void PickupItem(GameObject item)

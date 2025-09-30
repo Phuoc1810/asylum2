@@ -11,11 +11,12 @@ public class Interactable : MonoBehaviour
         BoltCutter,
         Crowbar,
         DirectorKey,
-
-        // === DOORS ===
-        DoorMaintenance,
-        DirectorDoor,
-
+        keytools,
+        blackkey,
+        locks,
+        keymorgue,
+        keytools,
+        
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
         ElectricBoxHandle,
