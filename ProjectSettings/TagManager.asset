@@ -10,6 +10,8 @@ TagManager:
   - puzzle
   - safe
   - doc
+  - item
+
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - locklayer
+  - locklayer2
+  - locklayer3
   - 
   - 
   - 
