@@ -27,11 +27,14 @@ public class DoorManager : MonoBehaviour
     [SerializeField] private float fixDuration = 6f;
     [SerializeField] private float textDisplayDuration = 3f;
 
+    [Header("Door Pivot (optional)")]
+    [SerializeField] private Transform doorPivot;
+
     private Interactable doorInteractable;
     private Vector3 defaultRotation;
     private Vector3 openRotation;
     private bool playerInRange = false;
-    private bool isInitialized = false;
+    [SerializeField] private bool isInitialized = false;
     private bool isFixing = false;
 
     public bool IsPlayerInRange => playerInRange;
@@ -58,7 +61,9 @@ public class DoorManager : MonoBehaviour
             return;
         }
 
-        defaultRotation = transform.eulerAngles;
+        var t = doorPivot != null ? doorPivot : transform;
+
+        defaultRotation = t.eulerAngles;
         openRotation = new Vector3(
             defaultRotation.x,
             defaultRotation.y + doorOpenAngle,
@@ -122,9 +127,7 @@ public class DoorManager : MonoBehaviour
     }
     private void TryOpenMaintenanceDoor()
     {
-        if (InventoryManager.instance == null) return;
-
-        bool hasKey = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintenance);
+        bool hasKey = InventoryService.Instance != null && InventoryService.Instance.Contains("key_maintenance");
 
         if (hasKey)
         {
@@ -137,9 +140,7 @@ public class DoorManager : MonoBehaviour
     }
     private void TryFixDoor()
     {
-        if (InventoryManager.instance == null) return;
-
-        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
+        bool hasScrewdriver = InventoryService.Instance != null && InventoryService.Instance.Contains("screwdriver");
 
         if (hasScrewdriver)
         {
@@ -152,9 +153,7 @@ public class DoorManager : MonoBehaviour
     }
     private void HandleDirectorDoor()
     {
-        if (InventoryManager.instance == null) return;
-
-        bool hasDirectorKey = InventoryManager.instance.HasItem(Interactable.InteracType.DirectorKey);
+        bool hasDirectorKey = InventoryService.Instance != null && InventoryService.Instance.Contains("director_key");
 
         if (hasDirectorKey)
         {
@@ -205,13 +204,16 @@ public class DoorManager : MonoBehaviour
     private void UpdateDoorRotation()
     {
         if (!isInitialized) return;
-        Vector3 targetRotation = isOpen ? openRotation : defaultRotation;
 
-        transform.eulerAngles = Vector3.Lerp(
-            transform.eulerAngles,
+        var t = doorPivot != null ? doorPivot : transform;
+       Quaternion targetRotation = Quaternion.Euler(isOpen ? openRotation : defaultRotation);
+
+        t.rotation = Quaternion.Slerp(
+            t.rotation,
             targetRotation,
             Time.deltaTime * animationSmooth
             );
+        Debug.Log("Active");
     }
     private void UpdateDoorText()
     {
@@ -244,8 +246,8 @@ public class DoorManager : MonoBehaviour
             return;
         }
 
-        bool hasScrewdriver = InventoryManager.instance.HasItem(Interactable.InteracType.Screwdriver);
-        bool hasKey = InventoryManager.instance.HasItem(Interactable.InteracType.KeyMaintenance);
+        bool hasScrewdriver = InventoryService.Instance.Contains("screwdriver");
+        bool hasKey = InventoryService.Instance.Contains("key_maintenance");
 
         if (isBroken)
         {
@@ -265,7 +267,7 @@ public class DoorManager : MonoBehaviour
             doorStatusText.text = "";
             return;
         }
-        bool hasDirectorKey = InventoryManager.instance.HasItem(Interactable.InteracType.DirectorKey);
+        bool hasDirectorKey = InventoryService.Instance.Contains("director_key");
 
         doorStatusText.text = hasDirectorKey ? "" : "Bị khóa";
     }
