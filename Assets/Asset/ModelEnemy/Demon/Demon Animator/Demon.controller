@@ -516,6 +516,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b214b4f8bf3dd67448526d1efa3ed545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holderTransform: {fileID: 0}
+  holderName: Holder jumpscare camera2
+  inDuration: 0.35
+  holdDuration: 5
+  outDuration: 0.4
+  easeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  facePlayerOnStart: 1
+  useSmoothReturn: 1
+  returnSmoothTime: 1.5
+  maxReturnSpeed: 2.5
+  returnDistanceEpsilon: 0.01
+  returnAngleEpsilon: 0.5
+  playerMovement: {fileID: 0}
+  headBobbingController: {fileID: 0}
 --- !u!1102 &3490842022425584561
 AnimatorState:
   serializedVersion: 6

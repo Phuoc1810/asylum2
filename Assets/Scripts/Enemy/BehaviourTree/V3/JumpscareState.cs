@@ -1,27 +1,94 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 
 public class JumpscareState : StateMachineBehaviour
 {
+    // ================== CONFIG ==================
+    [Header("Focus Target (Holder)")]
+    [Tooltip("Điểm focus cho camera trong lúc jumpscare (ưu tiên nếu set).")]
+    public Transform holderTransform;
+
+    [Tooltip("Nếu không gán trực tiếp Transform, script sẽ tìm theo tên này trong scene.")]
+    public string holderName = "Holder jumpscare camera";
+
+    [Header("Timing (seconds)")]
+    [Tooltip("Thời gian mượt khi chuyển VÀO holder.")]
+    public float inDuration = 0.35f;
+
+    [Tooltip("Giữ camera ở holder bao lâu.")]
+    public float holdDuration = 5.0f;  // tăng mặc định để bạn thấy chậm hơn
+
+    [Tooltip("KHÔNG dùng nếu đã bật SmoothDamp cho phase quay về (bên dưới).")]
+    public float outDuration = 0.4f;
+
+    [Header("Easing (Into Holder)")]
+    public AnimationCurve easeIn = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    [Header("NPC Facing")]
+    [Tooltip("Quay enemy về phía player khi bắt đầu jumpscare.")]
+    public bool facePlayerOnStart = true;
+
+    [Header("Return Smoothing (From Holder -> Original)")]
+    [Tooltip("Dùng SmoothDamp để quay về. Bật để có cảm giác mượt và kiểm soát tốc độ tốt hơn.")]
+    public bool useSmoothReturn = true;
+
+    [Tooltip("Thời gian đáp ứng (time constant) cho pha quay về gốc. Lớn hơn = chậm hơn.")]
+    public float returnSmoothTime = 0.9f;    // chỉnh 0.6–1.2 tùy ý
+
+    [Tooltip("Giới hạn tốc độ tối đa khi quay về (m/s). 0 = không giới hạn.")]
+    public float maxReturnSpeed = 0f;        // 0 = off
+
+    [Tooltip("Ngưỡng coi như đã về tới điểm gốc (m).")]
+    public float returnDistanceEpsilon = 0.01f;
+
+    [Tooltip("Ngưỡng coi như đã khớp góc (độ).")]
+    public float returnAngleEpsilon = 0.5f;
+
+
+    // ================== INTERNAL REFS ==================
     Transform player;
     NavMeshAgent agent;
-    bool jumpscareStarted = false;
-    float jumpscareTimer = 0f;
-    float jumpscareDuration = 3f;
+    AudioSource audioSource;
 
-    // Player locking variables
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private HeadBobbingController headBobbingController;
+
+    Camera mainCamera;
+    Transform playerCamera;                 // = mainCamera.transform
+    Vector3 originalCameraPosition;
+    Quaternion originalCameraRotation;
+    Transform originalCameraParent;
+
+    // Player lock
     bool playerWasLocked = false;
     CharacterController playerController;
     MonoBehaviour[] playerMovementScripts;
 
-    // References để gọi jumpscare effects
-    AudioSource audioSource;
+    // Transition state
+    enum Phase { ToHolder, Hold, ToOriginal, Done }
+    Phase phase = Phase.Done;
 
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    // Logic theo ý bạn
+    Vector3 transitionStartPos;
+    Quaternion transitionStartRot;
+    float transitionProgress = 0f;
+
+    // Target focus (holder)
+    Transform focusPoint;
+    float holdTimer = 0f;
+
+    // Velocity cho SmoothDamp
+    Vector3 _posVelocity;
+    Vector3 _rotVelocity; // x=pitch, y=yaw, z=roll
+
+
+    // ================== ANIMATOR CALLBACKS ==================
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
         agent = animator.GetComponent<NavMeshAgent>();
+        audioSource = animator.GetComponent<AudioSource>();
+        mainCamera = Camera.main;
 
         if (agent != null)
         {
@@ -29,131 +96,195 @@ public class JumpscareState : StateMachineBehaviour
             agent.velocity = Vector3.zero;
         }
 
-        jumpscareStarted = false;
-        jumpscareTimer = 0f;
-        playerWasLocked = false;
+        if (mainCamera == null)
+        {
+            Debug.LogError("[Jumpscare] Không tìm thấy MainCamera!");
+            FailFastExit(animator);
+            return;
+        }
 
-        // Tìm audio references
-        audioSource = animator.GetComponent<AudioSource>();
-        // Get player controller reference
-        playerController = player.GetComponent<CharacterController>();
+        playerCamera = mainCamera.transform;
 
-        // Lock player movement
+        // Resolve focusPoint (holder)
+        focusPoint = holderTransform;
+        if (focusPoint == null)
+        {
+            var found = GameObject.Find(holderName);
+            if (found != null) focusPoint = found.transform;
+        }
+        if (focusPoint == null)
+        {
+            Debug.LogError($"[Jumpscare] Không tìm thấy Holder '{holderName}' và holderTransform chưa được gán.");
+            FailFastExit(animator);
+            return;
+        }
+
+        // Lưu trạng thái camera gốc
+        originalCameraPosition = playerCamera.position;
+        originalCameraRotation = playerCamera.rotation;
+        originalCameraParent = playerCamera.parent; // dự phòng nếu bạn muốn re-parent sau này
+
+        // Chuẩn bị phase vào holder (LERP/SLERP)
+        transitionStartPos = playerCamera.position;
+        transitionStartRot = playerCamera.rotation;
+        transitionProgress = 0f;
+        phase = Phase.ToHolder;
+        holdTimer = 0f;
+
+        // Optional: quay enemy về phía player
+        if (facePlayerOnStart && player != null)
+        {
+            Vector3 dir = (player.position - animator.transform.position);
+            dir.y = 0f;
+            if (dir.sqrMagnitude > 0.0001f)
+                animator.transform.rotation = Quaternion.LookRotation(dir.normalized);
+        }
+
+        // Lock & trigger fx
         LockPlayer();
+        TriggerJumpscare(animator);
 
-        // Trigger jumpscare effects
-        TriggerJumpscare();
-
-        Debug.Log("JUMPSCARE! Player caught!");
+        Debug.Log("[Jumpscare] Begin smooth transition INTO holder.");
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (player == null) return;
+        if (playerCamera == null) return;
 
-        if (!jumpscareStarted)
+        switch (phase)
         {
-            // Face player instantly
-            Vector3 direction = (player.position - animator.transform.position).normalized;
-            animator.transform.rotation = Quaternion.LookRotation(direction);
-            jumpscareStarted = true;
-        }
+            case Phase.ToHolder:
+                {
+                    Vector3 targetPos = focusPoint.position;
+                    Quaternion targetRot = focusPoint.rotation;
 
-        jumpscareTimer += Time.deltaTime;
+                    transitionProgress += Time.deltaTime * 1;
 
-        // End jumpscare after duration
-        if (jumpscareTimer >= jumpscareDuration)
-        {
-            // Unlock player
-            UnlockPlayer();
+                    playerCamera.position = Vector3.Lerp(transitionStartPos, targetPos, transitionProgress);
+                    playerCamera.rotation = Quaternion.Slerp(transitionStartRot, targetRot, transitionProgress);
 
-            // Reset tất cả các parameters về trạng thái ban đầu
-            animator.SetBool("IsJumpscaring", false);
-            animator.SetBool("IsRunning", false);
-            animator.SetBool("IsAlert", false);
-            Debug.Log("Jumpscare completed, returning to idle");
+                    if (transitionProgress >= 1)
+                    {
+                        CompleteTransition();
+                    }
+
+                    
+                    break;
+                }
+
+            
+
+            
+
+            case Phase.Done:
+            default:
+                break;
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Đảm bảo reset IsJumpscaring để ngăn kẹt
-        animator.SetBool("IsJumpscaring", false);
-
-        UnlockPlayer();
+        // Đảm bảo restore nếu thoát sớm
+        
+        //UnlockPlayer();
+        ResetAnimatorFlags(animator);
 
         if (agent != null)
-        {
             agent.isStopped = false;
-        }
+
+        phase = Phase.Done;
     }
 
-    void TriggerJumpscare()
+
+    // ================== HELPERS ==================
+    void TriggerJumpscare(Animator animator)
     {
-        // Phát âm thanh jumpscare
+        // Ví dụ phát âm thanh:
         if (audioSource != null)
         {
-            // audioSource.PlayOneShot(jumpscareSound);
+            // audioSource.PlayOneShot(jumpscareClip);
         }
-
-        // Có thể thêm camera shake
+        // Có thể add CameraShake ở đây nếu bạn có hệ thống rung camera
         // CameraShake.Instance.ShakeCamera(1f, 0.5f);
     }
 
+    void ResetAnimatorFlags(Animator animator)
+    {
+        animator.SetBool("IsJumpscaring", false);
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsAlert", false);
+    }
 
+    void FailFastExit(Animator animator)
+    {
+        //UnlockPlayer();
+        ResetAnimatorFlags(animator);
+        if (agent != null) agent.isStopped = false;
+    }
 
+    // Hook theo API bạn đưa; gọi khi một pha chuyển kết thúc
+    void CompleteTransition()
+    {
+        originalCameraPosition = focusPoint.position;
+        originalCameraRotation = focusPoint.rotation;
+
+        phase = Phase.Done;
+        transitionProgress = 0f;
+    }
+
+    void EndAndRestore(Animator animator)
+    {
+        CompleteTransition();
+        phase = Phase.Done;
+
+        //UnlockPlayer();
+        ResetAnimatorFlags(animator);
+        if (agent != null) agent.isStopped = false;
+
+        Debug.Log("[Jumpscare] Done. Camera restored to original.");
+    }
+
+    // --------- Player Lock / Unlock ----------
     void LockPlayer()
     {
         if (player == null || playerWasLocked) return;
 
-        // Try CharacterController first
         playerController = player.GetComponent<CharacterController>();
         if (playerController != null)
-        {
             playerController.enabled = false;
-        }
 
-        // Disable common movement scripts
         playerMovementScripts = player.GetComponents<MonoBehaviour>();
         foreach (var script in playerMovementScripts)
         {
-            string scriptName = script.GetType().Name.ToLower();
-            if (scriptName.Contains("move") || scriptName.Contains("control") ||
-                scriptName.Contains("player") || scriptName.Contains("first"))
-            {
+            if (script == null) continue;
+            string nm = script.GetType().Name.ToLower();
+            if (nm.Contains("move") || nm.Contains("control") || nm.Contains("player") || nm.Contains("first"))
                 script.enabled = false;
-            }
         }
 
         playerWasLocked = true;
-        Debug.Log("Player movement locked during jumpscare");
+        Debug.Log("[Jumpscare] Player locked.");
     }
 
     void UnlockPlayer()
     {
-        if (player == null || !playerWasLocked) return;
+        if (!playerWasLocked || player == null) return;
 
-        // Re-enable CharacterController
         if (playerController != null)
-        {
             playerController.enabled = true;
-        }
 
-        // Re-enable movement scripts
         if (playerMovementScripts != null)
         {
             foreach (var script in playerMovementScripts)
             {
-                string scriptName = script.GetType().Name.ToLower();
-                if (scriptName.Contains("move") || scriptName.Contains("control") ||
-                    scriptName.Contains("player") || scriptName.Contains("first"))
-                {
+                if (script == null) continue;
+                string nm = script.GetType().Name.ToLower();
+                if (nm.Contains("move") || nm.Contains("control") || nm.Contains("player") || nm.Contains("first"))
                     script.enabled = true;
-                }
             }
         }
 
         playerWasLocked = false;
-        Debug.Log("Player movement unlocked");
+        Debug.Log("[Jumpscare] Player unlocked.");
     }
 }
