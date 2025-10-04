@@ -213,7 +213,7 @@ public class DoorManager : MonoBehaviour
             targetRotation,
             Time.deltaTime * animationSmooth
             );
-        Debug.Log("Active");
+        //Debug.Log("Active");
     }
     private void UpdateDoorText()
     {

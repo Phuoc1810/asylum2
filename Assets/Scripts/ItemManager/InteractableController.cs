@@ -27,6 +27,7 @@ public class InteractableController : MonoBehaviour
     private void Start()
     {
         InitializeController();
+        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {
@@ -160,7 +161,11 @@ public class InteractableController : MonoBehaviour
     {
         var inv = InventoryService.Instance;
         var ws = WorldStateService.Instance;
-        if (inv == null) return;
+        if (inv == null)
+        {
+            Debug.LogError("InventoryService.Instance is NULL in PickupItem!"); 
+            return;
+        }
 
         var interactable = item.GetComponent<Interactable>();
         if (interactable == null) return;

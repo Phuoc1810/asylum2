@@ -40,7 +40,9 @@ public class InventoryService : MonoBehaviour
     public void Add(string itemID, int amount = 1)
     {
         if (string.IsNullOrEmpty(itemID) || amount <= 0) return;
+
         _items[itemID] = GetQuantity(itemID) + amount;
+
         OnChanged?.Invoke();
     }
 
