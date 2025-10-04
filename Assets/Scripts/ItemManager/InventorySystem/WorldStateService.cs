@@ -5,7 +5,7 @@ public class WorldStateService : MonoBehaviour
 {
     public static WorldStateService Instance { get; private set; }
     [SerializeField] private bool dontDestroyOnLoad = true;
-    [SerializeField] private readonly HashSet<string> _pickedIds = new HashSet<string>();
+    private readonly HashSet<string> _pickedIds = new HashSet<string>();
 
     private readonly HashSet<string> _flags = new HashSet<string>();
 

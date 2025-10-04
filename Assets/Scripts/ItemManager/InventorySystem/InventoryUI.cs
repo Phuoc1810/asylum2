@@ -30,6 +30,8 @@ public class InventoryUI : MonoBehaviour
     private GameObject currentPreviewObject;
     private InventoryItemEntry selectedEntry;
 
+    private static Camera persistentPreviewCamera;
+
     void Start()
     {
         InitializeUI();
@@ -51,7 +53,19 @@ public class InventoryUI : MonoBehaviour
         if (inventoryPanel != null)
         {
             inventoryPanel.SetActive(false);
-            DontDestroyOnLoad(inventoryPanel);
+        }
+        if (previewCamera != null)
+        {
+            if (persistentPreviewCamera == null)
+            {
+                persistentPreviewCamera = previewCamera;
+                DontDestroyOnLoad(previewCamera.gameObject);
+            }
+            else if (previewCamera != persistentPreviewCamera)
+            {
+                Destroy(previewCamera.gameObject);
+                previewCamera = persistentPreviewCamera;
+            }
         }
     }
 
@@ -219,13 +233,17 @@ public class InventoryUI : MonoBehaviour
     }
     public void SetSelectedEntry(InventoryItemEntry entry)
     {
-        if (entry == null) return;
         if (selectedEntry != null && selectedEntry != entry)
         {
-            selectedEntry.SetSelected(false); // Bỏ chọn item trước
+            selectedEntry.SetSelected(false);
         }
+
         selectedEntry = entry;
-        selectedEntry.SetSelected(true); // Chọn item mới
+
+        if (selectedEntry != null)
+        {
+            selectedEntry.SetSelected(true);
+        }
     }
 
     public void ShowPreview(string itemId)

@@ -10,7 +10,7 @@ public class InventoryService : MonoBehaviour
 
     [SerializeField] private bool dontDestroyOnLoad = true;
 
-    [SerializeField] private readonly Dictionary<string, int> _items = new Dictionary<string, int>(StringComparer.Ordinal);
+    private readonly Dictionary<string, int> _items = new Dictionary<string, int>(StringComparer.Ordinal);
 
     private event Action OnChanged;
 

@@ -48,10 +48,7 @@ public class InventoryItemEntry : MonoBehaviour, IPointerEnterHandler, IPointerE
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (inventoryUI != null)
-        {
-            inventoryUI.SetSelectedEntry(null); // Bỏ chọn khi rời hover
-        }
+        //Không làm gì cả, giữ nguyên hover đã chọn
     }
     public void SetSelected(bool selected)
     {
