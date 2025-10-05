@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DrawerFocusController : MonoBehaviour
@@ -14,6 +15,8 @@ public class DrawerFocusController : MonoBehaviour
     [SerializeField] private AudioClip drawerOpenSound;
     [SerializeField] private AudioClip drawerCloseSound;
 
+    [Header("World State")]
+    [SerializeField] private string puzzleStateId = "drawer_puzzle_solved";
     private enum DrawerState
     {
         Normal,
@@ -49,6 +52,7 @@ public class DrawerFocusController : MonoBehaviour
         if (isTransitioning)
         {
             UpdateCameraTransition();
+            LoadPuzzleState();
         }
         if (isInFocusMode && !isPuzzleSolved)
         {
@@ -67,6 +71,28 @@ public class DrawerFocusController : MonoBehaviour
         }
 
         currentState = DrawerState.Normal;
+    }
+    private void LoadPuzzleState()
+    {
+        if (WorldStateService.Instance != null && !string.IsNullOrEmpty(puzzleStateId))
+        {
+            if (WorldStateService.Instance.HasFlag(puzzleStateId))
+            {
+                isPuzzleSolved = true;
+                currentState = DrawerState.Solved;
+
+                if (drawerAnimator != null)
+                {
+                    drawerAnimator.SetTrigger(OPEN_TRIGGER);
+                }
+
+                Collider drawCollider = GetComponent<Collider>();
+                if (drawCollider != null)
+                {
+                    drawCollider.enabled = false;
+                }
+            }
+        }
     }
     public void StartFocusMode(Camera camera)
     {
@@ -130,6 +156,11 @@ public class DrawerFocusController : MonoBehaviour
     private void SolvedPuzzle()
     {
         isPuzzleSolved = true;
+
+        if (WorldStateService.Instance != null && !string.IsNullOrEmpty(puzzleStateId))
+        {
+            WorldStateService.Instance.SetFlag(puzzleStateId, true);
+        }
 
         if (drawerAnimator != null)
         {
@@ -207,6 +238,10 @@ public class DrawerFocusController : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
+        }
+        if (string.IsNullOrEmpty(puzzleStateId))
+        {
+            puzzleStateId = gameObject.name + "_solved";
         }
     }
 }

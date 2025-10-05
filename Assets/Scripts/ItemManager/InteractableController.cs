@@ -27,6 +27,7 @@ public class InteractableController : MonoBehaviour
     private void Start()
     {
         InitializeController();
+        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {
@@ -158,12 +159,25 @@ public class InteractableController : MonoBehaviour
     }
     private  void PickupItem(GameObject item)
     {
-        if (InventoryManager.instance == null)
+        var inv = InventoryService.Instance;
+        var ws = WorldStateService.Instance;
+        if (inv == null)
         {
+            Debug.LogError("InventoryService.Instance is NULL in PickupItem!"); 
             return;
         }
-        InventoryManager.instance.AddItems(item);
 
+        var interactable = item.GetComponent<Interactable>();
+        if (interactable == null) return;
+
+        if (!string.IsNullOrEmpty(interactable.ItemId))
+        {
+            inv.Add(interactable.ItemId, 1);
+        }
+        if (ws != null && !string.IsNullOrEmpty(interactable.WorldObjectId))
+        {
+            ws.MarkPicked(interactable.WorldObjectId);
+        }
         item.SetActive(false);
     }
     private void StartInspectingItem(GameObject item, Interactable.InteracType itemType)

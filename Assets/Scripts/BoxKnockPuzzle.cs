@@ -20,6 +20,9 @@ public class BoxKnockPuzzle : MonoBehaviour
     [Header("Animation Setting")]
     [SerializeField] private float openAnimationDelay = 0.5f;
 
+    [Header("World State")]
+    [SerializeField] private string puzzleStateId = "box_knock_puzzle_solved";
+
     private int[] playerPattern = new int[4];
     private int currentGroupIndex = 0;
     private int knocksInCurrentGroup = 0;
@@ -35,6 +38,7 @@ public class BoxKnockPuzzle : MonoBehaviour
     void Start()
     {
         InitializePuzzle();
+        LoadPuzzleState();
     }
     private void InitializePuzzle()
     {
@@ -47,6 +51,27 @@ public class BoxKnockPuzzle : MonoBehaviour
             boxAnimator = GetComponent<Animator>();
         }
         ResetPattern();
+    }
+    private void LoadPuzzleState()
+    {
+        if (WorldStateService.Instance != null && !string.IsNullOrEmpty(puzzleStateId))
+        {
+            if (WorldStateService.Instance.HasFlag(puzzleStateId))
+            {
+                isPuzzleSolved = true;
+
+                if (boxAnimator != null)
+                {
+                    boxAnimator.SetTrigger(OPEN_TRIGGER);
+                }
+
+                Collider collider = GetComponent<Collider>();
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                }
+            }
+        }
     }
     // Update is called once per frame
     void Update()
@@ -142,6 +167,12 @@ public class BoxKnockPuzzle : MonoBehaviour
     private void OnPatternCorrect()
     {
         isPuzzleSolved = true;
+
+        if (WorldStateService.Instance != null && !string.IsNullOrEmpty(puzzleStateId))
+        {
+            WorldStateService.Instance.SetFlag(puzzleStateId, true);
+        }
+
         if (boxAnimator != null)
         {
             boxAnimator.SetTrigger(OPEN_TRIGGER);
@@ -231,6 +262,10 @@ public class BoxKnockPuzzle : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = GetComponent<AudioSource>();
+        }
+        if (string.IsNullOrEmpty(puzzleStateId))
+        {
+            puzzleStateId = gameObject.name + "_solved";
         }
     }
 }
