@@ -8,6 +8,7 @@ TagManager:
   - door
   - quiz
   - item
+  - canvasplayer
   layers:
   - Default
   - TransparentFX
