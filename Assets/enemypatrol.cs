@@ -24,7 +24,7 @@ public class enemypatrol : MonoBehaviour
     void increaseTargetint()
     {
         scale *= -1;
-        transform.localScale =new Vector3(0.3f,0.3f,scale);
+        transform.localScale =new Vector3(0.2f,0.2f,scale);
         targetPoint++;
         if (targetPoint >= patrolPoints.Length) { targetPoint = 0; }
     }
