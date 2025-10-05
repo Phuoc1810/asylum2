@@ -7,6 +7,9 @@ TagManager:
   - art
   - door
   - quiz
+  - puzzle
+  - safe
+  - doc
   - item
   - canvasplayer
   layers:

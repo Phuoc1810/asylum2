@@ -65,14 +65,6 @@ public class DrawerFocusController : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
-        if (drawerAnimator != null)
-        {
-            drawerAnimator.SetTrigger(OPEN_TRIGGER);
-        }
-        if(drawerAnimator!=null && isTransitioning)
-        {
-            drawerAnimator.SetTrigger(CLOSE_TRIGGER);
-        }
 
         currentState = DrawerState.Normal;
     }
