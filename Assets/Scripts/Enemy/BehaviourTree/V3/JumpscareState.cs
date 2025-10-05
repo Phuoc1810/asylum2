@@ -16,10 +16,7 @@ public class JumpscareState : StateMachineBehaviour
     public float inDuration = 0.35f;
 
     [Tooltip("Giữ camera ở holder bao lâu.")]
-    public float holdDuration = 5.0f;  // tăng mặc định để bạn thấy chậm hơn
-
-    [Tooltip("KHÔNG dùng nếu đã bật SmoothDamp cho phase quay về (bên dưới).")]
-    public float outDuration = 0.4f;
+    public float holdDuration = 5.0f;
 
     [Header("Easing (Into Holder)")]
     public AnimationCurve easeIn = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -28,21 +25,9 @@ public class JumpscareState : StateMachineBehaviour
     [Tooltip("Quay enemy về phía player khi bắt đầu jumpscare.")]
     public bool facePlayerOnStart = true;
 
-    [Header("Return Smoothing (From Holder -> Original)")]
-    [Tooltip("Dùng SmoothDamp để quay về. Bật để có cảm giác mượt và kiểm soát tốc độ tốt hơn.")]
-    public bool useSmoothReturn = true;
-
-    [Tooltip("Thời gian đáp ứng (time constant) cho pha quay về gốc. Lớn hơn = chậm hơn.")]
-    public float returnSmoothTime = 0.9f;    // chỉnh 0.6–1.2 tùy ý
-
-    [Tooltip("Giới hạn tốc độ tối đa khi quay về (m/s). 0 = không giới hạn.")]
-    public float maxReturnSpeed = 0f;        // 0 = off
-
-    [Tooltip("Ngưỡng coi như đã về tới điểm gốc (m).")]
-    public float returnDistanceEpsilon = 0.01f;
-
-    [Tooltip("Ngưỡng coi như đã khớp góc (độ).")]
-    public float returnAngleEpsilon = 0.5f;
+    [Header("Agent Head (Generic Rig)")]
+    [Tooltip("Tên bone Head của agent (vd: 'Head', 'mixamorig:Head', 'Bip01 Head').")]
+    public string agentHeadBoneName = "Head";
 
 
     // ================== INTERNAL REFS ==================
@@ -54,10 +39,7 @@ public class JumpscareState : StateMachineBehaviour
     [SerializeField] private HeadBobbingController headBobbingController;
 
     Camera mainCamera;
-    Transform playerCamera;                 // = mainCamera.transform
-    Vector3 originalCameraPosition;
-    Quaternion originalCameraRotation;
-    Transform originalCameraParent;
+    Transform playerCamera;
 
     // Player lock
     bool playerWasLocked = false;
@@ -65,10 +47,10 @@ public class JumpscareState : StateMachineBehaviour
     MonoBehaviour[] playerMovementScripts;
 
     // Transition state
-    enum Phase { ToHolder, Hold, ToOriginal, Done }
+    enum Phase { ToHolder, Hold, Done }
     Phase phase = Phase.Done;
 
-    // Logic theo ý bạn
+    // Logic
     Vector3 transitionStartPos;
     Quaternion transitionStartRot;
     float transitionProgress = 0f;
@@ -77,14 +59,15 @@ public class JumpscareState : StateMachineBehaviour
     Transform focusPoint;
     float holdTimer = 0f;
 
-    // Velocity cho SmoothDamp
-    Vector3 _posVelocity;
-    Vector3 _rotVelocity; // x=pitch, y=yaw, z=roll
+    // Animator reference
+    Animator cachedAnimator;
+    Transform cachedHeadBone;
 
 
     // ================== ANIMATOR CALLBACKS ==================
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        cachedAnimator = animator;
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         agent = animator.GetComponent<NavMeshAgent>();
         audioSource = animator.GetComponent<AudioSource>();
@@ -119,12 +102,7 @@ public class JumpscareState : StateMachineBehaviour
             return;
         }
 
-        // Lưu trạng thái camera gốc
-        originalCameraPosition = playerCamera.position;
-        originalCameraRotation = playerCamera.rotation;
-        originalCameraParent = playerCamera.parent; // dự phòng nếu bạn muốn re-parent sau này
-
-        // Chuẩn bị phase vào holder (LERP/SLERP)
+        // Chuẩn bị phase vào holder
         transitionStartPos = playerCamera.position;
         transitionStartRot = playerCamera.rotation;
         transitionProgress = 0f;
@@ -144,6 +122,13 @@ public class JumpscareState : StateMachineBehaviour
         LockPlayer();
         TriggerJumpscare(animator);
 
+        // Tìm Head bone theo tên
+        cachedHeadBone = FindBoneByName(cachedAnimator.transform, agentHeadBoneName);
+        if (cachedHeadBone == null)
+        {
+            Debug.LogWarning($"[Jumpscare] Không tìm thấy bone '{agentHeadBoneName}' trong agent. Sẽ dùng pivot.");
+        }
+
         Debug.Log("[Jumpscare] Begin smooth transition INTO holder.");
     }
 
@@ -156,25 +141,37 @@ public class JumpscareState : StateMachineBehaviour
             case Phase.ToHolder:
                 {
                     Vector3 targetPos = focusPoint.position;
-                    Quaternion targetRot = focusPoint.rotation;
 
-                    transitionProgress += Time.deltaTime * 1;
+                    // Lấy vị trí Head để nhìn vào
+                    Vector3 lookTarget = cachedHeadBone != null ? cachedHeadBone.position : cachedAnimator.transform.position;
+                    Vector3 lookDir = (lookTarget - targetPos).normalized;
+                    Quaternion targetRot = Quaternion.LookRotation(lookDir);
 
-                    playerCamera.position = Vector3.Lerp(transitionStartPos, targetPos, transitionProgress);
-                    playerCamera.rotation = Quaternion.Slerp(transitionStartRot, targetRot, transitionProgress);
+                    transitionProgress += Time.deltaTime / inDuration;
 
-                    if (transitionProgress >= 1)
+                    float easedProgress = easeIn.Evaluate(transitionProgress);
+                    playerCamera.position = Vector3.Lerp(transitionStartPos, targetPos, easedProgress);
+                    playerCamera.rotation = Quaternion.Slerp(transitionStartRot, targetRot, easedProgress);
+
+                    if (transitionProgress >= 1f)
                     {
-                        CompleteTransition();
+                        phase = Phase.Hold;
+                        holdTimer = 0f;
+                        Debug.Log("[Jumpscare] Holding at focus point.");
                     }
-
-                    
                     break;
                 }
 
-            
-
-            
+            case Phase.Hold:
+                {
+                    holdTimer += Time.deltaTime;
+                    if (holdTimer >= holdDuration)
+                    {
+                        phase = Phase.Done;
+                        Debug.Log("[Jumpscare] Done. Waiting for respawn system.");
+                    }
+                    break;
+                }
 
             case Phase.Done:
             default:
@@ -184,9 +181,6 @@ public class JumpscareState : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Đảm bảo restore nếu thoát sớm
-        
-        //UnlockPlayer();
         ResetAnimatorFlags(animator);
 
         if (agent != null)
@@ -199,13 +193,10 @@ public class JumpscareState : StateMachineBehaviour
     // ================== HELPERS ==================
     void TriggerJumpscare(Animator animator)
     {
-        // Ví dụ phát âm thanh:
         if (audioSource != null)
         {
             // audioSource.PlayOneShot(jumpscareClip);
         }
-        // Có thể add CameraShake ở đây nếu bạn có hệ thống rung camera
-        // CameraShake.Instance.ShakeCamera(1f, 0.5f);
     }
 
     void ResetAnimatorFlags(Animator animator)
@@ -217,31 +208,24 @@ public class JumpscareState : StateMachineBehaviour
 
     void FailFastExit(Animator animator)
     {
-        //UnlockPlayer();
         ResetAnimatorFlags(animator);
         if (agent != null) agent.isStopped = false;
     }
 
-    // Hook theo API bạn đưa; gọi khi một pha chuyển kết thúc
-    void CompleteTransition()
+    // Tìm bone theo tên trong hierarchy
+    Transform FindBoneByName(Transform parent, string boneName)
     {
-        originalCameraPosition = focusPoint.position;
-        originalCameraRotation = focusPoint.rotation;
+        if (parent.name == boneName)
+            return parent;
 
-        phase = Phase.Done;
-        transitionProgress = 0f;
-    }
+        foreach (Transform child in parent)
+        {
+            Transform found = FindBoneByName(child, boneName);
+            if (found != null)
+                return found;
+        }
 
-    void EndAndRestore(Animator animator)
-    {
-        CompleteTransition();
-        phase = Phase.Done;
-
-        //UnlockPlayer();
-        ResetAnimatorFlags(animator);
-        if (agent != null) agent.isStopped = false;
-
-        Debug.Log("[Jumpscare] Done. Camera restored to original.");
+        return null;
     }
 
     // --------- Player Lock / Unlock ----------
@@ -264,27 +248,5 @@ public class JumpscareState : StateMachineBehaviour
 
         playerWasLocked = true;
         Debug.Log("[Jumpscare] Player locked.");
-    }
-
-    void UnlockPlayer()
-    {
-        if (!playerWasLocked || player == null) return;
-
-        if (playerController != null)
-            playerController.enabled = true;
-
-        if (playerMovementScripts != null)
-        {
-            foreach (var script in playerMovementScripts)
-            {
-                if (script == null) continue;
-                string nm = script.GetType().Name.ToLower();
-                if (nm.Contains("move") || nm.Contains("control") || nm.Contains("player") || nm.Contains("first"))
-                    script.enabled = true;
-            }
-        }
-
-        playerWasLocked = false;
-        Debug.Log("[Jumpscare] Player unlocked.");
     }
 }

@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holderTransform: {fileID: 0}
-  holderName: Holder jumpscare camera
+  holderName: Holder jumpscare camera 3
   inDuration: 0.35
   holdDuration: 5
   outDuration: 0.4
@@ -478,6 +478,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   facePlayerOnStart: 1
+  lookAtBone: 10
   useSmoothReturn: 1
   returnSmoothTime: 0.9
   maxReturnSpeed: 0

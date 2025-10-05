@@ -8,6 +8,8 @@ TagManager:
   - door
   - quiz
   - item
+  - AudioDetect
+  - Patrol point
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - locklayer
   - locklayer2
   - locklayer3
-  - 
+  - Wall
   - 
   - 
   - 

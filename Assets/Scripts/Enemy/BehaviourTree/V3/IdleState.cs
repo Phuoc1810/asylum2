@@ -7,6 +7,9 @@ public class IdleState : StateMachineBehaviour
     [SerializeField] private float idleDuration = 5f;
     [SerializeField] private float detectionRange = 10f;
 
+    [Header("Line of Sight")]
+    [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
+
     private float timer;
     private Transform player;
     private NavMeshAgent agent;
@@ -47,8 +50,8 @@ public class IdleState : StateMachineBehaviour
                 return;
             }
 
-            // Check for player detection
-            if (distanceToPlayer <= detectionRange)
+            // ✅ THÊM CHECK LINE OF SIGHT
+            if (distanceToPlayer <= detectionRange && CanSeePlayer(animator))
             {
                 animator.SetBool("IsAlert", true);
                 return;
@@ -72,5 +75,29 @@ public class IdleState : StateMachineBehaviour
         }
 
         Debug.Log("Exited Idle State");
+    }
+
+    // ✅ METHOD MỚI: Check xem có tường chắn không
+    bool CanSeePlayer(Animator animator)
+    {
+        if (player == null) return false;
+
+        float distance = Vector3.Distance(player.position, animator.transform.position);
+        Vector3 direction = (player.position - animator.transform.position).normalized;
+
+        // Raycast từ vị trí mắt Agent (thêm Vector3.up để tránh hit ground)
+        Vector3 startPos = animator.transform.position + Vector3.up * 1.5f;
+
+        // Raycast để check tường
+        if (Physics.Raycast(startPos, direction, out RaycastHit hit, distance, wallLayer))
+        {
+            // Nếu hit tường trước khi tới Player = có tường chắn
+            Debug.DrawRay(startPos, direction * hit.distance, Color.red, 0.1f);
+            return false;
+        }
+
+        // Không có tường chắn
+        Debug.DrawRay(startPos, direction * distance, Color.green, 0.1f);
+        return true;
     }
 }

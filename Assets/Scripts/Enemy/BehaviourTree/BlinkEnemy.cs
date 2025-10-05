@@ -2,8 +2,8 @@
 using UnityEngine.AI;
 
 /// <summary>
-/// Script đơn giản chỉ xử lý cơ chế Blink (freeze khi bị nhìn)
-/// Có thể dùng cùng với bất kỳ state machine nào
+/// Script xử lý cơ chế Blink (freeze khi bị nhìn)
+/// Có thể disable khi jumpscare để enemy tiếp tục di chuyển
 /// </summary>
 public class BlinkMechanic : MonoBehaviour
 {
@@ -57,7 +57,15 @@ public class BlinkMechanic : MonoBehaviour
     // LateUpdate để FORCE freeze sau khi state machine đã update
     void LateUpdate()
     {
-        if (!enableBlinkMechanic || !agent) return;
+        if (!agent) return;
+
+        // Khi blink bị tắt, FORCE animation chạy
+        if (!enableBlinkMechanic)
+        {
+            if (animator)
+                animator.speed = 1f;
+            return;
+        }
 
         if (isFrozen)
         {
@@ -117,7 +125,37 @@ public class BlinkMechanic : MonoBehaviour
             Debug.DrawLine(transform.position, transform.position + Vector3.up * 3f, Color.cyan);
     }
 
-    // Public API
-    public bool IsFrozen() => isFrozen;
+    // ========== PUBLIC API ==========
+
+    /// <summary>
+    /// Bắt đầu jumpscare - tắt blink mechanic
+    /// </summary>
+    public void StartJumpscare()
+    {
+        enableBlinkMechanic = false;
+        isFrozen = false;
+
+        // Unfreeze ngay lập tức
+        if (agent) agent.isStopped = false;
+        if (animator) animator.speed = 1f;
+
+        Debug.Log("[BlinkMechanic] Jumpscare started - Blink disabled");
+    }
+
+    /// <summary>
+    /// Kết thúc jumpscare - bật lại blink mechanic
+    /// </summary>
+    public void EndJumpscare()
+    {
+        enableBlinkMechanic = true;
+        Debug.Log("[BlinkMechanic] Jumpscare ended - Blink enabled");
+    }
+
+    /// <summary>
+    /// Check xem có đang jumpscare không (blink bị tắt)
+    /// </summary>
+    public bool IsJumpscaring() => !enableBlinkMechanic;
+
+    public bool IsFrozen() => isFrozen && enableBlinkMechanic;
     public void SetEnabled(bool enabled) => enableBlinkMechanic = enabled;
 }
