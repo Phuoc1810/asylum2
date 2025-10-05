@@ -31,6 +31,7 @@ public class InventoryUI : MonoBehaviour
     private InventoryItemEntry selectedEntry;
 
     private static Camera persistentPreviewCamera;
+    public static Transform persisistentPreviewSpawnPoint;
 
     void Start()
     {
@@ -65,6 +66,20 @@ public class InventoryUI : MonoBehaviour
             {
                 Destroy(previewCamera.gameObject);
                 previewCamera = persistentPreviewCamera;
+            }
+        }
+
+        if (previewSpawnPoint != null)
+        {
+            if (persisistentPreviewSpawnPoint == null)
+            {
+                persisistentPreviewSpawnPoint = previewSpawnPoint;
+                DontDestroyOnLoad(previewSpawnPoint.gameObject);
+            }
+            else if (previewSpawnPoint != persisistentPreviewSpawnPoint)
+            {
+                Destroy(previewSpawnPoint.gameObject);
+                previewSpawnPoint = persisistentPreviewSpawnPoint;
             }
         }
     }
@@ -254,6 +269,8 @@ public class InventoryUI : MonoBehaviour
         {
             currentPreviewObject = Instantiate(prefab, previewSpawnPoint.position, previewSpawnPoint.rotation);
             currentPreviewObject.transform.SetParent(previewSpawnPoint);
+
+            DontDestroyOnLoad(currentPreviewObject);
         }
     }
 
