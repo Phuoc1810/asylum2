@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private float xRotation = 0f;
-    //private float bobTimer = 0f;
     private Vector3 cameraInitialPosition;
 
     void Start()
