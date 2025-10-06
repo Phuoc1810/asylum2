@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class checkpassword : MonoBehaviour
@@ -7,6 +8,8 @@ public class checkpassword : MonoBehaviour
     public Door unlock;
     public bool checkwrong ;
     public int countcheck=0;
+    public GameObject zombie;
+    public int count = 0;
     private void Start()
     {
         checkwrong = false;
@@ -21,9 +24,11 @@ public class checkpassword : MonoBehaviour
         {
             checkwrong=false;
         }
-        if (check() && checkwrong)
+        if (check() && checkwrong && count<1)
         {
             unlock.locks = false;
+            zombie.SetActive(true);
+            count++;
             Debug.Log("true");
         }
     }
