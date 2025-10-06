@@ -206,14 +206,16 @@ public class DoorManager : MonoBehaviour
         if (!isInitialized) return;
 
         var t = doorPivot != null ? doorPivot : transform;
-       Quaternion targetRotation = Quaternion.Euler(isOpen ? openRotation : defaultRotation);
 
+        Vector3 targetEuler = isOpen ? openRotation : defaultRotation;
+        Quaternion targetRotation = Quaternion.Euler(targetEuler);
+
+        // Slerp với speed đủ nhanh
         t.rotation = Quaternion.Slerp(
             t.rotation,
             targetRotation,
             Time.deltaTime * animationSmooth
-            );
-        //Debug.Log("Active");
+        );
     }
     private void UpdateDoorText()
     {
