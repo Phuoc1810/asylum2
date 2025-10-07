@@ -81,6 +81,10 @@ public class buttonsetting : MonoBehaviour
         audiosetting.SetActive(false);
         optionssetting.SetActive(false);
         setting.SetActive(false);
+        canvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isopen = false;
         if (count == 0)
         {
             menu.menustting.SetActive(true);

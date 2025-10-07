@@ -344,12 +344,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716897149592695917}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.98631644, z: -0, w: -0.16486351}
+  m_LocalPosition: {x: 120.443275, y: -1.1999512, z: 216.89236}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5797425065875579519}
+  m_Father: {fileID: 5902291701233047635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8849870537719175286
 MonoBehaviour:
@@ -800,6 +800,7 @@ Transform:
   m_Children:
   - {fileID: 5264243344577030450}
   - {fileID: 7383219869179014398}
+  - {fileID: 2244509907255308098}
   - {fileID: 5797425065875579519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -845,6 +846,10 @@ MonoBehaviour:
   mouseSensitivity: 100
   animator: {fileID: 3501086429603739268}
   cameraTransform: {fileID: 5264243344577030450}
+  footstepGroupName: FootStep
+  walkStepInterval: 0.5
+  runStepInterval: 0.3
+  stepTimer: 0
 --- !u!114 &2841939040076885753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,7 +1245,6 @@ RectTransform:
   - {fileID: 2973546516526391409}
   - {fileID: 5375770743725148519}
   - {fileID: 3746221454220742242}
-  - {fileID: 2244509907255308098}
   m_Father: {fileID: 5902291701233047635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
