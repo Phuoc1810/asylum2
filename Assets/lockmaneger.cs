@@ -4,6 +4,7 @@ public class lockmaneger : MonoBehaviour
 {
     public GameObject lockpannel;
     public GameObject cameralock;
+    public int count;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,7 +14,7 @@ public class lockmaneger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+     lockpannel = GameObject.FindGameObjectWithTag("notepic").transform.GetChild(count)?.gameObject;  
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit hit;
