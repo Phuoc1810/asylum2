@@ -1,16 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 public class PatrolState : StateMachineBehaviour
 {
     [Header("Line of Sight")]
     [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
 
+    [Header("Random Patrol Settings")]
+    [SerializeField] private float range = 15f; // Bán kính di chuyển ngẫu nhiên
+    [SerializeField] private float minWaitTime = 2f; // Thời gian chờ tối thiểu
+    [SerializeField] private float maxWaitTime = 5f; // Thời gian chờ tối đa
+
     float timer;
-    List<Transform> patrolList = new List<Transform>();
+    float waitTimer;
+    float waitDuration;
+    bool isWaiting = false;
     NavMeshAgent agent;
     Transform player;
+    Transform centrePoint; // Vị trí trung tâm để wander
     float chaseRange = 10;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -18,19 +25,26 @@ public class PatrolState : StateMachineBehaviour
         agent = animator.GetComponent<NavMeshAgent>();
         agent.speed = 2.5f;
         timer = 0;
-        GameObject go = GameObject.FindGameObjectWithTag("Patrol point");
-        foreach (Transform t in go.transform)
-            patrolList.Add(t);
 
-        agent.SetDestination(patrolList[Random.Range(0, patrolList.Count)].position);
+        // Dùng vị trí hiện tại làm centre point
+        centrePoint = animator.transform;
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // ✅ Khi đã đến đích → tìm điểm mới
         if (agent.remainingDistance <= agent.stoppingDistance)
-            agent.SetDestination(patrolList[Random.Range(0, patrolList.Count)].position);
+        {
+            Vector3 point;
+            if (RandomPoint(centrePoint.position, range, out point))
+            {
+                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+                agent.SetDestination(point);
+            }
+        }
+
         timer += Time.deltaTime;
 
         // Check for player jumpscare range first
@@ -45,7 +59,7 @@ public class PatrolState : StateMachineBehaviour
         if (timer > 10)
             animator.SetBool("IsPatrolling", false);
 
-        // ✅ THÊM CHECK LINE OF SIGHT
+        // Check line of sight
         if (distance < chaseRange && CanSeePlayer(animator))
         {
             animator.SetBool("IsAlert", true);
@@ -57,7 +71,21 @@ public class PatrolState : StateMachineBehaviour
         agent.SetDestination(agent.transform.position);
     }
 
-    // ✅ METHOD MỚI: Check xem có tường chắn không
+    // ✅ METHOD TỪ SCRIPT BẠN MƯỢN
+    bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+        Vector3 randomPoint = center + Random.insideUnitSphere * range;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+        result = Vector3.zero;
+        return false;
+    }
+
+    // Check xem có tường chắn không
     bool CanSeePlayer(Animator animator)
     {
         if (player == null) return false;
@@ -65,7 +93,7 @@ public class PatrolState : StateMachineBehaviour
         float distance = Vector3.Distance(player.position, animator.transform.position);
         Vector3 direction = (player.position - animator.transform.position).normalized;
 
-        // Raycast từ vị trí mắt Agent (thêm Vector3.up để tránh hit ground)
+        // Raycast từ vị trí mắt Agent
         Vector3 startPos = animator.transform.position + Vector3.up * 1.5f;
 
         // Raycast để check tường
