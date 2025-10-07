@@ -7,9 +7,6 @@ TagManager:
   - art
   - door
   - quiz
-  - puzzle
-  - safe
-  - doc
   - item
   - canvasplayer
   - lock1
@@ -17,6 +14,9 @@ TagManager:
   - lock3
   - notepic
   - notelock
+  - AudioDetect
+  - Patrol point
+
   layers:
   - Default
   - TransparentFX
@@ -24,16 +24,16 @@ TagManager:
   - 
   - Water
   - UI
+  - locklayer
+  - locklayer2
+  - locklayer3
+  - Wall
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PreviewItem
   - 
   - 
   - 
@@ -56,3 +56,10 @@ TagManager:
     locked: 0
   m_RenderingLayers:
   - Default
+  - Light Layer 1
+  - Light Layer 2
+  - Light Layer 3
+  - Light Layer 4
+  - Light Layer 5
+  - Light Layer 6
+  - Light Layer 7

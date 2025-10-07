@@ -40,6 +40,10 @@ public class Interactable : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
+    [Header("Inventory/World Linking")]
+    [SerializeField] private string itemId;
+    [SerializeField] private string worldObjectId;
+
     [Header("Audio")]
     [SerializeField] private AudioClip openSound;
     [SerializeField] private AudioClip closeSound;
@@ -50,6 +54,8 @@ public class Interactable : MonoBehaviour
     public AudioClip OpenSound => openSound;
     public AudioClip CloseSound => closeSound;
     public AudioClip InspectorSound => inspectorSound;
+    public string ItemId => itemId;
+    public string WorldObjectId => worldObjectId;
 
     /// <summary>
     /// Kiểm tra xem có phải là item có thể nhặt không
