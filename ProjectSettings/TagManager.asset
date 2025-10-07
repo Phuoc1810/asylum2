@@ -8,15 +8,8 @@ TagManager:
   - door
   - quiz
   - item
-  - canvasplayer
-  - lock1
-  - lock2
-  - lock3
-  - notepic
-  - notelock
   - AudioDetect
   - Patrol point
-
   layers:
   - Default
   - TransparentFX
