@@ -518,6 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holderTransform: {fileID: 0}
   holderName: Holder jumpscare camera2
+  holderIsChildOfAgent: 1
   inDuration: 0.35
   holdDuration: 5
   easeIn:
@@ -544,10 +545,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  facePlayerOnStart: 1
   agentHeadBoneName: head
-  playerMovement: {fileID: 0}
-  headBobbingController: {fileID: 0}
+  headOffset: {x: 0, y: 1.7, z: 0.3}
+  useOffsetOnly: 0
+  facePlayerOnStart: 1
 --- !u!1102 &3490842022425584561
 AnimatorState:
   serializedVersion: 6
@@ -617,6 +618,9 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
+  range: 20
+  minWaitTime: 5
+  maxWaitTime: 20
 --- !u!114 &4392449392255365616
 MonoBehaviour:
   m_ObjectHideFlags: 1

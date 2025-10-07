@@ -16,16 +16,17 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private float xRotation = 0f;
-    private Vector3 cameraInitialPosition;
 
+    public string footstepGroupName = "FootStep";
+    [SerializeField] private float walkStepInterval = 0.5f;
+    [SerializeField] private float runStepInterval = 0.3f;
+    [SerializeField] private float stepTimer = 0f;
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        cameraInitialPosition = cameraTransform.localPosition;
     }
 
     void Update()
@@ -74,5 +75,30 @@ public class PlayerMovement : MonoBehaviour
 
         bool isMoving = moveHorizontal.sqrMagnitude > 0f;
         animator.SetBool("isWalking", isMoving);
+
+        HanldeFootsteps(isMoving, isRunning);
+    }
+    void HanldeFootsteps(bool isMoving, bool isRunning)
+    {
+        if (!isMoving)
+        {
+            stepTimer = 0f;
+            return;
+        }
+
+        stepTimer -= Time.deltaTime;
+        if (stepTimer <= 0)
+        {
+            if (soundManager.Instance != null)
+            {
+                soundManager.Instance.Playsound3D(footstepGroupName, transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("SoundManager.Instance is null - no footsteps played");
+            }
+
+            stepTimer = isRunning ? runStepInterval : walkStepInterval;
+        }
     }
 }
