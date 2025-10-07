@@ -25,6 +25,10 @@ public class soundManager : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(clip, pos); 
         }
+        else
+        {
+            Debug.LogWarning("Khong tim thay clip group");
+        }
     }
     public void Playsound3D(string soundName,Vector3 pos)
     {
