@@ -12,6 +12,11 @@ TagManager:
   - doc
   - item
   - canvasplayer
+  - lock1
+  - lock2
+  - lock3
+  - notepic
+  - notelock
   layers:
   - Default
   - TransparentFX
