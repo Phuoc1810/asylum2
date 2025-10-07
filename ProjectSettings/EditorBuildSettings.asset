@@ -12,14 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/menu.unity
     guid: 6f73e33fc1c3b304da295576c8b60301
   - enabled: 1
-    path: Assets/Scenes/SceneFloor01.unity
-    guid: 82aeea23b984834408c9d477730775af
+    path: Assets/Scenes/PuzzleScene/SceneA.unity
+    guid: f545c33559690d148a5010898a62e111
   - enabled: 1
     path: Assets/Scenes/tangham.unity
     guid: 5880ad867e19a404f97bccaf283e36b9
-  - enabled: 1
-    path: Assets/Scenes/PuzzleScene/SceneA.unity
-    guid: f545c33559690d148a5010898a62e111
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
