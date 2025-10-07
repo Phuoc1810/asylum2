@@ -14,6 +14,5 @@ public class WorldObjectStateApplier : MonoBehaviour
         {
             gameObject.SetActive(false);
         }    
-            
     }
 }

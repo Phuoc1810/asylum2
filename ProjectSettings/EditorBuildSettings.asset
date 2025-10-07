@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/tangham.unity
     guid: 5880ad867e19a404f97bccaf283e36b9
   - enabled: 1
-    path: Assets/Scenes/PuzzleScene/SceneFloor01.unity
+    path: Assets/Scenes/PuzzleScene/SceneA.unity
     guid: f545c33559690d148a5010898a62e111
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

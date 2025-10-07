@@ -24,10 +24,22 @@ public class InteractableController : MonoBehaviour
     private Interactable currentInteractable;
     private bool isHoldingItem = false;
 
+    public static InteractableController instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject.transform.root.gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject.transform.root.gameObject);
+    }
     private void Start()
     {
         InitializeController();
-        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {

@@ -50,8 +50,8 @@ public class HeadBobbingController : MonoBehaviour
         float currentAplitude = isRunning ? _amplitudeForRun : _amplitude;
         float currentFrequecy = isRunning ? _frequenceForRun : _frequency;
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * currentFrequecy) * currentAplitude;
-        pos.x += Mathf.Cos(Time.time * currentFrequecy * 0.5f) * currentAplitude * 2;
+        pos.y += Mathf.Sin(Time.time * currentFrequecy) * currentAplitude*2;
+        pos.x += Mathf.Cos(Time.time * currentFrequecy * 0.5f) * currentAplitude * 2.5f;
         return pos;
     }
     private void ResetPosition()
