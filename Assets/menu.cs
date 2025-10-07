@@ -20,6 +20,8 @@ public class menu : MonoBehaviour
     public void play()
     {
         buttonsettings.count = 1;
+        MusicManager.instance.Playmusic("stop");
         SceneManager.LoadScene(1);
+
     }
 }
