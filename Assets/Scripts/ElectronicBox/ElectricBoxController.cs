@@ -11,8 +11,8 @@ public class ElectricBoxController : MonoBehaviour
     [SerializeField] private bool isActive = false;
     [SerializeField] private bool hasFuseInstalled = false;
 
-    public bool IsActive => isActive = false;
-    public bool HasFuseInstalled => hasFuseInstalled = false;
+    public bool IsActive => isActive;
+    public bool HasFuseInstalled => hasFuseInstalled;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,14 +29,9 @@ public class ElectricBoxController : MonoBehaviour
     }
     public bool InstallFuse()
     {
-        if (InventoryManager.instance == null)
-        {
-            return false;
-        }
-        if (!InventoryManager.instance.HasItem(Interactable.InteracType.Fuse))
-        {
-            return false;
-        }
+        if (InventoryService.Instance == null) { return false; }
+        if (!InventoryService.Instance.Contains("fuse")) { return false; }
+
         if (hasFuseInstalled)
         {
             return false;
@@ -47,7 +42,7 @@ public class ElectricBoxController : MonoBehaviour
         }
 
         hasFuseInstalled = true;
-        InventoryManager.instance.RemoveItem(Interactable.InteracType.Fuse);
+        InventoryService.Instance.Remove("fuse", 1);
 
         return true;
     }
