@@ -46,7 +46,7 @@ public class LightFlicker : MonoBehaviour
             {
                 // Thay đổi độ sáng ngẫu nhiên
                 targetIntensity = Random.Range(minIntensity, maxIntensity);
-                timer = Random.Range(flickerSpeed * 0.5f, flickerSpeed * 2f);
+                timer = Random.Range(flickerSpeed * 0.5f, flickerSpeed /15f);
             }
         }
 
