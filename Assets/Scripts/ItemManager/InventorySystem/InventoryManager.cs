@@ -30,7 +30,7 @@ public class InventoryManager : MonoBehaviour
     }
     public bool HasItem(Interactable.InteracType itemType)
     {
-        foreach(GameObject item in items)
+        foreach (GameObject item in items)
         {
             Interactable interactable = item.GetComponent<Interactable>();
             if (interactable != null && interactable.Type == itemType)
@@ -42,7 +42,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void RemoveItem(Interactable.InteracType itemType)
     {
-        for(int i = items.Count - 1; i >= 0; i--)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
             Interactable interactable = items[i].GetComponent<Interactable>();
             if (interactable != null && interactable.Type == itemType)

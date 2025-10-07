@@ -8,7 +8,7 @@ public class menu : MonoBehaviour
     public GameObject audiosetting;
     public GameObject menustting;
     public buttonsetting buttonsettings;
-    
+
     public void option()
     {
         buttonsettings.isopen = true;
@@ -16,7 +16,7 @@ public class menu : MonoBehaviour
         graphicsetting.SetActive(false);
         audiosetting.SetActive(false);
         menustting.SetActive(false);
-}
+    }
     public void play()
     {
         buttonsettings.count = 1;

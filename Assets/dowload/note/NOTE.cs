@@ -3,6 +3,7 @@ using UnityEngine;
 public class NOTE : MonoBehaviour
 {
     public GameObject NOTEPIC;
+    public int count;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,7 +13,7 @@ public class NOTE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        NOTEPIC = GameObject.FindGameObjectWithTag("notepic").transform.GetChild(count)?.gameObject;
         if (Input.GetKeyDown(KeyCode.E) )
         {
             RaycastHit hit;
