@@ -124012,12 +124012,6 @@ MonoBehaviour:
   - groupID: FootStep
     clips:
     - {fileID: 8300000, guid: 039cfcef9e7bf9741bef7369de254b30, type: 3}
-  - groupID: Door
-    clips:
-    - {fileID: 8300000, guid: 87f62de44c5ff9b4ca6f7fc93837264c, type: 3}
-    - {fileID: 8300000, guid: 9339bf336ee86cb49b63471be07a57f4, type: 3}
-    - {fileID: 8300000, guid: 946b59139915137449f911c47d72592a, type: 3}
-    - {fileID: 8300000, guid: a25216a7ab3d26c4293ef4c88af82c4a, type: 3}
 --- !u!4 &1215934521
 Transform:
   m_ObjectHideFlags: 0

@@ -14,6 +14,13 @@ public class Door : MonoBehaviour
     public TextMeshProUGUI txt;
     public bool locks;
     public Animator animator;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openDoorSound;
+    [SerializeField] private AudioClip closeDoorSound;
+    [SerializeField] private AudioClip lockedDoorSound;
+
+    private bool lastOpenState;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,18 +33,27 @@ public class Door : MonoBehaviour
     void Update()
     {
         if (!locks)
-        {
             animator.enabled = false;
+
+        if (open != lastOpenState)
+        {
+            if (open)
+            {
+                audioSource.PlayOneShot(openDoorSound);
+            }
+            else
+            {
+                audioSource.PlayOneShot(closeDoorSound);
+            }
+            lastOpenState = open;
         }
+
+        // Xoay cửa
         if (open)
-        {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, openRot, Time.deltaTime * smooth);
-            
-        }
         else
-        {
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, defaulRot, Time.deltaTime * smooth);
-        }
+
         //if (Input.GetKeyDown(KeyCode.E) && trig && !locks)
         //{
         //    open = !open;
@@ -87,6 +103,7 @@ public class Door : MonoBehaviour
                 else if (hit.transform == transform && locks)
                 {
                     animator.SetTrigger("lock");
+                    audioSource.PlayOneShot(lockedDoorSound);
 
                 }
                   
