@@ -28,6 +28,8 @@ public class NOTE : MonoBehaviour
                     NOTEPIC.SetActive(true);
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = true;
+                    Debug.Log("aaaaa");
+
                 }
                
             }
