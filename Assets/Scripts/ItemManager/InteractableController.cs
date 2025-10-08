@@ -30,12 +30,12 @@ public class InteractableController : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(gameObject.transform.root.gameObject);
+            Destroy(gameObject);
             return;
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject.transform.root.gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
     private void Start()
     {

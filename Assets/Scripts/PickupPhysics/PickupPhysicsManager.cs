@@ -1,6 +1,8 @@
 ﻿
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickupPhysicsManager : MonoBehaviour
 {
@@ -37,6 +39,7 @@ public class PickupPhysicsManager : MonoBehaviour
     private bool isMovingToHoldPosition = false;
     private float movementProgress = 0f;
 
+   
     public void StartPickupItem(GameObject item, Camera camera, Interactable.InteracType itemType)
     {
         if (item == null) return;
@@ -169,6 +172,7 @@ public class PickupPhysicsManager : MonoBehaviour
         ShowInspectionPanel(false);
 
         currentItem.transform.SetParent(originalParent);
+        DontDestroyOnLoad(currentItem);
         currentItem.transform.position = originalPosition;
         currentItem.transform.rotation = originalRotation;
         currentItem.transform.localScale = originalScale;
