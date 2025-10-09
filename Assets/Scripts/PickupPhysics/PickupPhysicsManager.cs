@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,7 +38,7 @@ public class PickupPhysicsManager : MonoBehaviour
     private bool isMovingToHoldPosition = false;
     private float movementProgress = 0f;
 
-   
+
     public void StartPickupItem(GameObject item, Camera camera, Interactable.InteracType itemType)
     {
         if (item == null) return;
@@ -202,13 +201,13 @@ public class PickupPhysicsManager : MonoBehaviour
                 puzzle.StartInspecting();
             }
         }
-        if (inspectionInforText!=null && itemsInformationText!=null)
+        if (inspectionInforText != null && itemsInformationText != null)
         {
-            if(currentItemType == Interactable.InteracType.NoteKnock)
+            if (currentItemType == Interactable.InteracType.NoteKnock)
             {
                 inspectionInforText.text = "3-3-2-1 ?";
             }
-            else if(currentItemType == Interactable.InteracType.NoteDrawer)
+            else if (currentItemType == Interactable.InteracType.NoteDrawer)
             {
                 inspectionInforText.text = "Bức vẽ kì lạ";
                 itemsInformationText.text = "Một bức vẽ kì lạ với né vẽ nguệch ngoặc, và một cái cây bị ngược? Mà khoan! Một cánh tay phải?";
