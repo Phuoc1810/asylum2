@@ -28,7 +28,7 @@ public class unlock : MonoBehaviour
         {
             doortool.locks = false;
         }
-        haskeyblackkey = InventoryManager.instance.HasItem(Interactable.InteracType.blackkey);
+        haskeyblackkey = InventoryService.Instance != null && InventoryService.Instance.Contains("Interrogation_Room_Key");
         if (haskeyblackkey)
         {
             blackdoor.locks = false;
