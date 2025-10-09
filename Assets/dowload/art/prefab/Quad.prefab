@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 18
+  type: 20
   animator: {fileID: 0}
   itemId: 
   worldObjectId: 
