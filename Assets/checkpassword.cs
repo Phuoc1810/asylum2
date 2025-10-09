@@ -5,7 +5,7 @@ public class checkpassword : MonoBehaviour
 {
     public int[] passsword = { 1, 2, 3, 4, 5, 6 };
     public int[] checkdoor = { 5, 1, 2, 2, 3, 4 };
-    public Door unlock;
+    public GameObject key;
     public bool checkwrong ;
     public int countcheck=0;
     public GameObject zombie;
@@ -26,7 +26,7 @@ public class checkpassword : MonoBehaviour
         }
         if (check() && checkwrong && count<1)
         {
-            unlock.locks = false;
+            key.SetActive(true) ;
             zombie.SetActive(true);
             count++;
             Debug.Log("true");
