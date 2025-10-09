@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private float xRotation = 0f;
 
     public string footstepGroupName = "FootStep";
-    [SerializeField] private float walkStepInterval = 0.5f;
-    [SerializeField] private float runStepInterval = 0.3f;
+    [SerializeField] private float walkStepInterval = 6f;
+    [SerializeField] private float runStepInterval = 5f;
     [SerializeField] private float stepTimer = 0f;
     void Start()
     {

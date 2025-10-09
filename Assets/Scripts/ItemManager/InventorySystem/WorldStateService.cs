@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldStateService : MonoBehaviour
@@ -24,7 +24,7 @@ public class WorldStateService : MonoBehaviour
     }
     public void MarkPicked(string worldObjectID)
     {
-        if(!string.IsNullOrEmpty(worldObjectID)) _pickedIds.Add(worldObjectID);
+        if (!string.IsNullOrEmpty(worldObjectID)) _pickedIds.Add(worldObjectID);
     }
     public bool IsPicked(string worldObjectID)
     {
@@ -45,4 +45,3 @@ public class WorldStateService : MonoBehaviour
         _flags.Clear();
     }
 }
-
