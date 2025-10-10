@@ -140,7 +140,7 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
-  alertSound: {fileID: 0}
+  alertSound: {fileID: 8300000, guid: b7d7f970fe2d9fb4da20997c9461a65c, type: 3}
   alertVolume: 1
   loopAlertSound: 1
   timeBetweenAlertSounds: 1
@@ -605,7 +605,7 @@ MonoBehaviour:
   headOffset: {x: 0, y: 1.7, z: 0.3}
   useOffsetOnly: 0
   facePlayerOnStart: 1
-  jumpscareSound: {fileID: 0}
+  jumpscareSound: {fileID: 8300000, guid: 18769a78193655b429295cdf5ef4be86, type: 3}
   volume: 1
 --- !u!1101 &6299799371875216916
 AnimatorStateTransition:
