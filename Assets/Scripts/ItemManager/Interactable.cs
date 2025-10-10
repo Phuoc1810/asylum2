@@ -35,7 +35,8 @@ public class Interactable : MonoBehaviour
 
         // === MINI-GAMES ===
         ArtPiece,
-        Quiz
+        Quiz,
+        Keypad
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;

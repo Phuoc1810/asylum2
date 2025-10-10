@@ -172,6 +172,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.keyinterrogationroom:
                 PickupItem(currentInteractable.gameObject);
                 break;
+            case Interactable.InteracType.Keypad:
+                HandleKeypadInteraction(interactable);
+                break;
         }
     }
     private  void PickupItem(GameObject item)
@@ -264,6 +267,16 @@ public class InteractableController : MonoBehaviour
             doorManager.HandleDoorInteraction();
         }
     }
+    private void HandleKeypadInteraction(Interactable interactable)
+    {
+        PasswordLockController lockController = interactable.GetComponent<PasswordLockController>();
+
+        if (lockController != null && !lockController.IsSolved)
+        {
+            lockController.StartZoomMode(playerCamera);
+            DisablePlayerControls();
+        }
+    }
     private void HandleDrawerInteraction(Interactable interactable)
     {
         DrawerFocusController drawerController = interactable.GetComponent<DrawerFocusController>();
@@ -301,7 +314,7 @@ public class InteractableController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    public void OnDrawerPuzzleComplete()
+    public void OnPuzzleComplete()
     {
         EnablePlayerControls();
     }
