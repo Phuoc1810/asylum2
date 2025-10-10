@@ -802,6 +802,7 @@ Transform:
   - {fileID: 7383219869179014398}
   - {fileID: 2244509907255308098}
   - {fileID: 5797425065875579519}
+  - {fileID: 6828153906281955032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1619793988572090552
@@ -847,8 +848,8 @@ MonoBehaviour:
   animator: {fileID: 3501086429603739268}
   cameraTransform: {fileID: 5264243344577030450}
   footstepGroupName: FootStep
-  walkStepInterval: 0.5
-  runStepInterval: 0.3
+  walkStepInterval: 0.8
+  runStepInterval: 0.5
   stepTimer: 0
 --- !u!114 &2841939040076885753
 MonoBehaviour:
@@ -915,7 +916,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   playerMovement: {fileID: 7705308101797831722}
   headBobbingController: {fileID: 2841939040076885753}
-  pickupPhysicsManager: {fileID: 0}
+  pickupPhysicsManager: {fileID: 5614316754530781418}
   interactionPromptPanel: {fileID: 6941327684119807570}
   aimPanel: {fileID: 423480997571905575}
 --- !u!136 &8825327100509578451
@@ -1508,6 +1509,61 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &2145110511676126991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6828153906281955032}
+  - component: {fileID: 5614316754530781418}
+  m_Layer: 0
+  m_Name: PickupItemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6828153906281955032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145110511676126991}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.98631644, z: -0, w: -0.16486351}
+  m_LocalPosition: {x: -125.82873, y: -3.8296578, z: 27.568977}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5902291701233047635}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5614316754530781418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145110511676126991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49884967710176b48bcbb6baba7621f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetHoldPosition: {fileID: 0}
+  moveSpeed: 3
+  rotationSpeed: 20
+  followSpeed: 15
+  inspectionInforPanel: {fileID: 7434830368440739443}
+  inspectionInforText: {fileID: 659072447220430332}
+  itemsInformationText: {fileID: 8211592582391878732}
+  boxDirectorKeyScale: 0.6
+  noteKnockScale: 0.5
+  noteDrawerScale: 1.2
+  journalSystem: {fileID: 0}
 --- !u!1 &2366719857687653411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2819,7 +2875,7 @@ GameObject:
   - component: {fileID: 2278798277209188169}
   m_Layer: 5
   m_Name: NOTElock
-  m_TagString: notelock
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3160,7 +3216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5375770743725148519}
   m_Layer: 5
-  m_Name: quiz
+  m_Name: GameObject
   m_TagString: notepic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3203,7 +3259,7 @@ GameObject:
   - component: {fileID: 4780521716275434883}
   m_Layer: 5
   m_Name: lock3
-  m_TagString: lock3
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3280,7 +3336,7 @@ GameObject:
   - component: {fileID: 3793040998987012284}
   m_Layer: 5
   m_Name: lock2
-  m_TagString: lock2
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3649,7 +3705,7 @@ GameObject:
   - component: {fileID: 1426005449893748448}
   m_Layer: 5
   m_Name: lock1
-  m_TagString: lock1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6346,8 +6402,8 @@ Camera:
   m_GameObject: {fileID: 7853511116797561886}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6902,11 +6958,11 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
-  m_Intensity: 25
-  m_Range: 8.022465
-  m_SpotAngle: 45.316135
-  m_InnerSpotAngle: 33.718143
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 15
+  m_Range: 477.54688
+  m_SpotAngle: 47.964798
+  m_InnerSpotAngle: 29.992826
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
