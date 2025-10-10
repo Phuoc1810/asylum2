@@ -1062,6 +1062,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FreezeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8789966141074231301, guid: eb134ec9b10391f4cbcda2e2472d2fdc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1078,6 +1082,10 @@ PrefabInstance:
     - target: {fileID: 3850846137984301336, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
       propertyPath: m_Name
       value: Enemy(normal)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3850846137984301336, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4484218005236835234, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1136,6 +1144,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3827022087941864233, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
+      propertyPath: showDebug
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4971977267657316005, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.08

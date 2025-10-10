@@ -6,12 +6,22 @@ public class AlertState : StateMachineBehaviour
     [Header("Line of Sight")]
     [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip alertSound; // Âm thanh khi phát hiện player
+    [SerializeField] private float alertVolume = 1f; // Âm lượng alert sound
+    [SerializeField] private bool loopAlertSound = true; // Lặp lại âm thanh alert
+    [SerializeField] private float timeBetweenAlertSounds = 1f; // Thời gian giữa các lần phát (nếu loop)
+
     float timer;
     Transform player;
     NavMeshAgent agent;
     float chaseRange = 20f;
     float losePlayerRange = 20f;
     float alertDuration = 3f;
+
+    // Audio variables
+    private AudioSource audioSource;
+    private float nextAlertTime;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -21,13 +31,34 @@ public class AlertState : StateMachineBehaviour
         timer = 0;
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        Debug.Log("Alert State Started");
+        // ✅ SETUP AUDIO
+        SetupAudio(animator);
+
+        // ✅ PHÁT ÂM THANH ALERT NGAY LẬP TỨC
+        if (alertSound != null)
+        {
+            PlayAlertSound();
+
+            // Lên lịch lần phát tiếp theo nếu loop
+            if (loopAlertSound)
+            {
+                nextAlertTime = Time.time + timeBetweenAlertSounds;
+            }
+        }
+
+        Debug.Log("Alert State Started - Enemy detected player!");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timer += Time.deltaTime;
+        // ✅ PHÁT LẠI ALERT SOUND NẾU BẬT LOOP
+        if (loopAlertSound && alertSound != null && Time.time >= nextAlertTime)
+        {
+            PlayAlertSound();
+            nextAlertTime = Time.time + timeBetweenAlertSounds;
+        }
 
+        timer += Time.deltaTime;
         if (player == null) return;
 
         float distance = Vector3.Distance(player.position, animator.transform.position);
@@ -68,7 +99,32 @@ public class AlertState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Exited Alert State");
+    }
 
+    // ✅ AUDIO METHODS
+    void SetupAudio(Animator animator)
+    {
+        audioSource = animator.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = animator.gameObject.AddComponent<AudioSource>();
+        }
+
+        // Cấu hình 3D sound
+        audioSource.spatialBlend = 1f; // 3D sound
+        audioSource.maxDistance = 25f; // Nghe xa hơn khi alert (đáng sợ hơn)
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+    }
+
+    void PlayAlertSound()
+    {
+        if (audioSource != null && alertSound != null)
+        {
+            audioSource.PlayOneShot(alertSound, alertVolume);
+            Debug.Log("Playing alert sound - Enemy spotted player!");
+        }
     }
 
     // ✅ METHOD MỚI: Check xem có tường chắn không

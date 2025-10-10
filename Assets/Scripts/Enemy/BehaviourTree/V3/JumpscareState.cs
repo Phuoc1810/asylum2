@@ -34,6 +34,14 @@ public class JumpscareState : StateMachineBehaviour
     [Header("Options")]
     public bool facePlayerOnStart = true;
 
+    [Header("Audio")]
+    [Tooltip("File âm thanh jumpscare (kéo thả AudioClip vào đây).")]
+    public AudioClip jumpscareSound;
+
+    [Tooltip("Âm lượng của jumpscare sound (0-1).")]
+    [Range(0f, 1f)]
+    public float volume = 1f;
+
     // ================== INTERNAL ==================
     Transform player;
     NavMeshAgent agent;
@@ -129,6 +137,12 @@ public class JumpscareState : StateMachineBehaviour
         cachedHeadBone = useOffsetOnly ? null : FindBone(cachedAnimator.transform, agentHeadBoneName);
 
         LockPlayer();
+
+        // Play jumpscare sound
+        if (jumpscareSound != null)
+        {
+            AudioSource.PlayClipAtPoint(jumpscareSound, playerCamera.position, volume);
+        }
 
         Debug.Log("[Jumpscare] Started");
     }

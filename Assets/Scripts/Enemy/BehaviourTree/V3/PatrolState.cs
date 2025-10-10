@@ -11,6 +11,12 @@ public class PatrolState : StateMachineBehaviour
     [SerializeField] private float minWaitTime = 2f; // Thời gian chờ tối thiểu
     [SerializeField] private float maxWaitTime = 5f; // Thời gian chờ tối đa
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip breathingSound; // Kéo file âm thanh vào đây
+    [SerializeField] private float minTimeBetweenBreaths = 3f; // Thời gian tối thiểu giữa các lần thở
+    [SerializeField] private float maxTimeBetweenBreaths = 8f; // Thời gian tối đa
+    [SerializeField] private float breathVolume = 0.7f; // Âm lượng (0-1)
+
     float timer;
     float waitTimer;
     float waitDuration;
@@ -19,6 +25,10 @@ public class PatrolState : StateMachineBehaviour
     Transform player;
     Transform centrePoint; // Vị trí trung tâm để wander
     float chaseRange = 10;
+
+    // Audio variables
+    private AudioSource audioSource;
+    private float nextBreathTime;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -30,10 +40,21 @@ public class PatrolState : StateMachineBehaviour
         centrePoint = animator.transform;
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // ✅ SETUP AUDIO
+        SetupAudio(animator);
+        ScheduleNextBreath();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // ✅ PHÁT ÂM THANH THỞ
+        if (Time.time >= nextBreathTime && breathingSound != null)
+        {
+            PlayBreathingSound();
+            ScheduleNextBreath();
+        }
+
         // ✅ Khi đã đến đích → tìm điểm mới
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
@@ -69,6 +90,39 @@ public class PatrolState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         agent.SetDestination(agent.transform.position);
+
+        // ✅ KHÔNG DỪNG ÂM THANH - Để âm thanh phát hết tự nhiên
+        // AudioSource sẽ tự dừng khi âm thanh phát xong
+    }
+
+    // ✅ AUDIO METHODS
+    void SetupAudio(Animator animator)
+    {
+        audioSource = animator.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = animator.gameObject.AddComponent<AudioSource>();
+        }
+
+        // Cấu hình 3D sound
+        audioSource.spatialBlend = 1f; // 3D sound
+        audioSource.maxDistance = 20f; // Khoảng cách nghe được
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.volume = breathVolume;
+    }
+
+    void PlayBreathingSound()
+    {
+        if (audioSource != null && breathingSound != null)
+        {
+            audioSource.PlayOneShot(breathingSound, breathVolume);
+        }
+    }
+
+    void ScheduleNextBreath()
+    {
+        nextBreathTime = Time.time + Random.Range(minTimeBetweenBreaths, maxTimeBetweenBreaths);
     }
 
     // ✅ METHOD TỪ SCRIPT BẠN MƯỢN
