@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1102 &-6740339174495855745
 AnimatorState:
   serializedVersion: 6
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   alertSound: {fileID: 8300000, guid: b7d7f970fe2d9fb4da20997c9461a65c, type: 3}
   alertVolume: 1
   loopAlertSound: 1
@@ -227,7 +227,7 @@ MonoBehaviour:
   detectionRange: 10
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   breathingSound: {fileID: 0}
   minTimeBetweenBreaths: 4
   maxTimeBetweenBreaths: 10
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   range: 15
   minWaitTime: 2
   maxWaitTime: 5
