@@ -10,6 +10,13 @@ TagManager:
   - item
   - AudioDetect
   - Patrol point
+  - Undefined
+  - notepic
+  - canvasplayer
+  - lock1
+  - lock2
+  - notelock
+  - lock3
   layers:
   - Default
   - TransparentFX

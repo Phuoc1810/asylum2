@@ -24,10 +24,22 @@ public class InteractableController : MonoBehaviour
     private Interactable currentInteractable;
     private bool isHoldingItem = false;
 
+    public static InteractableController instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
     private void Start()
     {
         InitializeController();
-        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {
@@ -153,6 +165,9 @@ public class InteractableController : MonoBehaviour
                 PickupItem(currentInteractable.gameObject);
                 break;
             case Interactable.InteracType.blackkey:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.keyinterrogationroom:
                 PickupItem(currentInteractable.gameObject);
                 break;
         }

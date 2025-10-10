@@ -26,7 +26,7 @@ public class audiosetting : MonoBehaviour
     }
     public void loadVolume()
     {
-        MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        MusicSlider.value  = PlayerPrefs.GetFloat("MusicVolume");
         SFXslider.value = PlayerPrefs.GetFloat("SFXVolume");
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

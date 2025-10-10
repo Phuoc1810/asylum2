@@ -6,7 +6,7 @@ public class soundManager : MonoBehaviour
     [SerializeField]
     private soundlibrary sfxlibary;
     [SerializeField]
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     private void Awake()
     {
         if (Instance != null)
@@ -23,7 +23,11 @@ public class soundManager : MonoBehaviour
     {
         if (clip != null)
         {
-            AudioSource.PlayClipAtPoint(clip, pos); 
+            audioSource.PlayOneShot(clip); 
+        }
+        else
+        {
+            Debug.LogWarning("Khong tim thay clip group");
         }
     }
     public void Playsound3D(string soundName,Vector3 pos)

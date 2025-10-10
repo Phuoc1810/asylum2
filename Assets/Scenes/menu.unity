@@ -123979,8 +123979,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracks:
   - trackName: MainMenu
-    clip: {fileID: 0}
-  - trackName: Game
+    clip: {fileID: 8300000, guid: a54196a8cd71dcc48abf46ed069827d1, type: 3}
+  - trackName: stop
     clip: {fileID: 0}
 --- !u!114 &1215934519
 MonoBehaviour:
@@ -124008,7 +124008,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42771be31012e104aaac0580b7b5d125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffects: []
+  soundEffects:
+  - groupID: FootStep
+    clips:
+    - {fileID: 8300000, guid: 039cfcef9e7bf9741bef7369de254b30, type: 3}
 --- !u!4 &1215934521
 Transform:
   m_ObjectHideFlags: 0
@@ -132775,7 +132778,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8567778156885690860, guid: 26770814e12bdd04fb88518b552e2788, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -132784,7 +132787,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 10
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -132820,7 +132823,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.504
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -146077,10 +146080,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 183411300}
   m_HandleRect: {fileID: 1881903620}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: -40
+  m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -211357,10 +211360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389c3f8547eb828438094b02ea228235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menusetting: {fileID: 1436097598}
-  panel: {fileID: 982027533}
-  canval: {fileID: 1188447779}
-  buttonsetting: {fileID: 1188447784}
 --- !u!4 &2026845220 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1890206299245806629, guid: 32225ec49296b6b44bcf9504648d2981, type: 3}
@@ -222982,7 +222981,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 989719801}
   m_HandleRect: {fileID: 1017341193}
   m_Direction: 0
-  m_MinValue: -80
+  m_MinValue: -40
   m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0

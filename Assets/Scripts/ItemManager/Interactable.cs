@@ -15,7 +15,7 @@ public class Interactable : MonoBehaviour
         blackkey,
         locks,
         keymorgue,
-
+        keyinterrogationroom,
         //=== DOOR ===//
         DoorMaintenance,
         DirectorDoor,
@@ -82,8 +82,10 @@ public class Interactable : MonoBehaviour
     /// Kiểm tra có phải là inspectable item không
     /// </summary>
     public bool IsInspectable()
-    {
-        return type == InteracType.BoxDirectorKey;
+    {   
+        return type == InteracType.BoxDirectorKey ||
+               type == InteracType.NoteDrawer ||
+               type == InteracType.NoteKnock;
     }
     /// <summary>
     /// Play audio clip tại vị trí object

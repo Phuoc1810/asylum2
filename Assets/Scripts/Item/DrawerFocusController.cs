@@ -44,6 +44,7 @@ public class DrawerFocusController : MonoBehaviour
     void Start()
     {
         InitializeDrawer();
+        LoadPuzzleState();
     }
 
     // Update is called once per frame
@@ -52,7 +53,6 @@ public class DrawerFocusController : MonoBehaviour
         if (isTransitioning)
         {
             UpdateCameraTransition();
-            LoadPuzzleState();
         }
         if (isInFocusMode && !isPuzzleSolved)
         {
