@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7986168579121161983}
   - component: {fileID: 9215093407879997418}
   - component: {fileID: 3906291022564881946}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: defaultMaterial.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3218883531676553279}
   - component: {fileID: 4348893261764807713}
   - component: {fileID: 2585528472121488985}
-  m_Layer: 9
+  m_Layer: 15
   m_Name: fuse
   m_TagString: Untagged
   m_Icon: {fileID: 0}

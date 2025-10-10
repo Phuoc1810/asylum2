@@ -134,6 +134,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.BoltCutter:
             case Interactable.InteracType.Crowbar:
             case Interactable.InteracType.DirectorKey:
+            case Interactable.InteracType.BroadingKey:
                 PickupItem(interactable.gameObject);
                 break;
 
@@ -153,6 +154,7 @@ public class InteractableController : MonoBehaviour
 
             case Interactable.InteracType.DoorMaintenance:
             case Interactable.InteracType.DirectorDoor:
+            case Interactable.InteracType.BroadingDoor:
                 HandleDoorInteraction(interactable);
                 break;
             case Interactable.InteracType.DirectorDrawers:
