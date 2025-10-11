@@ -16,6 +16,7 @@ public class Interactable : MonoBehaviour
         locks,
         keymorgue,
         keyinterrogationroom,
+        electricroomkey,
         //=== DOOR ===//
         DoorMaintenance,
         DirectorDoor,
