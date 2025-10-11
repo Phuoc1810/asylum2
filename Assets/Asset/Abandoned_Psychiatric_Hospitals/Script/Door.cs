@@ -24,6 +24,7 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        locks=true;
         defaulRot = transform.eulerAngles;
         openRot = new Vector3(defaulRot.x, defaulRot.y + DoorOpenAngle, defaulRot.z);
         lockRot = new Vector3(defaulRot.x, defaulRot.y + 4f, defaulRot.z);

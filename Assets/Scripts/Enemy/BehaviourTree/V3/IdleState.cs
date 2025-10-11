@@ -10,9 +10,19 @@ public class IdleState : StateMachineBehaviour
     [Header("Line of Sight")]
     [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip breathingSound; // Kéo file âm thanh vào đây
+    [SerializeField] private float minTimeBetweenBreaths = 4f; // Thời gian tối thiểu giữa các lần thở
+    [SerializeField] private float maxTimeBetweenBreaths = 10f; // Thời gian tối đa (idle thở chậm hơn patrol)
+    [SerializeField] private float breathVolume = 0.6f; // Âm lượng (0-1)
+
     private float timer;
     private Transform player;
     private NavMeshAgent agent;
+
+    // Audio variables
+    private AudioSource audioSource;
+    private float nextBreathTime;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -31,11 +41,22 @@ public class IdleState : StateMachineBehaviour
             agent.isStopped = true;
         }
 
+        // ✅ SETUP AUDIO
+        SetupAudio(animator);
+        ScheduleNextBreath();
+
         Debug.Log("Entered Idle State");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // ✅ PHÁT ÂM THANH THỞ
+        if (Time.time >= nextBreathTime && breathingSound != null)
+        {
+            PlayBreathingSound();
+            ScheduleNextBreath();
+        }
+
         timer += Time.deltaTime;
 
         // Check for player jumpscare range first
@@ -74,7 +95,40 @@ public class IdleState : StateMachineBehaviour
             agent.speed = 2.5f;
         }
 
+        // ✅ KHÔNG DỪNG ÂM THANH - Để âm thanh phát hết tự nhiên
+        // AudioSource sẽ tự dừng khi âm thanh phát xong
+
         Debug.Log("Exited Idle State");
+    }
+
+    // ✅ AUDIO METHODS
+    void SetupAudio(Animator animator)
+    {
+        audioSource = animator.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            audioSource = animator.gameObject.AddComponent<AudioSource>();
+        }
+
+        // Cấu hình 3D sound
+        audioSource.spatialBlend = 1f; // 3D sound
+        audioSource.maxDistance = 20f; // Khoảng cách nghe được
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.volume = breathVolume;
+    }
+
+    void PlayBreathingSound()
+    {
+        if (audioSource != null && breathingSound != null)
+        {
+            audioSource.PlayOneShot(breathingSound, breathVolume);
+        }
+    }
+
+    void ScheduleNextBreath()
+    {
+        nextBreathTime = Time.time + Random.Range(minTimeBetweenBreaths, maxTimeBetweenBreaths);
     }
 
     // ✅ METHOD MỚI: Check xem có tường chắn không
