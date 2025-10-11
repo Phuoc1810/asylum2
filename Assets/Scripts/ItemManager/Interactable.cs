@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
@@ -16,7 +16,9 @@ public class Interactable : MonoBehaviour
         locks,
         keymorgue,
         keyinterrogationroom,
+        electricroomkey,
         BroadingKey,
+
 
         //=== DOOR ===//
         DoorMaintenance,

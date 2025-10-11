@@ -172,6 +172,9 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.keyinterrogationroom:
                 PickupItem(currentInteractable.gameObject);
                 break;
+
+            case Interactable.InteracType.electricroomkey:
+                PickupItem(currentInteractable.gameObject);
             case Interactable.InteracType.Keypad:
                 HandleKeypadInteraction(interactable);
                 break;

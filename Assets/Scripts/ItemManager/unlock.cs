@@ -6,6 +6,8 @@ public class unlock : MonoBehaviour
     public bool hasScrewdriver;
     public bool haskeytool;
     public bool haskeyblackkey;
+    public bool haskeyelectrickey;
+    public Door electricdoor;
     public Door door;
     public Door doortool;
     public Door blackdoor;
@@ -32,6 +34,11 @@ public class unlock : MonoBehaviour
         if (haskeyblackkey)
         {
             blackdoor.locks = false;
+        }
+        haskeyblackkey = InventoryService.Instance != null && InventoryService.Instance.Contains("Electric_Room_key");
+        if (haskeyblackkey)
+        {
+          electricdoor.locks = false;
         }
     }
 }
