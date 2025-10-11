@@ -16,9 +16,12 @@ public class Interactable : MonoBehaviour
         locks,
         keymorgue,
         keyinterrogationroom,
+        BroadingKey,
+
         //=== DOOR ===//
         DoorMaintenance,
         DirectorDoor,
+        BroadingDoor,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
@@ -32,7 +35,8 @@ public class Interactable : MonoBehaviour
 
         // === MINI-GAMES ===
         ArtPiece,
-        Quiz
+        Quiz,
+        Keypad
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;
@@ -76,7 +80,8 @@ public class Interactable : MonoBehaviour
     public bool IsDoor()
     {
         return type == InteracType.DoorMaintenance ||
-               type == InteracType.DirectorDoor;
+               type == InteracType.DirectorDoor ||
+               type == InteracType.BroadingDoor;
     }
     /// <summary>
     /// Kiểm tra có phải là inspectable item không
