@@ -64,5 +64,7 @@ public class InventoryService : MonoBehaviour
         _items.Clear();
         OnChanged?.Invoke();
     }
+
+    public Dictionary<string, int> GetDict() => _items;
 }
 
