@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1102 &-6740339174495855745
 AnimatorState:
   serializedVersion: 6
@@ -139,7 +139,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  alertSound: {fileID: 8300000, guid: b7d7f970fe2d9fb4da20997c9461a65c, type: 3}
+  alertVolume: 1
+  loopAlertSound: 1
+  timeBetweenAlertSounds: 1
 --- !u!1102 &-3123753587253933220
 AnimatorState:
   serializedVersion: 6
@@ -223,7 +227,11 @@ MonoBehaviour:
   detectionRange: 10
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  breathingSound: {fileID: 0}
+  minTimeBetweenBreaths: 4
+  maxTimeBetweenBreaths: 10
+  breathVolume: 0.6
 --- !u!1101 &-602637414094836200
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -487,7 +495,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
+  range: 15
+  minWaitTime: 2
+  maxWaitTime: 5
+  breathingSound: {fileID: 0}
+  minTimeBetweenBreaths: 3
+  maxTimeBetweenBreaths: 8
+  breathVolume: 0.7
 --- !u!1101 &4863523254877819749
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -590,6 +605,8 @@ MonoBehaviour:
   headOffset: {x: 0, y: 1.7, z: 0.3}
   useOffsetOnly: 0
   facePlayerOnStart: 1
+  jumpscareSound: {fileID: 8300000, guid: 18769a78193655b429295cdf5ef4be86, type: 3}
+  volume: 1
 --- !u!1101 &6299799371875216916
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
