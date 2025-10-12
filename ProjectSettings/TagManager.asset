@@ -17,6 +17,10 @@ TagManager:
   - lock2
   - notelock
   - lock3
+  - puzzle
+  - safe
+  - doc
+  - InventoryService
   layers:
   - Default
   - TransparentFX
