@@ -17,6 +17,8 @@ public class Interactable : MonoBehaviour
         keymorgue,
         keyinterrogationroom,
         BroadingKey,
+        Flashlight,
+        Barrtery,
 
         //=== DOOR ===//
         DoorMaintenance,
