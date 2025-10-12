@@ -140,7 +140,7 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
-  alertSound: {fileID: 8300000, guid: b7d7f970fe2d9fb4da20997c9461a65c, type: 3}
+  alertSound: {fileID: 8300000, guid: ae169bd869bce654caadc44e70fa2100, type: 3}
   alertVolume: 1
   loopAlertSound: 1
   timeBetweenAlertSounds: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
-  breathingSound: {fileID: 0}
+  breathingSound: {fileID: 8300000, guid: 687ce6f6cdabf8b44b3e4fe5664834bd, type: 3}
   minTimeBetweenBreaths: 4
   maxTimeBetweenBreaths: 10
   breathVolume: 0.6
