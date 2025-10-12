@@ -52,10 +52,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interrogation_Room_Key
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 59de94123614db945b4332c5106167c8, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2137312366890057599, guid: 59de94123614db945b4332c5106167c8, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6150279119413398091, guid: 59de94123614db945b4332c5106167c8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4310192df97b8c64db07072c2354091a, type: 2}
+    - target: {fileID: 6259580899359879440, guid: 59de94123614db945b4332c5106167c8, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441394899533940763, guid: 59de94123614db945b4332c5106167c8, type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

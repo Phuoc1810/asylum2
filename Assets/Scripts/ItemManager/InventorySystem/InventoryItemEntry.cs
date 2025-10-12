@@ -96,6 +96,7 @@ public class InventoryItemEntry : MonoBehaviour, IPointerEnterHandler, IPointerE
             //case "bolt_cutter": return "Bolt Cutter";
             //case "crowbar": return "Crowbar";
             case "director_key": return "Chìa khóa phòng viện trưởng";
+            case "broading_key": return "Chìa khóa phòng nội trú 1";
             //case "keytools": return "Tools Key";
             //case "blackkey": return "Black Key";
             //case "keymorgue": return "Morgue Key";

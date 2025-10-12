@@ -150,7 +150,7 @@ public class DrawerFocusController : MonoBehaviour
         InteractableController controller = FindObjectOfType<InteractableController>();
         if (controller != null)
         {
-            controller.OnDrawerPuzzleComplete();
+            controller.OnPuzzleComplete();
         }
     }
     private void SolvedPuzzle()
@@ -181,7 +181,7 @@ public class DrawerFocusController : MonoBehaviour
         InteractableController controller = FindObjectOfType<InteractableController>();
         if (controller != null)
         {
-            controller.OnDrawerPuzzleComplete();
+            controller.OnPuzzleComplete();
         }
     }
     private void BeginCameraTransition(Vector3 targetPos, Quaternion targetRot)

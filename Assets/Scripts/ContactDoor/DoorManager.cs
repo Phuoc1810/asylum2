@@ -112,7 +112,10 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.DirectorDoor:
                 HandleDirectorDoor();
                 break;
-                
+            case Interactable.InteracType.BroadingDoor:
+                HandleBroadingDoor();
+                break;
+
         }
     }
     private void HandleMaintenanceDoor()
@@ -156,6 +159,18 @@ public class DoorManager : MonoBehaviour
         bool hasDirectorKey = InventoryService.Instance != null && InventoryService.Instance.Contains("director_key");
 
         if (hasDirectorKey)
+        {
+            ToggleDoor();
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+    private void HandleBroadingDoor()
+    {
+        bool hasBroadingKey = InventoryService.Instance != null && InventoryService.Instance.Contains("broading_key");
+        if (hasBroadingKey)
         {
             ToggleDoor();
         }

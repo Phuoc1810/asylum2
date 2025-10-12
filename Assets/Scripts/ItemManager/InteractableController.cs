@@ -134,6 +134,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.BoltCutter:
             case Interactable.InteracType.Crowbar:
             case Interactable.InteracType.DirectorKey:
+            case Interactable.InteracType.BroadingKey:
                 PickupItem(interactable.gameObject);
                 break;
 
@@ -153,6 +154,7 @@ public class InteractableController : MonoBehaviour
 
             case Interactable.InteracType.DoorMaintenance:
             case Interactable.InteracType.DirectorDoor:
+            case Interactable.InteracType.BroadingDoor:
                 HandleDoorInteraction(interactable);
                 break;
             case Interactable.InteracType.DirectorDrawers:
@@ -169,6 +171,12 @@ public class InteractableController : MonoBehaviour
                 break;
             case Interactable.InteracType.keyinterrogationroom:
                 PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.electricroomkey:
+                PickupItem(currentInteractable.gameObject);
+                break;
+            case Interactable.InteracType.Keypad:
+                HandleKeypadInteraction(interactable);
                 break;
         }
     }
@@ -262,6 +270,16 @@ public class InteractableController : MonoBehaviour
             doorManager.HandleDoorInteraction();
         }
     }
+    private void HandleKeypadInteraction(Interactable interactable)
+    {
+        PasswordLockController lockController = interactable.GetComponent<PasswordLockController>();
+
+        if (lockController != null && !lockController.IsSolved)
+        {
+            lockController.StartZoomMode(playerCamera);
+            DisablePlayerControls();
+        }
+    }
     private void HandleDrawerInteraction(Interactable interactable)
     {
         DrawerFocusController drawerController = interactable.GetComponent<DrawerFocusController>();
@@ -299,7 +317,7 @@ public class InteractableController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    public void OnDrawerPuzzleComplete()
+    public void OnPuzzleComplete()
     {
         EnablePlayerControls();
     }
