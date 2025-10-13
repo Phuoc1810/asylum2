@@ -128,6 +128,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.BroadingDoor:
                 HandleBroadingDoor();
                 break;
+            case Interactable.InteracType.DoorExit:
+                HandleExitDoor();
+                break;
 
         }
     }
@@ -192,7 +195,19 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
-    private void ToggleDoor()
+    private void HandleExitDoor()
+    {
+        bool hasExitKey = InventoryService.Instance != null && InventoryService.Instance.Contains("exit_key");
+        if (hasExitKey)
+        {
+            ToggleDoor();
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+        private void ToggleDoor()
     {
         isLocked = false;
         isOpen = !isOpen;

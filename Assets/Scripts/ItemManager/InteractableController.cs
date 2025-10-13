@@ -119,7 +119,7 @@ public class InteractableController : MonoBehaviour
     }
     private void HanldeInteractionInput()
     {
-        if (Input.GetMouseButtonDown(0) && currentInteractable != null && !isHoldingItem)
+        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null && !isHoldingItem)
         {
             ProcessInteraction(currentInteractable);
         }
@@ -136,6 +136,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.DirectorKey:
             case Interactable.InteracType.BroadingKey:
             case Interactable.InteracType.Flashlight:
+            case Interactable.InteracType.KeyExit:
                 PickupItem(interactable.gameObject);
                 break;
             case Interactable.InteracType.Barrtery:
@@ -158,6 +159,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.DoorMaintenance:
             case Interactable.InteracType.DirectorDoor:
             case Interactable.InteracType.BroadingDoor:
+            case Interactable.InteracType.DoorExit:
                 HandleDoorInteraction(interactable);
                 break;
             case Interactable.InteracType.DirectorDrawers:

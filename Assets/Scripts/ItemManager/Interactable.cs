@@ -20,12 +20,14 @@ public class Interactable : MonoBehaviour
         BroadingKey,
         Flashlight,
         Barrtery,
+        KeyExit,
 
 
         //=== DOOR ===//
         DoorMaintenance,
         DirectorDoor,
         BroadingDoor,
+        DoorExit,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
