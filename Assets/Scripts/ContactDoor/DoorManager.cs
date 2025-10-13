@@ -19,6 +19,9 @@ public class DoorManager : MonoBehaviour
     [SerializeField] private AudioClip doorClosedSound;
     [SerializeField] private AudioClip doorLockedSound;
     [SerializeField] private AudioClip fixDoorSound;
+    [SerializeField] private AudioClip doorSlamSound;
+    [SerializeField] private AudioClip doorKnockSound;
+    [SerializeField] private AudioClip screamSound;
 
     [Header("UI Setting")]
     [SerializeField] private TextMeshProUGUI doorStatusText;
@@ -30,12 +33,16 @@ public class DoorManager : MonoBehaviour
     [Header("Door Pivot (optional)")]
     [SerializeField] private Transform doorPivot;
 
+    [Header("Jumpscare Setting")]
+    [SerializeField] private GameObject scaryFace;
+
     private Interactable doorInteractable;
     private Vector3 defaultRotation;
     private Vector3 openRotation;
     private bool playerInRange = false;
     [SerializeField] private bool isInitialized = false;
     private bool isFixing = false;
+    private bool isFaceActive = false;
 
     public bool IsPlayerInRange => playerInRange;
     public bool IsOpen => isOpen;
@@ -86,6 +93,12 @@ public class DoorManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+
+            if (isFaceActive && doorInteractable != null && 
+                doorInteractable.Type == Interactable.InteracType.DirectorDoor)
+            {
+                TriggerJumpscare();
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -185,6 +198,43 @@ public class DoorManager : MonoBehaviour
         isOpen = !isOpen;
 
         PlayDoorSound(isOpen ? doorOpenSound : doorClosedSound);
+    }
+    public void OnDrawerPuzzleSolved()
+    {
+        if (doorInteractable == null || doorInteractable.Type != Interactable.InteracType.DirectorDoor)
+            return;
+
+        StartCoroutine(TryScare());
+    }
+    private IEnumerator TryScare()
+    {
+        yield return new WaitForSeconds(2f);
+        if (isOpen)
+        {
+            isOpen = false;
+            PlayDoorSound(doorSlamSound);
+        }
+        else
+        {
+            PlayDoorSound(doorKnockSound);
+
+            if (scaryFace != null)
+            {
+                scaryFace.SetActive(true);
+                isFaceActive = true;
+            }
+        }
+    }
+    private void TriggerJumpscare()
+    {
+        if (scaryFace != null)
+        {
+            scaryFace.SetActive(false);
+        }
+
+        PlayDoorSound(screamSound);
+
+        isFaceActive = false;
     }
     private IEnumerator FixDoorProcess()
     {

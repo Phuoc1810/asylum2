@@ -17,6 +17,9 @@ public class DrawerFocusController : MonoBehaviour
 
     [Header("World State")]
     [SerializeField] private string puzzleStateId = "drawer_puzzle_solved";
+
+    [Header("Director Door Reference")]
+    [SerializeField] private DoorManager directorDoor;
     private enum DrawerState
     {
         Normal,
@@ -177,6 +180,11 @@ public class DrawerFocusController : MonoBehaviour
         }
 
         currentState = DrawerState.Solved;
+
+        if (directorDoor != null)
+        {
+            directorDoor.OnDrawerPuzzleSolved();
+        }
 
         InteractableController controller = FindObjectOfType<InteractableController>();
         if (controller != null)
