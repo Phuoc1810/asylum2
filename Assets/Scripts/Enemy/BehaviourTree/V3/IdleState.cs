@@ -8,32 +8,29 @@ public class IdleState : StateMachineBehaviour
     [SerializeField] private float detectionRange = 10f;
 
     [Header("Line of Sight")]
-    [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
+    [SerializeField] private LayerMask wallLayer;
+
+    [Header("Field of View")]
+    [SerializeField] private float fieldOfViewAngle = 120f;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioClip breathingSound; // Kéo file âm thanh vào đây
-    [SerializeField] private float minTimeBetweenBreaths = 4f; // Thời gian tối thiểu giữa các lần thở
-    [SerializeField] private float maxTimeBetweenBreaths = 10f; // Thời gian tối đa (idle thở chậm hơn patrol)
-    [SerializeField] private float breathVolume = 0.6f; // Âm lượng (0-1)
+    [SerializeField] private AudioClip breathingSound;
+    [SerializeField] private float minTimeBetweenBreaths = 4f;
+    [SerializeField] private float maxTimeBetweenBreaths = 10f;
+    [SerializeField] private float breathVolume = 0.6f;
 
     private float timer;
     private Transform player;
     private NavMeshAgent agent;
-
-    // Audio variables
     private AudioSource audioSource;
     private float nextBreathTime;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Reset timer
         timer = 0f;
-
-        // Get components
         agent = animator.GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Stop agent movement
         if (agent != null)
         {
             agent.SetDestination(agent.transform.position);
@@ -41,7 +38,6 @@ public class IdleState : StateMachineBehaviour
             agent.isStopped = true;
         }
 
-        // ✅ SETUP AUDIO
         SetupAudio(animator);
         ScheduleNextBreath();
 
@@ -50,7 +46,6 @@ public class IdleState : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // ✅ PHÁT ÂM THANH THỞ
         if (Time.time >= nextBreathTime && breathingSound != null)
         {
             PlayBreathingSound();
@@ -59,7 +54,6 @@ public class IdleState : StateMachineBehaviour
 
         timer += Time.deltaTime;
 
-        // Check for player jumpscare range first
         if (player != null)
         {
             float distanceToPlayer = Vector3.Distance(player.position, animator.transform.position);
@@ -71,7 +65,6 @@ public class IdleState : StateMachineBehaviour
                 return;
             }
 
-            // ✅ THÊM CHECK LINE OF SIGHT
             if (distanceToPlayer <= detectionRange && CanSeePlayer(animator))
             {
                 animator.SetBool("IsAlert", true);
@@ -79,7 +72,6 @@ public class IdleState : StateMachineBehaviour
             }
         }
 
-        // Transition to patrol after idle duration
         if (timer >= idleDuration)
         {
             animator.SetBool("IsPatrolling", true);
@@ -88,20 +80,15 @@ public class IdleState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Re-enable agent when leaving idle
         if (agent != null)
         {
             agent.isStopped = false;
             agent.speed = 2.5f;
         }
 
-        // ✅ KHÔNG DỪNG ÂM THANH - Để âm thanh phát hết tự nhiên
-        // AudioSource sẽ tự dừng khi âm thanh phát xong
-
         Debug.Log("Exited Idle State");
     }
 
-    // ✅ AUDIO METHODS
     void SetupAudio(Animator animator)
     {
         audioSource = animator.GetComponent<AudioSource>();
@@ -111,9 +98,8 @@ public class IdleState : StateMachineBehaviour
             audioSource = animator.gameObject.AddComponent<AudioSource>();
         }
 
-        // Cấu hình 3D sound
-        audioSource.spatialBlend = 1f; // 3D sound
-        audioSource.maxDistance = 20f; // Khoảng cách nghe được
+        audioSource.spatialBlend = 1f;
+        audioSource.maxDistance = 20f;
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.volume = breathVolume;
     }
@@ -131,27 +117,32 @@ public class IdleState : StateMachineBehaviour
         nextBreathTime = Time.time + Random.Range(minTimeBetweenBreaths, maxTimeBetweenBreaths);
     }
 
-    // ✅ METHOD MỚI: Check xem có tường chắn không
     bool CanSeePlayer(Animator animator)
     {
         if (player == null) return false;
 
-        float distance = Vector3.Distance(player.position, animator.transform.position);
-        Vector3 direction = (player.position - animator.transform.position).normalized;
+        Vector3 agentPos = animator.transform.position;
+        Vector3 playerPos = player.position;
 
-        // Raycast từ vị trí mắt Agent (thêm Vector3.up để tránh hit ground)
-        Vector3 startPos = animator.transform.position + Vector3.up * 1.5f;
+        // Kiểm tra góc nhìn (FOV)
+        Vector3 directionToPlayer = (playerPos - agentPos).normalized;
+        Vector3 agentForward = animator.transform.forward;
+        float angleToPlayer = Vector3.Angle(agentForward, directionToPlayer);
 
-        // Raycast để check tường
-        if (Physics.Raycast(startPos, direction, out RaycastHit hit, distance, wallLayer))
+        if (angleToPlayer > fieldOfViewAngle / 2f)
         {
-            // Nếu hit tường trước khi tới Player = có tường chắn
-            Debug.DrawRay(startPos, direction * hit.distance, Color.red, 0.1f);
             return false;
         }
 
-        // Không có tường chắn
-        Debug.DrawRay(startPos, direction * distance, Color.green, 0.1f);
+        // Kiểm tra tường chắn
+        float distance = Vector3.Distance(playerPos, agentPos);
+        Vector3 startPos = agentPos + Vector3.up * 1.5f;
+
+        if (Physics.Raycast(startPos, directionToPlayer, out RaycastHit hit, distance, wallLayer))
+        {
+            return false;
+        }
+
         return true;
     }
 }
