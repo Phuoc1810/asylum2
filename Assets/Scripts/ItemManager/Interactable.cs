@@ -18,6 +18,8 @@ public class Interactable : MonoBehaviour
         keyinterrogationroom,
         electricroomkey,
         BroadingKey,
+        Flashlight,
+        Barrtery,
 
 
         //=== DOOR ===//

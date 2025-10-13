@@ -135,9 +135,12 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.Crowbar:
             case Interactable.InteracType.DirectorKey:
             case Interactable.InteracType.BroadingKey:
+            case Interactable.InteracType.Flashlight:
                 PickupItem(interactable.gameObject);
                 break;
-
+            case Interactable.InteracType.Barrtery:
+                PickupBattery(interactable.gameObject);
+                break;
             case Interactable.InteracType.ElectricBox:
                 HandleElectricBoxInteraction(interactable);
                 break;
@@ -202,6 +205,32 @@ public class InteractableController : MonoBehaviour
             ws.MarkPicked(interactable.WorldObjectId);
         }
         item.SetActive(false);
+    }
+    private void PickupBattery(GameObject battery)
+    {
+        var inv = InventoryService.Instance;
+        var ws = WorldStateService.Instance;
+
+        if (inv == null) return;
+
+        var interactable = battery.GetComponent<Interactable>();
+        if (interactable == null) return;
+
+        if (!inv.Contains("flashlight")) return;
+
+        if (FlashlightController.Instance != null)
+        {
+            FlashlightController.Instance.ResetBattery();
+        }
+        if (ws != null && !string.IsNullOrEmpty(interactable.WorldObjectId))
+        {
+            ws.MarkPicked(interactable.WorldObjectId);
+        }
+        if (interactable.OpenSound != null)
+        {
+            AudioSource.PlayClipAtPoint(interactable.OpenSound, battery.transform.position);
+        }
+        battery.SetActive(false);
     }
     private void StartInspectingItem(GameObject item, Interactable.InteracType itemType)
     {
