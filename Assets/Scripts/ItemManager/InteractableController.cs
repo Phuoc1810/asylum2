@@ -119,7 +119,7 @@ public class InteractableController : MonoBehaviour
     }
     private void HanldeInteractionInput()
     {
-        if (Input.GetMouseButtonDown(0) && currentInteractable != null && !isHoldingItem)
+        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null && !isHoldingItem)
         {
             ProcessInteraction(currentInteractable);
         }

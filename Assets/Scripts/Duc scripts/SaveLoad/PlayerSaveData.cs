@@ -39,7 +39,7 @@ public class PlayerSaveData : MonoBehaviour
         else
         {
             //Player.gameObject.transform.position = new Vector3(72f, 0.2f, 100f);
-            Player.gameObject.transform.position = new Vector3(-27f, 8.48f, 16f);
+            Player.gameObject.transform.position = new Vector3(28.7f, 0.47f, 47f);
             puzzles = new bool[8] { false, false, false , false, false, false, false, false};
             item_name = null;
             item_num = null;
@@ -91,6 +91,6 @@ public class PlayerSaveData : MonoBehaviour
     // Dung ham nay khi xong puzzle
     public void SetBoolPuzzles(int puzzle_num, bool status)
     {
-        puzzles[puzzle_num] = status;
+        puzzles[puzzle_num - 1] = status;
     }
 }
