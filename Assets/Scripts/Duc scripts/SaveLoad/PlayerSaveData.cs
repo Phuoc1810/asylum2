@@ -91,6 +91,6 @@ public class PlayerSaveData : MonoBehaviour
     // Dung ham nay khi xong puzzle
     public void SetBoolPuzzles(int puzzle_num, bool status)
     {
-        puzzles[puzzle_num] = status;
+        puzzles[puzzle_num - 1] = status;
     }
 }

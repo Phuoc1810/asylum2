@@ -69,6 +69,8 @@ public class XQuang_doc : MonoBehaviour
         {
             isInteracted = false;
             DocTextUI.SetActive(false);
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().SetBoolPuzzles(5, true);
         }
     }
 }
