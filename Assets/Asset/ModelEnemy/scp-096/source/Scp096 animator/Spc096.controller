@@ -609,6 +609,7 @@ MonoBehaviour:
   facePlayerOnStart: 1
   jumpscareSound: {fileID: 8300000, guid: 18769a78193655b429295cdf5ef4be86, type: 3}
   volume: 1
+  maxDistance: 30
   showDeathScreen: 1
   deathScreenDelay: 0.5
 --- !u!1101 &6299799371875216916

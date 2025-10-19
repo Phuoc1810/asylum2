@@ -16,7 +16,7 @@ public class JumpscareState : StateMachineBehaviour
 
     [Header("Timing")]
     public float inDuration = 0.35f;
-    public float holdDuration = 2.0f;
+    public float holdDuration = 5.0f;
 
     [Header("Camera Easing")]
     public AnimationCurve easeIn = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -42,12 +42,15 @@ public class JumpscareState : StateMachineBehaviour
     [Range(0f, 1f)]
     public float volume = 1f;
 
+    [Tooltip("Max distance để nghe âm thanh (3D sound).")]
+    public float maxDistance = 30f;
+
     [Header("Death Screen")]
     [Tooltip("Hiện death screen sau khi jumpscare kết thúc.")]
     public bool showDeathScreen = true;
 
     [Tooltip("Delay trước khi hiện death screen (giây).")]
-    public float deathScreenDelay = 0f;
+    public float deathScreenDelay = 0.5f;
 
     // ================== INTERNAL ==================
     Transform player;
