@@ -467,7 +467,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -1240,6 +1240,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 197008356}
+    - target: {fileID: 5350936323994900955, guid: eb134ec9b10391f4cbcda2e2472d2fdc, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350936323994900955, guid: eb134ec9b10391f4cbcda2e2472d2fdc, type: 3}
+      propertyPath: m_Acceleration
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8266334089791965887, guid: eb134ec9b10391f4cbcda2e2472d2fdc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.032832623
@@ -1588,6 +1596,14 @@ PrefabInstance:
     - target: {fileID: 3850846137984301336, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894536903144734689, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.00036
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894536903144734689, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02613
       objectReference: {fileID: 0}
     - target: {fileID: 4124256545312151683, guid: 7d27b13b666e1124ab435cd936bd7560, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2200,7 +2216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3827022087941864233, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
       propertyPath: showDebug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4971977267657316005, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2248,7 +2264,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5641834233287167007, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831504078285181308, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831504078285181308, guid: 6610e46b96643b24eae74b83e3d2f3aa, type: 3}
+      propertyPath: m_Acceleration
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

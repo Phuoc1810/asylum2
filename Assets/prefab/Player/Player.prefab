@@ -1172,6 +1172,7 @@ GameObject:
   - component: {fileID: 8825327100509578451}
   - component: {fileID: 8210741510224852875}
   - component: {fileID: 2239308895633582708}
+  - component: {fileID: 3289019723876117616}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1231,13 +1232,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556823954775265658}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9700a3a0598585b44971166e89fc4b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  runSpeed: 3
+  runSpeed: 4
   mouseSensitivity: 100
   animator: {fileID: 3501086429603739268}
   cameraTransform: {fileID: 5264243344577030450}
@@ -1252,7 +1253,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556823954775265658}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86a00c01806a82f4cacc9922c2f99b86, type: 3}
   m_Name: 
@@ -1446,6 +1447,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3289019723876117616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556823954775265658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd16a97505b88e4998eefb8cbf2cb13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCanvas: {fileID: 7703470852864503470}
+  terminalText: {fileID: 296499529698017959}
+  headerText: {fileID: 6259872144783543901}
+  terminalPanel: {fileID: 580657711614220342}
+  scanlines: {fileID: 8552649889080435044}
+  cornerTopLeft: {fileID: 5128215990159162473}
+  cornerTopRight: {fileID: 1170006037756935104}
+  cornerBottomLeft: {fileID: 2265817233649861269}
+  cornerBottomRight: {fileID: 4808321028020004063}
+  typingSpeed: 0.05
+  lineDelay: 0.3
+  restartKey: 32
+  enableScanlines: 1
+  enableFlicker: 1
+  enableCRTEffect: 1
+  enableGlowPulse: 1
+  scanlineSpeed: 0.2
+  scanlineCount: 50
+  flickerInterval: 0.1
+  flickerChance: 0.1
+  flickerMinAlpha: 0.8
+  distortionAmount: 0.02
+  distortionChance: 0.05
+  enableCRTShake: 1
+  shakeIntensity: 0.5
+  enableRandomGlitch: 1
+  glitchInterval: 3
+  pulseSpeed: 2
+  glowMinAlpha: 0.5
+  glowMaxAlpha: 1
+  deathSound: {fileID: 0}
+  staticSound: {fileID: 0}
+  audioVolume: 0.5
 --- !u!1 &1615914666105541504
 GameObject:
   m_ObjectHideFlags: 0
@@ -5598,7 +5644,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -7384,7 +7430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 150}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: -80, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2276540225474626290
