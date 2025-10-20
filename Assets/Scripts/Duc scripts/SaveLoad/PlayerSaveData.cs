@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSaveData : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerSaveData : MonoBehaviour
     bool[] puzzles = new bool[8];
     string[] item_name;
     int[] item_num;
+    string last_scene_name;
     GameObject Inventory;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +21,7 @@ public class PlayerSaveData : MonoBehaviour
             pos = data.position;
             puzzles = data.isPuzzleFinished;
             Player.gameObject.transform.position = new Vector3(pos[0], pos[1], pos[2]);
+            last_scene_name = data.last_scene_name;
 
             if (data.item_name != null && data.item_num != null)
             {
@@ -36,19 +39,21 @@ public class PlayerSaveData : MonoBehaviour
                 item_num = null;
             }
         }
-        else
+        else // default data
         {
             //Player.gameObject.transform.position = new Vector3(72f, 0.2f, 100f);
-            Player.gameObject.transform.position = new Vector3(-27f, 8.48f, 16f);
+            //Player.gameObject.transform.position = new Vector3(28.7f, 0.47f, 47f);
+            Player.gameObject.transform.position = new Vector3(51f, 0.47f, 115f);
             puzzles = new bool[8] { false, false, false , false, false, false, false, false};
             item_name = null;
             item_num = null;
+            last_scene_name = "SceneA";
         }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Save();
         }
@@ -59,6 +64,9 @@ public class PlayerSaveData : MonoBehaviour
         pos[0] = Player.gameObject.transform.position.x;
         pos[1] = Player.gameObject.transform.position.y;
         pos[2] = Player.gameObject.transform.position.z;
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        last_scene_name = currentScene.name;
 
         // Code tam de test bool
         puzzles = new bool[8] { true, false, false, false, false, false, false, false };
@@ -84,13 +92,15 @@ public class PlayerSaveData : MonoBehaviour
             item_num = null;
         }
 
-        PlayerData data = new PlayerData(pos, puzzles, item_name, item_num);
+        PlayerData data = new PlayerData(pos, puzzles, item_name, item_num, last_scene_name);
         SaveSystem.Save(data);
     }
 
     // Dung ham nay khi xong puzzle
     public void SetBoolPuzzles(int puzzle_num, bool status)
     {
-        puzzles[puzzle_num] = status;
+        puzzles[puzzle_num - 1] = status;
     }
+
+    public string GetLastSceneName() => last_scene_name;
 }
