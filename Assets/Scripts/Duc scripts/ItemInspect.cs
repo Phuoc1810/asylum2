@@ -17,11 +17,11 @@ public class ItemInspect : MonoBehaviour
             currentItem.transform.Rotate(Camera.main.transform.up, -rotX, Space.World);
             currentItem.transform.Rotate(Camera.main.transform.right, rotY, Space.World);
 
-            // Exit inspection with Esc
+            /*// Exit inspection with Esc
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 ExitInspection();
-            }
+            }*/
         }
     }
 
@@ -35,9 +35,10 @@ public class ItemInspect : MonoBehaviour
         currentItem.transform.SetParent(inspectPosition); // lock item to camera position
     }
 
-    void ExitInspection()
+    public void ExitInspection()
     {
         inspecting = false;
+        Debug.Log("Exit");
         if (currentItem != null)
         {
             Destroy(currentItem);
