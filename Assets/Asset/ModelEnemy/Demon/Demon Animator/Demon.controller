@@ -525,6 +525,8 @@ MonoBehaviour:
   facePlayerOnStart: 1
   jumpscareSound: {fileID: 8300000, guid: dd1ba73e6f17f764a8491f5c6562531a, type: 3}
   volume: 1
+  showDeathScreen: 1
+  deathScreenDelay: 0
 --- !u!1102 &3490842022425584561
 AnimatorState:
   serializedVersion: 6

@@ -42,19 +42,30 @@ public class JumpscareState : StateMachineBehaviour
     [Range(0f, 1f)]
     public float volume = 1f;
 
+    [Tooltip("Max distance để nghe âm thanh (3D sound).")]
+    public float maxDistance = 30f;
+
+    [Header("Death Screen")]
+    [Tooltip("Hiện death screen sau khi jumpscare kết thúc.")]
+    public bool showDeathScreen = true;
+
+    [Tooltip("Delay trước khi hiện death screen (giây).")]
+    public float deathScreenDelay = 0.5f;
+
     // ================== INTERNAL ==================
     Transform player;
     NavMeshAgent agent;
     Camera mainCamera;
     Transform playerCamera;
 
-    enum Phase { ToHolder, Hold, Done }
+    enum Phase { ToHolder, Hold, ShowingDeath, Done }
     Phase phase = Phase.Done;
 
     Vector3 startPos;
     Quaternion startRot;
     float progress = 0f;
     float holdTimer = 0f;
+    float deathDelayTimer = 0f;
 
     Transform focusPoint;
     Animator cachedAnimator;
@@ -63,6 +74,8 @@ public class JumpscareState : StateMachineBehaviour
     bool playerLocked = false;
     CharacterController playerController;
     MonoBehaviour[] playerScripts;
+
+    bool deathScreenShown = false;
 
     // ================== CALLBACKS ==================
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -73,6 +86,8 @@ public class JumpscareState : StateMachineBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         agent = animator.GetComponent<NavMeshAgent>();
+
+        deathScreenShown = false;
 
         if (mainCamera == null || playerCamera == null)
         {
@@ -122,6 +137,7 @@ public class JumpscareState : StateMachineBehaviour
         startRot = playerCamera.rotation;
         progress = 0f;
         holdTimer = 0f;
+        deathDelayTimer = 0f;
         phase = Phase.ToHolder;
 
         // Face player
@@ -177,18 +193,52 @@ public class JumpscareState : StateMachineBehaviour
             holdTimer += Time.deltaTime;
             if (holdTimer >= holdDuration)
             {
+                phase = Phase.ShowingDeath;
+                deathDelayTimer = 0f;
+                Debug.Log("[Jumpscare] Transitioning to death screen");
+            }
+        }
+        else if (phase == Phase.ShowingDeath)
+        {
+            deathDelayTimer += Time.deltaTime;
+            if (deathDelayTimer >= deathScreenDelay && !deathScreenShown)
+            {
+                ShowDeathScreen();
+                deathScreenShown = true;
                 phase = Phase.Done;
-                Debug.Log("[Jumpscare] Done");
+                Debug.Log("[Jumpscare] Death screen shown, jumpscare complete");
             }
         }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Nếu chưa hiện death screen thì hiện ngay
+        if (showDeathScreen && !deathScreenShown)
+        {
+            ShowDeathScreen();
+        }
+
         ExitState(animator);
     }
 
     // ================== HELPERS ==================
+    void ShowDeathScreen()
+    {
+        if (!showDeathScreen) return;
+
+        DeathScreenManager deathManager = GameObject.FindObjectOfType<DeathScreenManager>();
+        if (deathManager != null)
+        {
+            deathManager.ShowDeathScreen();
+            Debug.Log("[Jumpscare] Death screen activated");
+        }
+        else
+        {
+            Debug.LogError("[Jumpscare] Không tìm thấy DeathScreenManager trong scene!");
+        }
+    }
+
     void ExitState(Animator animator)
     {
         animator.SetBool("IsJumpscaring", false);
