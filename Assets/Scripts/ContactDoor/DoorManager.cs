@@ -201,6 +201,11 @@ public class DoorManager : MonoBehaviour
         if (hasExitKey)
         {
             ToggleDoor();
+            DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
+            if (lightEffect != null)
+            {
+                lightEffect.TriggerLightEffect();
+            }
         }
         else
         {
