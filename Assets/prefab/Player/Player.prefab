@@ -1173,7 +1173,6 @@ GameObject:
   - component: {fileID: 8210741510224852875}
   - component: {fileID: 2239308895633582708}
   - component: {fileID: 3289019723876117616}
-  - component: {fileID: 137818072797347863}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1469,51 +1468,6 @@ MonoBehaviour:
   cornerTopRight: {fileID: 1170006037756935104}
   cornerBottomLeft: {fileID: 2265817233649861269}
   cornerBottomRight: {fileID: 4808321028020004063}
-  typingSpeed: 0.05
-  lineDelay: 0.3
-  restartKey: 32
-  enableScanlines: 1
-  enableFlicker: 1
-  enableCRTEffect: 1
-  enableGlowPulse: 1
-  scanlineSpeed: 0.2
-  scanlineCount: 50
-  flickerInterval: 0.1
-  flickerChance: 0.1
-  flickerMinAlpha: 0.8
-  distortionAmount: 0.02
-  distortionChance: 0.05
-  enableCRTShake: 1
-  shakeIntensity: 0.5
-  enableRandomGlitch: 1
-  glitchInterval: 3
-  pulseSpeed: 2
-  glowMinAlpha: 0.5
-  glowMaxAlpha: 1
-  deathSound: {fileID: 0}
-  staticSound: {fileID: 0}
-  audioVolume: 0.5
---- !u!114 &137818072797347863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556823954775265658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd16a97505b88e4998eefb8cbf2cb13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathCanvas: {fileID: 0}
-  terminalText: {fileID: 0}
-  headerText: {fileID: 0}
-  terminalPanel: {fileID: 0}
-  scanlines: {fileID: 0}
-  cornerTopLeft: {fileID: 0}
-  cornerTopRight: {fileID: 0}
-  cornerBottomLeft: {fileID: 0}
-  cornerBottomRight: {fileID: 0}
   typingSpeed: 0.05
   lineDelay: 0.3
   restartKey: 32
