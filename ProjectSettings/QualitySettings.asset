@@ -22,7 +22,7 @@ QualitySettings:
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
     anisotropicTextures: 2
-    antiAliasing: 2
+    antiAliasing: 0
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 0
@@ -130,7 +130,7 @@ QualitySettings:
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
     anisotropicTextures: 2
-    antiAliasing: 8
+    antiAliasing: 0
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 0
@@ -170,7 +170,7 @@ QualitySettings:
     - WebGL
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
-    Android: 0
+    Android: 1
     GameCoreScarlett: 0
     GameCoreXboxOne: 0
     Lumin: 0
@@ -179,7 +179,7 @@ QualitySettings:
     PS5: 0
     Server: 0
     Stadia: 0
-    Standalone: 0
+    Standalone: 2
     WebGL: 0
     Windows Store Apps: 0
     XboxOne: 0
