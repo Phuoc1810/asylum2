@@ -6,7 +6,7 @@ public class SafeUnlocker : MonoBehaviour
     //public GameObject SafeUI;
     public GameObject KeypadUI;
     public GameObject Holder;
-    public GameObject[] Lights = new GameObject[2];
+    public GameObject[] Lights = new GameObject[3];
     public GameObject keypadLight;
     bool isOpen;
     bool isInteracted;

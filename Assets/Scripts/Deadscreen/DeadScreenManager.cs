@@ -413,7 +413,9 @@ public class DeathScreenManager : MonoBehaviour
     // ========== RESTART ==========
     void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        string last_scene_name = this.gameObject.GetComponent<PlayerSaveData>().GetLastSceneName();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(last_scene_name);
     }
 
     public static void TriggerDeath()
