@@ -525,6 +525,7 @@ MonoBehaviour:
   facePlayerOnStart: 1
   jumpscareSound: {fileID: 8300000, guid: dd1ba73e6f17f764a8491f5c6562531a, type: 3}
   volume: 1
+  maxDistance: 30
   showDeathScreen: 1
   deathScreenDelay: 0
 --- !u!1102 &3490842022425584561
@@ -764,6 +765,9 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
+  chaseSound: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: 88c1cd885e32cd4448a86bb7f715c9f4, type: 3}
+  footstepInterval: 0.5
 --- !u!1101 &7909611780911077589
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

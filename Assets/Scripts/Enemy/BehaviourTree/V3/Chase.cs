@@ -6,14 +6,21 @@ public class Chase : StateMachineBehaviour
     [Header("Line of Sight")]
     [SerializeField] private LayerMask wallLayer; // Gán layer "Wall" trong Inspector
 
+    [Header("Sound Effects")]
+    [SerializeField] private AudioClip chaseSound; // Âm thanh chase/chạy
+    [SerializeField] private AudioClip footstepSound; // Âm thanh bước chân (optional)
+    [SerializeField] private float footstepInterval = 0.5f; // Khoảng cách giữa các tiếng bước
+
     NavMeshAgent agent;
     Transform player;
+    AudioSource audioSource;
     float chaseSpeed = 4f;
     float losePlayerRange = 15f;
     float jumpscareRange = 2.5f;
     float timer;
     float lostPlayerTimer; // Timer riêng cho việc mất tích
     float maxChaseTime = 30f; // Thời gian chase tối đa
+    float footstepTimer; // Timer cho tiếng bước chân
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -22,9 +29,30 @@ public class Chase : StateMachineBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         timer = 0;
         lostPlayerTimer = 0;
+        footstepTimer = 0;
 
-        // Có thể thêm âm thanh chase ở đây
-        // AudioSource.PlayClipAtPoint(chaseSound, animator.transform.position);
+        // Lấy hoặc thêm AudioSource component
+        audioSource = animator.GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = animator.gameObject.AddComponent<AudioSource>();
+        }
+
+        // Phát âm thanh chase (looping background)
+        if (chaseSound != null)
+        {
+            audioSource.clip = chaseSound;
+            audioSource.loop = true;
+            audioSource.spatialBlend = 1f; // 3D sound
+            audioSource.minDistance = 5f;
+            audioSource.maxDistance = 20f;
+            audioSource.Play();
+        }
+        // ✅ TẮT CÁC BOOL CỦA STATE KHÁC
+        animator.SetBool("IsIdle", false);
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsAlert", false);
+        animator.SetBool("IsPatrolling", false); // Nếu có
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -45,6 +73,17 @@ public class Chase : StateMachineBehaviour
 
         // Cập nhật đích đến là vị trí người chơi
         agent.SetDestination(player.position);
+
+        // ✅ PHÁT TIẾNG BƯỚC CHÂN (nếu có)
+        if (footstepSound != null && agent.velocity.magnitude > 0.1f)
+        {
+            footstepTimer += Time.deltaTime;
+            if (footstepTimer >= footstepInterval)
+            {
+                AudioSource.PlayClipAtPoint(footstepSound, animator.transform.position, 0.5f);
+                footstepTimer = 0;
+            }
+        }
 
         // ✅ QUẢN LÝ TIMER MẤT TÍCH - nhanh hơn khi không nhìn thấy
         if (distance > losePlayerRange || !canSeePlayer)
@@ -80,6 +119,12 @@ public class Chase : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         agent.SetDestination(animator.transform.position);
+
+        // Dừng âm thanh chase khi thoát state
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
 
     // ✅ METHOD MỚI: Check xem có tường chắn không
