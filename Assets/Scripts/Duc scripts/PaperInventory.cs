@@ -19,7 +19,7 @@ public class PaperInventory : MonoBehaviour
         {
             Debug.Log("All pieces collected!");
             // Trigger UI assembly
-            Puzzle_note.instance.ShowAssembledNote();
+            //Puzzle_note.instance.ShowAssembledNote();
         }
     }
 

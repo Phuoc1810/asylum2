@@ -59,7 +59,7 @@ public class DeathScreenManager : MonoBehaviour
 
     private string[] terminalLines = {
         "═══════════════════════════════════════",
-        "> HỒ SƠ Y TẾ - BỆNH VIỆN TÂM THẦN ST. MERCY",
+        "> HỒ SƠ Y TẾ - BỆNH VIỆN TÂM THẦN ST. MORROW",
         "> Đang truy xuất dữ liệu bác sĩ...",
         "> CẢNH BÁO: Phát hiện dấu hiệu tổn thương nghiêm trọng",
         "> Nhịp tim: 0 bpm... Huyết áp: 0/0...",
@@ -413,7 +413,9 @@ public class DeathScreenManager : MonoBehaviour
     // ========== RESTART ==========
     void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        string last_scene_name = this.gameObject.GetComponent<PlayerSaveData>().GetLastSceneName();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(last_scene_name);
     }
 
     public static void TriggerDeath()
