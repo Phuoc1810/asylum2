@@ -202,8 +202,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   chaseSound: {fileID: 0}
-  footstepSound: {fileID: 8300000, guid: 626a9b929ed09f24a820404032d3f1d3, type: 3}
-  footstepInterval: 0.5
+  footstepSound: {fileID: 8300000, guid: 55b78f7583cdf9349894161a08542248, type: 3}
+  footstepInterval: 0.3
 --- !u!1101 &-2455568272921812647
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -477,7 +477,32 @@ MonoBehaviour:
   holderIsChildOfAgent: 1
   inDuration: 0.35
   holdDuration: 5
+  returnDuration: 0.5
   easeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  easeOut:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

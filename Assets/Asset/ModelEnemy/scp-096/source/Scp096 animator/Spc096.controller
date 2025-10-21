@@ -582,7 +582,32 @@ MonoBehaviour:
   holderIsChildOfAgent: 1
   inDuration: 0.35
   holdDuration: 7
+  returnDuration: 0.5
   easeIn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  easeOut:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -610,6 +635,7 @@ MonoBehaviour:
   headOffset: {x: 0, y: 1.7, z: 0.3}
   useOffsetOnly: 0
   facePlayerOnStart: 1
+  hidePlayerModel: 1
   jumpscareSound: {fileID: 8300000, guid: 18769a78193655b429295cdf5ef4be86, type: 3}
   volume: 1
   maxDistance: 30

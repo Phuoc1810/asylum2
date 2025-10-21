@@ -34,6 +34,9 @@ public class JumpscareState : StateMachineBehaviour
     [Header("Options")]
     public bool facePlayerOnStart = true;
 
+    [Tooltip("Tắt model của player trong lúc jumpscare.")]
+    public bool hidePlayerModel = true;
+
     [Header("Audio")]
     [Tooltip("File âm thanh jumpscare (kéo thả AudioClip vào đây).")]
     public AudioClip jumpscareSound;
@@ -74,6 +77,9 @@ public class JumpscareState : StateMachineBehaviour
     bool playerLocked = false;
     CharacterController playerController;
     MonoBehaviour[] playerScripts;
+
+    GameObject playerModel;
+    bool playerModelWasActive = true;
 
     bool deathScreenShown = false;
 
@@ -154,6 +160,12 @@ public class JumpscareState : StateMachineBehaviour
 
         LockPlayer();
 
+        // Ẩn model player
+        if (hidePlayerModel)
+        {
+            HidePlayerModel();
+        }
+
         // Play jumpscare sound
         if (jumpscareSound != null)
         {
@@ -167,14 +179,15 @@ public class JumpscareState : StateMachineBehaviour
     {
         if (playerCamera == null) return;
 
+        // Lấy vị trí đầu agent (cập nhật liên tục)
+        Vector3 headPos = cachedHeadBone != null
+            ? cachedHeadBone.position
+            : cachedAnimator.transform.TransformPoint(headOffset);
+
         if (phase == Phase.ToHolder)
         {
             progress += Time.deltaTime / inDuration;
             float t = easeIn.Evaluate(progress);
-
-            Vector3 headPos = cachedHeadBone != null
-                ? cachedHeadBone.position
-                : cachedAnimator.transform.TransformPoint(headOffset);
 
             Vector3 targetPos = focusPoint.position;
             Quaternion targetRot = Quaternion.LookRotation((headPos - targetPos).normalized);
@@ -190,6 +203,10 @@ public class JumpscareState : StateMachineBehaviour
         }
         else if (phase == Phase.Hold)
         {
+            // Camera luôn nhìn theo đầu agent trong phase Hold
+            Vector3 directionToHead = (headPos - playerCamera.position).normalized;
+            playerCamera.rotation = Quaternion.LookRotation(directionToHead);
+
             holdTimer += Time.deltaTime;
             if (holdTimer >= holdDuration)
             {
@@ -213,6 +230,12 @@ public class JumpscareState : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Bật lại model player (để thấy xác)
+        if (hidePlayerModel)
+        {
+            ShowPlayerModel();
+        }
+
         // Nếu chưa hiện death screen thì hiện ngay
         if (showDeathScreen && !deathScreenShown)
         {
@@ -288,4 +311,76 @@ public class JumpscareState : StateMachineBehaviour
 
         playerLocked = true;
     }
+
+    void HidePlayerModel()
+    {
+        if (player == null) return;
+
+        // Tìm model (thường là child object hoặc chính player)
+        Renderer[] renderers = player.GetComponentsInChildren<Renderer>();
+
+        if (renderers.Length > 0)
+        {
+            // Tìm parent chứa các renderer (thường là "Model" hoặc child đầu tiên)
+            Transform modelTransform = null;
+
+            // Ưu tiên tìm object tên "Model"
+            foreach (Transform child in player)
+            {
+                if (child.name.ToLower().Contains("model") || child.name.ToLower().Contains("mesh"))
+                {
+                    modelTransform = child;
+                    break;
+                }
+            }
+
+            // Nếu không tìm thấy, lấy parent của renderer đầu tiên
+            if (modelTransform == null && renderers[0].transform != player)
+            {
+                modelTransform = renderers[0].transform;
+            }
+
+            // Lưu và tắt
+            if (modelTransform != null && modelTransform != player)
+            {
+                playerModel = modelTransform.gameObject;
+                playerModelWasActive = playerModel.activeSelf;
+                playerModel.SetActive(false);
+                Debug.Log($"[Jumpscare] Hidden player model: {playerModel.name}");
+            }
+            else
+            {
+                // Fallback: tắt tất cả renderer
+                foreach (var renderer in renderers)
+                {
+                    renderer.enabled = false;
+                }
+                Debug.Log("[Jumpscare] Disabled all player renderers");
+            }
+        }
+    }
+
+    void ShowPlayerModel()
+    {
+        if (player == null) return;
+
+        if (playerModel != null)
+        {
+            // Bật lại model object đã được lưu
+            playerModel.SetActive(playerModelWasActive);
+            Debug.Log($"[Jumpscare] Shown player model: {playerModel.name}");
+            playerModel = null;
+        }
+        else
+        {
+            // Fallback: bật lại tất cả renderer
+            Renderer[] renderers = player.GetComponentsInChildren<Renderer>(true);
+            foreach (var renderer in renderers)
+            {
+                renderer.enabled = true;
+            }
+            Debug.Log("[Jumpscare] Re-enabled all player renderers");
+        }
+    }
+  
 }
