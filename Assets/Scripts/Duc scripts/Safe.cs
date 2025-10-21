@@ -94,7 +94,7 @@ public class Safe : MonoBehaviour
         if (input_password == real_password)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().SetBoolPuzzles(6, true);
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
             Debug.Log("Safe unlocked");
         }
     }

@@ -71,7 +71,7 @@ public class SafeUnlocker : MonoBehaviour
     public void CorrectPassword()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.gameObject.GetComponent<PlayerSaveData>().SetBoolPuzzles(6, true);
+        player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
         Debug.Log("Safe unlocked");
     }
 
