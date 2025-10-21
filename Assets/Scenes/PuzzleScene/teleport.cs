@@ -1,18 +1,18 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ItemSceneTransfer : MonoBehaviour
 {
-    [Header("C?u h?nh Scene")]
-    [Tooltip("Tên scene mu?n chuy?n ğ?n")]
+    [Header("Cáº¥u hÃ¬nh Scene")]
+    [Tooltip("TÃªn scene muá»‘n chuyá»ƒn Ä‘áº¿n")]
     public string targetSceneName = "Scene2";
 
-    [Header("C?u h?nh Tıõng tác")]
-    [Tooltip("Nh?n phím g? ğ? chuy?n scene (m?c ğ?nh E)")]
+    [Header("Cáº¥u hÃ¬nh TÆ°Æ¡ng tÃ¡c")]
+    [Tooltip("Nháº¥n phÃ­m gÃ¬ Ä‘á»ƒ chuyá»ƒn scene (máº·c Ä‘á»‹nh E)")]
     public KeyCode interactKey = KeyCode.E;
 
-    [Header("Tùy ch?n")]
-    [Tooltip("Có gi? v?t ph?m này khi chuy?n scene không?")]
+    [Header("TÃ¹y chá»n")]
+    [Tooltip("CÃ³ giá»¯ váº­t pháº©m nÃ y khi chuyá»ƒn scene khÃ´ng?")]
     public bool keepItemInNewScene = false;
 
     private bool playerInRange = false;
@@ -20,20 +20,20 @@ public class ItemSceneTransfer : MonoBehaviour
 
     void Start()
     {
-        // Ki?m tra có Box Collider không
+        // Kiá»ƒm tra cÃ³ Box Collider khÃ´ng
         BoxCollider boxCollider = GetComponent<BoxCollider>();
         if (boxCollider == null)
         {
-            Debug.LogError("V?t ph?m này c?n có Box Collider!");
+            Debug.LogError("Váº­t pháº©m nÃ y cáº§n cÃ³ Box Collider!");
         }
 
-        // Ğ?m b?o Collider là trigger ğ? detect va ch?m
+        // Äáº£m báº£o Collider lÃ  trigger Ä‘á»ƒ detect va cháº¡m
         if (boxCollider != null)
         {
             boxCollider.isTrigger = true;
         }
 
-        // N?u mu?n gi? v?t ph?m khi chuy?n scene
+        // Náº¿u muá»‘n giá»¯ váº­t pháº©m khi chuyá»ƒn scene
         if (keepItemInNewScene)
         {
             DontDestroyOnLoad(gameObject);
@@ -42,7 +42,7 @@ public class ItemSceneTransfer : MonoBehaviour
 
     void Update()
     {
-        // N?u player ğang ? g?n và nh?n phím tıõng tác
+        // Náº¿u player Ä‘ang á»Ÿ gáº§n vÃ  nháº¥n phÃ­m tÆ°Æ¡ng tÃ¡c
         if (playerInRange && Input.GetKeyDown(interactKey))
         {
             TransferToScene();
@@ -51,12 +51,12 @@ public class ItemSceneTransfer : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Ki?m tra n?u là player va ch?m
+        // Kiá»ƒm tra náº¿u lÃ  player va cháº¡m
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
             player = other.gameObject;
-            Debug.Log("Nh?n " + interactKey + " ğ? chuy?n scene!");
+            Debug.Log("Nháº¥n " + interactKey + " Ä‘á»ƒ chuyá»ƒn scene!");
         }
     }
 
@@ -71,9 +71,9 @@ public class ItemSceneTransfer : MonoBehaviour
 
     void TransferToScene()
     {
-        Debug.Log("Ğang chuy?n sang scene: " + targetSceneName);
+        Debug.Log("Äang chuyá»ƒn sang scene: " + targetSceneName);
 
-        // Lıu v? trí c?a player n?u c?n
+        // LÆ°u vá»‹ trÃ­ cá»§a player náº¿u cáº§n
         if (player != null && keepItemInNewScene)
         {
             PlayerPrefs.SetFloat("PlayerPosX", player.transform.position.x);
@@ -81,34 +81,8 @@ public class ItemSceneTransfer : MonoBehaviour
             PlayerPrefs.SetFloat("PlayerPosZ", player.transform.position.z);
         }
 
-        // Chuy?n scene
+        // Chuyá»ƒn scene
         SceneManager.LoadScene(targetSceneName);
     }
 }
 
-// ========== SCRIPT PH?: Ğ?t vào Player ğ? khôi ph?c v? trí ==========
-// T?o file m?i tên "PlayerPositionLoader.cs" và paste ğo?n code dı?i
-
-/*
-using UnityEngine;
-
-public class PlayerPositionLoader : MonoBehaviour
-{
-    void Start()
-    {
-        // Khôi ph?c v? trí player n?u có lıu
-        if (PlayerPrefs.HasKey("PlayerPosX"))
-        {
-            float x = PlayerPrefs.GetFloat("PlayerPosX");
-            float y = PlayerPrefs.GetFloat("PlayerPosY");
-            float z = PlayerPrefs.GetFloat("PlayerPosZ");
-            transform.position = new Vector3(x, y, z);
-            
-            // Xóa d? li?u ğ? lıu
-            PlayerPrefs.DeleteKey("PlayerPosX");
-            PlayerPrefs.DeleteKey("PlayerPosY");
-            PlayerPrefs.DeleteKey("PlayerPosZ");
-        }
-    }
-}
-*/

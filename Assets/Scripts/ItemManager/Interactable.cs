@@ -21,7 +21,7 @@ public class Interactable : MonoBehaviour
         Flashlight,
         Barrtery,
         KeyExit,
-
+        theend,
 
         //=== DOOR ===//
         DoorMaintenance,
