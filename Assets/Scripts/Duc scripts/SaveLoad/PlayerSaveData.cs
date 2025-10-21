@@ -8,7 +8,8 @@ public class PlayerSaveData : MonoBehaviour
     public GameObject Player;
     public GameObject AutosaveTXT;
     float[] pos = new float[3];
-    bool[] puzzles = new bool[8];
+    bool[] puzzles = new bool[11];
+    bool[] puzzles_tangham = new bool[5];
     string[] item_name;
     int[] item_num;
     string last_scene_name;
@@ -114,6 +115,12 @@ public class PlayerSaveData : MonoBehaviour
     public void Autosave(int puzzle_num, bool status)
     {
         puzzles[puzzle_num - 1] = status;
+        Save();
+    }
+
+    public void AutosaveTangham(int puzzle_num, bool status)
+    {
+        puzzles_tangham[puzzle_num - 1] = status;
         Save();
     }
 

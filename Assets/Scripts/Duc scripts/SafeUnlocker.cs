@@ -10,14 +10,19 @@ public class SafeUnlocker : MonoBehaviour
     public GameObject keypadLight;
     bool isOpen;
     bool isInteracted;
+
+    GameObject drawer;
+    bool isUnlocked;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        drawer = GameObject.FindGameObjectWithTag("safe_unlock");
         SafeTextUI.SetActive(false);
         KeypadUI.SetActive(false);
         //SafeUI.SetActive(false);
         isOpen = false;
         isInteracted = false;
+        isUnlocked = false;
     }
 
     // Update is called once per frame
@@ -56,6 +61,14 @@ public class SafeUnlocker : MonoBehaviour
                 isOpen = false;
             }
         }
+
+        if (isUnlocked)
+        {
+            if (drawer.gameObject.transform.localPosition.x <= 0.7f)
+            {
+                drawer.gameObject.transform.Translate(Vector3.right * 0.5f * Time.deltaTime, Space.Self);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -71,7 +84,8 @@ public class SafeUnlocker : MonoBehaviour
     public void CorrectPassword()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
+        player.gameObject.GetComponent<PlayerSaveData>().Autosave(5, true);
+        isUnlocked = true;
         Debug.Log("Safe unlocked");
     }
 
