@@ -198,13 +198,28 @@ public class DoorManager : MonoBehaviour
     private void HandleExitDoor()
     {
         bool hasExitKey = InventoryService.Instance != null && InventoryService.Instance.Contains("exit_key");
+
         if (hasExitKey)
         {
+            // Mở cửa
             ToggleDoor();
-            DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
-            if (lightEffect != null)
+
+            // Nếu cửa vừa mở (isOpen = true sau khi toggle)
+            if (isOpen)
             {
-                lightEffect.TriggerLightEffect();
+                Debug.Log(" Cửa exit đã mở! Kích hoạt hiệu ứng...");
+
+                // Tìm và kích hoạt hiệu ứng ánh sáng
+                DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
+                if (lightEffect != null)
+                {
+                    lightEffect.TriggerLightEffect();
+                    Debug.Log(" Đã gọi TriggerLightEffect()!");
+                }
+                else
+                {
+                    Debug.LogError(" Không tìm thấy DoorLightEffect trên cửa exit! Hãy Add Component → DoorLightEffect");
+                }
             }
         }
         else
