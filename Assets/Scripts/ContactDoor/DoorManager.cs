@@ -94,7 +94,7 @@ public class DoorManager : MonoBehaviour
         {
             playerInRange = true;
 
-            if (isFaceActive && doorInteractable != null && 
+            if (isFaceActive && doorInteractable != null &&
                 doorInteractable.Type == Interactable.InteracType.DirectorDoor)
             {
                 TriggerJumpscare();
@@ -201,13 +201,18 @@ public class DoorManager : MonoBehaviour
         if (hasExitKey)
         {
             ToggleDoor();
+            DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
+            if (lightEffect != null)
+            {
+                lightEffect.TriggerLightEffect();
+            }
         }
         else
         {
             PlayDoorSound(doorLockedSound);
         }
     }
-        private void ToggleDoor()
+    private void ToggleDoor()
     {
         isLocked = false;
         isOpen = !isOpen;
@@ -270,7 +275,7 @@ public class DoorManager : MonoBehaviour
 
         yield return new WaitForSeconds(textDisplayDuration);
 
-        if(doorStatusText != null)
+        if (doorStatusText != null)
         {
             doorStatusText.text = "";
         }
@@ -322,7 +327,7 @@ public class DoorManager : MonoBehaviour
     }
     private void UpdateMaintenceDoorText()
     {
-        if(InventoryManager.instance == null)
+        if (InventoryManager.instance == null)
         {
             doorStatusText.text = "";
             return;
