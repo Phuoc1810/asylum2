@@ -21,6 +21,7 @@ TagManager:
   - safe
   - doc
   - InventoryService
+  - safe_unlock
   layers:
   - Default
   - TransparentFX

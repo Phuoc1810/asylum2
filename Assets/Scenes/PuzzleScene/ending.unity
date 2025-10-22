@@ -119549,7 +119549,7 @@ MonoBehaviour:
   font: {fileID: 11400000, guid: ec7299e389da88a4789803f123c3b2ec, type: 2}
   fontSize: 80
   textColor: {r: 0.21698111, g: 0.2129236, b: 0.18320575, a: 1}
-  alignment: 514
+  alignment: 257
   theEndText: THE END
   credits:
   - "\u0110\u01B0\u1EE3c th\u1EF1c hi\u1EC7n b\u1EDFi \u2026Nguy\u1EC5n H\u1EA3i
