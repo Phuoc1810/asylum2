@@ -195,38 +195,44 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
+    // Thêm trong DoorManager
+    private IEnumerator LoadSceneAfterLight(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        var transition = GetComponent<SceneTransition>();
+        if (transition != null) transition.LoadTargetScene();
+        else Debug.LogWarning("Không thấy SceneTransition trên cửa exit.");
+    }
+
     private void HandleExitDoor()
     {
         bool hasExitKey = InventoryService.Instance != null && InventoryService.Instance.Contains("exit_key");
+        if (!hasExitKey) { PlayDoorSound(doorLockedSound); return; }
 
-        if (hasExitKey)
+        ToggleDoor();
+
+        if (isOpen)
         {
-            // Mở cửa
-            ToggleDoor();
+            Debug.Log("Cửa exit đã mở! Kích hoạt hiệu ứng...");
 
-            // Nếu cửa vừa mở (isOpen = true sau khi toggle)
-            if (isOpen)
+            DoorLightEffect lightEffect = GetComponent<DoorLightEffect>(); // ĐÚNG TÊN BIẾN
+            if (lightEffect != null)
             {
-                Debug.Log(" Cửa exit đã mở! Kích hoạt hiệu ứng...");
+                lightEffect.TriggerLightEffect();
+                Debug.Log("Đã gọi TriggerLightEffect()!");
 
-                // Tìm và kích hoạt hiệu ứng ánh sáng
-                DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
-                if (lightEffect != null)
-                {
-                    lightEffect.TriggerLightEffect();
-                    Debug.Log(" Đã gọi TriggerLightEffect()!");
-                }
-                else
-                {
-                    Debug.LogError(" Không tìm thấy DoorLightEffect trên cửa exit! Hãy Add Component → DoorLightEffect");
-                }
+                float wait = Mathf.Max(0f,
+                    lightEffect.fadeInTime + lightEffect.holdTime + lightEffect.fadeOutTime); // KHÔNG COMMENT
+                StartCoroutine(LoadSceneAfterLight(wait));
+            }
+            else
+            {
+                Debug.LogWarning("Không tìm thấy DoorLightEffect trên cửa exit. Load scene ngay."); // Debug.LogWarning
+                StartCoroutine(LoadSceneAfterLight(0f));
             }
         }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
     }
+
     private void ToggleDoor()
     {
         isLocked = false;
