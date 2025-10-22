@@ -185,6 +185,9 @@ public class BoxKnockPuzzle : MonoBehaviour
             boxCollider.enabled = false;
         }
 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.gameObject.GetComponent<PlayerSaveData>().Autosave(9, true);
+
         Invoke(nameof(ExitInspectMode), openAnimationDelay);
     }
     private void OnPatternWrong()

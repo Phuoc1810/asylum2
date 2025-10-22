@@ -191,6 +191,9 @@ public class DrawerFocusController : MonoBehaviour
         {
             controller.OnPuzzleComplete();
         }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.gameObject.GetComponent<PlayerSaveData>().Autosave(11, true);
     }
     private void BeginCameraTransition(Vector3 targetPos, Quaternion targetRot)
     {

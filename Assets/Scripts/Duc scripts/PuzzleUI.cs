@@ -28,6 +28,7 @@ public class PuzzleUI : MonoBehaviour
                 {
                     Pieces[i].SetActive(pieces[i]);
                 }
+                isOpen = true;
             }
             else
             {
@@ -35,6 +36,7 @@ public class PuzzleUI : MonoBehaviour
                 {
                     Pieces[i].SetActive(false);
                 }
+                isOpen = false;
             }
         }
     }

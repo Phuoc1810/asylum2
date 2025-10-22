@@ -18,8 +18,10 @@ public class PaperInventory : MonoBehaviour
         if (HasAllPieces())
         {
             Debug.Log("All pieces collected!");
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(3, true);
             // Trigger UI assembly
-            Puzzle_note.instance.ShowAssembledNote();
+            //Puzzle_note.instance.ShowAssembledNote();
         }
     }
 

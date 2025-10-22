@@ -93,6 +93,8 @@ public class Safe : MonoBehaviour
         input_password = digit1 * 1000 + digit2 * 100 + digit3 * 10 + digit4;
         if (input_password == real_password)
         {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
             Debug.Log("Safe unlocked");
         }
     }

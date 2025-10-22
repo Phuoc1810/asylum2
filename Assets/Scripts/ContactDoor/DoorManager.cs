@@ -151,6 +151,9 @@ public class DoorManager : MonoBehaviour
         if (hasKey)
         {
             ToggleDoor();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
         }
         else
         {
@@ -177,6 +180,9 @@ public class DoorManager : MonoBehaviour
         if (hasDirectorKey)
         {
             ToggleDoor();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(10, true);
         }
         else
         {
@@ -189,6 +195,9 @@ public class DoorManager : MonoBehaviour
         if (hasBroadingKey)
         {
             ToggleDoor();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(1, true);
         }
         else
         {
