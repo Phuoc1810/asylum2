@@ -94,7 +94,7 @@ public class DoorManager : MonoBehaviour
         {
             playerInRange = true;
 
-            if (isFaceActive && doorInteractable != null && 
+            if (isFaceActive && doorInteractable != null &&
                 doorInteractable.Type == Interactable.InteracType.DirectorDoor)
             {
                 TriggerJumpscare();
@@ -198,16 +198,36 @@ public class DoorManager : MonoBehaviour
     private void HandleExitDoor()
     {
         bool hasExitKey = InventoryService.Instance != null && InventoryService.Instance.Contains("exit_key");
+
         if (hasExitKey)
         {
+            // Mở cửa
             ToggleDoor();
+
+            // Nếu cửa vừa mở (isOpen = true sau khi toggle)
+            if (isOpen)
+            {
+                Debug.Log(" Cửa exit đã mở! Kích hoạt hiệu ứng...");
+
+                // Tìm và kích hoạt hiệu ứng ánh sáng
+                DoorLightEffect lightEffect = GetComponent<DoorLightEffect>();
+                if (lightEffect != null)
+                {
+                    lightEffect.TriggerLightEffect();
+                    Debug.Log(" Đã gọi TriggerLightEffect()!");
+                }
+                else
+                {
+                    Debug.LogError(" Không tìm thấy DoorLightEffect trên cửa exit! Hãy Add Component → DoorLightEffect");
+                }
+            }
         }
         else
         {
             PlayDoorSound(doorLockedSound);
         }
     }
-        private void ToggleDoor()
+    private void ToggleDoor()
     {
         isLocked = false;
         isOpen = !isOpen;
@@ -270,7 +290,7 @@ public class DoorManager : MonoBehaviour
 
         yield return new WaitForSeconds(textDisplayDuration);
 
-        if(doorStatusText != null)
+        if (doorStatusText != null)
         {
             doorStatusText.text = "";
         }
@@ -322,7 +342,7 @@ public class DoorManager : MonoBehaviour
     }
     private void UpdateMaintenceDoorText()
     {
-        if(InventoryManager.instance == null)
+        if (InventoryManager.instance == null)
         {
             doorStatusText.text = "";
             return;
