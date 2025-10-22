@@ -241,6 +241,10 @@ MonoBehaviour:
   txt: {fileID: 3507757318834538360, guid: c71c6f8e00e68f74588799d619331447, type: 3}
   locks: 0
   animator: {fileID: 8097149761929533180}
+  audioSource: {fileID: 0}
+  openDoorSound: {fileID: 0}
+  closeDoorSound: {fileID: 0}
+  lockedDoorSound: {fileID: 0}
 --- !u!1 &1086514340768499050
 GameObject:
   m_ObjectHideFlags: 0
