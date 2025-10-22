@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
 
 
         //=== DOOR ===//
+        Door,
         DoorMaintenance,
         DirectorDoor,
         BroadingDoor,
