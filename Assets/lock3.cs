@@ -12,16 +12,14 @@ public class lock3 : MonoBehaviour
     public Transform door;
     public int[] passsword = { 4, 3, 2, 1, 4, 2};
     public int[] checkdoor = { 1, 1, 1, 1, 1, 1};
-    public GameObject picup;
-    public GameObject picdown;
-    public GameObject picleft;
-    public GameObject picright;
+   
     public GameObject lockss;
     public GameObject cameralock;
     public GameObject lockpannel;
     public Animator anim;
     public lockmaneger lockmaneger;
     public int count = 0;
+    public int count2 = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +33,7 @@ public class lock3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        lockpannel = GameObject.FindGameObjectWithTag("notepic").transform.GetChild(count2)?.gameObject;
         //Cursor.lockState = CursorLockMode.Confined;
         //Cursor.visible = true;
         if (check())
@@ -49,10 +47,7 @@ public class lock3 : MonoBehaviour
         {
             count = 0;
             transform.eulerAngles = new Vector3(0f, 0f, 0f);
-            picdown.SetActive(false);
-            picleft.SetActive(false);
-            picright.SetActive(false);
-            picup.SetActive(true);
+          
         }
 
     }
@@ -63,10 +58,7 @@ public class lock3 : MonoBehaviour
             checkdoor[count] = 4;
             count++;
             transform.eulerAngles = new Vector3(90, 0f, 0f);
-            picdown.SetActive(false);
-            picup.SetActive(false); 
-            picleft.SetActive(true);
-            picright.SetActive(false);
+           
         }
      
     }
@@ -77,10 +69,7 @@ public class lock3 : MonoBehaviour
             checkdoor[count] = 1;
             count++;
             transform.eulerAngles = new Vector3(0f, 0f, 0f);
-            picdown.SetActive(false);
-            picleft.SetActive(false);
-            picright.SetActive(false);
-            picup.SetActive(true);
+            
 
         }
      
@@ -92,10 +81,7 @@ public class lock3 : MonoBehaviour
             checkdoor[count] = 2;
             count++;
             transform.eulerAngles = new Vector3(-90f, 0f, 0f);
-            picdown.SetActive(false);
-            picleft.SetActive(false);
-            picright.SetActive(true);
-            picup.SetActive(false);
+          
         }
       
     }
@@ -106,10 +92,7 @@ public class lock3 : MonoBehaviour
         {
             count++;
             transform.eulerAngles = new Vector3(180f, 0f, 0f);
-            picdown.SetActive(true);
-            picleft.SetActive(false);
-            picright.SetActive(false);
-            picup.SetActive(false);
+          
         }
       
     }
@@ -130,16 +113,14 @@ public class lock3 : MonoBehaviour
     }
     public void close()
     {
+        Debug.Log("aaaaaa");
+        lockpannel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        lockpannel.SetActive(false);
         cameralock.SetActive(false);
         count = 0;
         transform.eulerAngles = new Vector3(0f, 0f, 0f);
-        picdown.SetActive(false);
-        picleft.SetActive(false);
-        picright.SetActive(false);
-        picup.SetActive(true);
+      
     }
 
 }
