@@ -18,7 +18,8 @@ public class AsyncLoader : MonoBehaviour
         loadingscreen.SetActive(true);
         buttonsettings.count = 1;
         MusicManager.instance.Playmusic("stop");
-       
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         StartCoroutine(loadlevelAsync(levertoload));
     }
