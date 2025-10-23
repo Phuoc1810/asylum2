@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("SoundManager.Instance is null - no footsteps played");
+                //Debug.LogWarning("SoundManager.Instance is null - no footsteps played");
             }
 
             stepTimer = isRunning ? runStepInterval : walkStepInterval;
