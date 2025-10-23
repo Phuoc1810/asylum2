@@ -24,8 +24,11 @@ public class buttonsetting : MonoBehaviour
         {
 
             canvas.SetActive(false);
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            if (count != 0)
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+            }
             if (count == 0)
             {
                 menu.menustting.SetActive(false);
@@ -40,8 +43,11 @@ public class buttonsetting : MonoBehaviour
         else if (isopen == true && Input.GetKeyDown(KeyCode.Escape) )
         {
             canvas.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (count != 0)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
             setting.SetActive(false);
             if (count == 0)
             {

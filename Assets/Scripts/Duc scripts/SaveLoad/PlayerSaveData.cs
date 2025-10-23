@@ -46,8 +46,8 @@ public class PlayerSaveData : MonoBehaviour
         {
             //Player.gameObject.transform.position = new Vector3(72f, 0.2f, 100f);
             //Player.gameObject.transform.position = new Vector3(28.7f, 0.47f, 47f);
-            Player.gameObject.transform.position = new Vector3(13.9200001f, 0.49000001f, 79.9199982f);
-            //Player.gameObject.transform.position = new Vector3(13f, 0.8f, 80f);
+            //Player.gameObject.transform.position = new Vector3(28f, 0.8f, 47f);
+            Player.gameObject.transform.position = new Vector3(13f, 0.8f, 80f);
             puzzles = new bool[8] { false, false, false , false, false, false, false, false};
             item_name = null;
             item_num = null;
