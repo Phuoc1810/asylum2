@@ -41,7 +41,7 @@ public class IdleState : StateMachineBehaviour
         SetupAudio(animator);
         ScheduleNextBreath();
 
-        Debug.Log("Entered Idle State");
+        //Debug.Log("Entered Idle State");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -86,7 +86,7 @@ public class IdleState : StateMachineBehaviour
             agent.speed = 2.5f;
         }
 
-        Debug.Log("Exited Idle State");
+        //Debug.Log("Exited Idle State");
     }
 
     void SetupAudio(Animator animator)

@@ -7,7 +7,10 @@ public class PatrolState : StateMachineBehaviour
     [SerializeField] private LayerMask wallLayer;
 
     [Header("Field of View")]
-    [SerializeField] private float fieldOfViewAngle = 90f;
+    [SerializeField] private float fieldOfViewAngle = 120f;
+
+    [Header("Detection Settings")]
+    [SerializeField] private float chaseRange = 20f;
 
     [Header("Random Patrol Settings")]
     [SerializeField] private float range = 15f;
@@ -27,7 +30,6 @@ public class PatrolState : StateMachineBehaviour
     NavMeshAgent agent;
     Transform player;
     Transform centrePoint;
-    float chaseRange = 10;
     private AudioSource audioSource;
     private float nextBreathTime;
 
@@ -66,7 +68,7 @@ public class PatrolState : StateMachineBehaviour
         if (distance <= 2.5f)
         {
             animator.SetBool("IsJumpscaring", true);
-            Debug.Log("Direct jumpscare from patrol");
+            //Debug.Log("Direct jumpscare from patrol");
             return;
         }
 
@@ -132,7 +134,6 @@ public class PatrolState : StateMachineBehaviour
         Vector3 agentPos = animator.transform.position;
         Vector3 playerPos = player.position;
 
-        // Kiểm tra góc nhìn (FOV)
         Vector3 directionToPlayer = (playerPos - agentPos).normalized;
         Vector3 agentForward = animator.transform.forward;
         float angleToPlayer = Vector3.Angle(agentForward, directionToPlayer);
@@ -142,7 +143,6 @@ public class PatrolState : StateMachineBehaviour
             return false;
         }
 
-        // Kiểm tra tường chắn
         float distance = Vector3.Distance(playerPos, agentPos);
         Vector3 startPos = agentPos + Vector3.up * 1.5f;
 
