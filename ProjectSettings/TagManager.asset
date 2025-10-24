@@ -22,6 +22,9 @@ TagManager:
   - doc
   - InventoryService
   - safe_unlock
+  - exit1
+  - NOTE
+  - exit2
   layers:
   - Default
   - TransparentFX
