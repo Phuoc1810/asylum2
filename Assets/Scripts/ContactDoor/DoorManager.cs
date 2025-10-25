@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DoorManager : MonoBehaviour
@@ -134,6 +135,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.XquangDoor:
                 HandleXQUangDoor();
                 break;
+            case Interactable.InteracType.WCDoor:
+                HandleWCDoor();
+                break;
         }
     }
     private void HandleMaintenanceDoor()
@@ -233,6 +237,16 @@ public class DoorManager : MonoBehaviour
         else
         {
             PlayDoorSound(doorLockedSound);
+        }
+    }
+    private void HandleWCDoor()
+    {
+        bool hasWCKey = InventoryService.Instance != null && InventoryService.Instance.Contains("wc_key");
+        if (hasWCKey)
+        {
+            ToggleDoor();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(7, true);
         }
     }
     private void ToggleDoor()

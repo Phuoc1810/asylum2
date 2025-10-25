@@ -138,6 +138,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.Flashlight:
             case Interactable.InteracType.FileKey:
             case Interactable.InteracType.XquangKey:
+            case Interactable.InteracType.WCKey:
                 PickupItem(interactable.gameObject);
                 break;
             case Interactable.InteracType.Barrtery:
@@ -162,6 +163,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.BroadingDoor:
             case Interactable.InteracType.FileDoor:
             case Interactable.InteracType.XquangDoor:
+            case Interactable.InteracType.WCDoor:
                 HandleDoorInteraction(interactable);
                 break;
             case Interactable.InteracType.DirectorDrawers:
