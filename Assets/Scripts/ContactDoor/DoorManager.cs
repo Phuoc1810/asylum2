@@ -131,7 +131,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.FileDoor:
                 HanldeFileDoor();
                 break;
-
+            case Interactable.InteracType.XquangDoor:
+                HandleXQUangDoor();
+                break;
         }
     }
     private void HandleMaintenanceDoor()
@@ -219,6 +221,20 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
+    private void HandleXQUangDoor()
+    {
+        bool hasXQKey = InventoryService.Instance != null && InventoryService.Instance.Contains("xq_key");
+        if (hasXQKey)
+        {
+            ToggleDoor();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(4, true);
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
     private void ToggleDoor()
     {
         isLocked = false;
@@ -240,6 +256,15 @@ public class DoorManager : MonoBehaviour
         {
             isOpen = false;
             PlayDoorSound(doorSlamSound);
+            yield return new WaitForSeconds(2f);
+
+            PlayDoorSound(doorKnockSound);
+
+            if (scaryFace != null)
+            {
+                scaryFace.SetActive(true);
+                isFaceActive = true;
+            }
         }
         else
         {

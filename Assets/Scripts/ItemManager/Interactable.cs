@@ -21,7 +21,7 @@ public class Interactable : MonoBehaviour
         Flashlight,
         Barrtery,
         FileKey,
-
+        XquangKey,
 
         //=== DOOR ===//
         Door,
@@ -29,6 +29,7 @@ public class Interactable : MonoBehaviour
         DirectorDoor,
         BroadingDoor,
         FileDoor,
+        XquangDoor,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
