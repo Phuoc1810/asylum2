@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 public class SafeUnlocker : MonoBehaviour
 {
-    public GameObject SafeTextUI;
     //public GameObject SafeUI;
     public GameObject KeypadUI;
     public GameObject Holder;
@@ -11,13 +10,13 @@ public class SafeUnlocker : MonoBehaviour
     bool isOpen;
     bool isInteracted;
 
+    [SerializeField] private Collider colliderSafeBox;
     GameObject drawer;
     bool isUnlocked;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         drawer = GameObject.FindGameObjectWithTag("safe_unlock");
-        SafeTextUI.SetActive(false);
         KeypadUI.SetActive(false);
         //SafeUI.SetActive(false);
         isOpen = false;
@@ -33,7 +32,6 @@ public class SafeUnlocker : MonoBehaviour
             if (!isOpen)
             {
                 //SafeUI.SetActive(true);
-                SafeTextUI.SetActive(false);
                 KeypadUI.SetActive(true);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
@@ -49,7 +47,6 @@ public class SafeUnlocker : MonoBehaviour
             else
             {
                 //SafeUI.SetActive(false);
-                SafeTextUI.SetActive(true);
                 KeypadUI.SetActive(false);
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -68,6 +65,7 @@ public class SafeUnlocker : MonoBehaviour
             {
                 drawer.gameObject.transform.Translate(Vector3.right * 0.5f * Time.deltaTime, Space.Self);
             }
+            colliderSafeBox.enabled = false;
         }
     }
 
@@ -75,7 +73,6 @@ public class SafeUnlocker : MonoBehaviour
     {
         if (other.tag == "safe")
         {
-            SafeTextUI.SetActive(true);
             isInteracted = true;
             Debug.Log("Open safe");
         }
@@ -94,7 +91,6 @@ public class SafeUnlocker : MonoBehaviour
         if (other.tag == "safe")
         {
             isInteracted = false;
-            SafeTextUI.SetActive(false);
         }
     }
 }

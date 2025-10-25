@@ -20,6 +20,7 @@ public class Interactable : MonoBehaviour
         BroadingKey,
         Flashlight,
         Barrtery,
+        FileKey,
 
 
         //=== DOOR ===//
@@ -27,6 +28,7 @@ public class Interactable : MonoBehaviour
         DoorMaintenance,
         DirectorDoor,
         BroadingDoor,
+        FileDoor,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,

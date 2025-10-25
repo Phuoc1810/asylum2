@@ -128,6 +128,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.BroadingDoor:
                 HandleBroadingDoor();
                 break;
+            case Interactable.InteracType.FileDoor:
+                HanldeFileDoor();
+                break;
 
         }
     }
@@ -195,6 +198,21 @@ public class DoorManager : MonoBehaviour
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.gameObject.GetComponent<PlayerSaveData>().Autosave(1, true);
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+    private void HanldeFileDoor()
+    {
+        bool hasFileKey = InventoryService.Instance != null && InventoryService.Instance.Contains("file_key");
+        if (hasFileKey)
+        {
+            ToggleDoor();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(5, true);
         }
         else
         {
