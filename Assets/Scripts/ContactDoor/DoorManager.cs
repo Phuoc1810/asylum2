@@ -138,6 +138,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.WCDoor:
                 HandleWCDoor();
                 break;
+            case Interactable.InteracType.DoorStrorage:
+                HandleStrorageDoor();
+                break;
         }
     }
     private void HandleMaintenanceDoor()
@@ -247,6 +250,25 @@ public class DoorManager : MonoBehaviour
             ToggleDoor();
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.gameObject.GetComponent<PlayerSaveData>().Autosave(7, true);
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+    private void HandleStrorageDoor()
+    {
+        bool hasStorageKey = InventoryService.Instance != null && InventoryService.Instance.Contains("strorage_key");
+        if (hasStorageKey)
+        {
+            ToggleDoor();
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(11, true);
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
         }
     }
     private void ToggleDoor()
