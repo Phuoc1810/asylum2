@@ -64,7 +64,7 @@ public class AlertState : StateMachineBehaviour
         float distance = Vector3.Distance(player.position, animator.transform.position);
 
         // Jumpscare nếu người chơi đến quá gần
-        if (distance <= 2.5f)
+        if (distance <= 0.5f)
         {
             animator.SetBool("IsJumpscaring", true);
             //Debug.Log("Direct jumpscare from alert");
