@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 7502141874977136905}
   m_Layer: 0
   m_Name: Interior_Door_01_LOD0
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 7265924284438610435}
   m_Layer: 0
   m_Name: Interior_Wall_Door_01
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

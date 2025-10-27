@@ -8,12 +8,13 @@ public class PlayerSaveData : MonoBehaviour
     public GameObject Player;
     public GameObject AutosaveTXT;
     float[] pos = new float[3];
-    bool[] puzzles = new bool[11];
+    bool[] puzzles = new bool[15];
     bool[] puzzles_tangham = new bool[5];
     string[] item_name;
     int[] item_num;
     string last_scene_name;
     GameObject Inventory;
+    private bool hasSavedSceneTangHam = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,7 +49,7 @@ public class PlayerSaveData : MonoBehaviour
             //Player.gameObject.transform.position = new Vector3(28.7f, 0.47f, 47f);
             //Player.gameObject.transform.position = new Vector3(28f, 0.8f, 47f);
             Player.gameObject.transform.position = new Vector3(14.0600004f, 0.512000024f, 80.1800003f);
-            puzzles = new bool[8] { false, false, false , false, false, false, false, false};
+            puzzles = new bool[15] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
             item_name = null;
             item_num = null;
             last_scene_name = "SceneA";
@@ -62,6 +63,7 @@ public class PlayerSaveData : MonoBehaviour
         {
             Save();
         }
+        AutoSaveWhenLoad();
     }
 
     public void Save()
@@ -74,7 +76,7 @@ public class PlayerSaveData : MonoBehaviour
         last_scene_name = currentScene.name;
 
         // Code tam de test bool
-        puzzles = new bool[8] { true, false, false, false, false, false, false, false };
+        puzzles = new bool[11] { true, false, false, false, false, false, false, false, false, false, false };
 
         Dictionary<string, int> items = Inventory.gameObject.GetComponent<InventoryService>().GetDict();
         Debug.Log(items.Count);
@@ -103,7 +105,21 @@ public class PlayerSaveData : MonoBehaviour
         if (AutosaveTXT != null)
             StartCoroutine(ShowAutosaveTXT());
     }
-
+    public void AutoSaveWhenLoad()
+    {
+        if (hasSavedSceneTangHam) return;
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "tangham")
+        {
+            hasSavedSceneTangHam = true;
+            Save();
+            Debug.LogWarning("Autosaved in tangham scene");
+        }
+        else
+        {
+            hasSavedSceneTangHam = false;
+        }
+    }
     private IEnumerator ShowAutosaveTXT()
     {
         AutosaveTXT.SetActive(true);

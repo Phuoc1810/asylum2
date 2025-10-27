@@ -65,7 +65,7 @@ public class PatrolState : StateMachineBehaviour
         timer += Time.deltaTime;
 
         float distance = Vector3.Distance(player.position, animator.transform.position);
-        if (distance <= 2.5f)
+        if (distance <= 2f)
         {
             animator.SetBool("IsJumpscaring", true);
             //Debug.Log("Direct jumpscare from patrol");
