@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 635992814706079844}
   m_Layer: 0
   m_Name: Directors_Door_LOD0
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
