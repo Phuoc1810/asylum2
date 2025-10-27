@@ -113,6 +113,7 @@ public class PlayerSaveData : MonoBehaviour
         {
             hasSavedSceneTangHam = true;
             Save();
+            Debug.LogWarning("Autosaved in tangham scene");
         }
         else
         {
