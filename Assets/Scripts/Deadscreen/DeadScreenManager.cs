@@ -420,7 +420,7 @@ public class DeathScreenManager : MonoBehaviour
         SceneManager.LoadScene(last_scene_name);
         deathCanvas.SetActive(false);
         UnlockPlayerAfterDeath();
-
+        playerModel.SetActive(true);
     }
     public static void UnlockPlayerAfterDeath()
     {
