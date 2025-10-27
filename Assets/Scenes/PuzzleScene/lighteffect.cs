@@ -84,7 +84,7 @@ public class DoorLightEffect : MonoBehaviour
             StartCoroutine(LightFlashEffect());
         }
     }
-
+    
     IEnumerator LightFlashEffect()
     {
         hasPlayed = true;
