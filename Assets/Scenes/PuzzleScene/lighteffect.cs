@@ -5,8 +5,13 @@ using System.Collections;
 public class DoorLightEffect : MonoBehaviour
 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     [Header(" Hiệu Ứng Ánh Sáng")]
     [Tooltip("Màu ánh sáng (trắng)")]
+=======
+    [Header("✨ Hiệu Ứng Ánh Sáng")]
+    [Tooltip("Màu ánh sáng (trắng hoặc vàng đều đẹp)")]
+>>>>>>> Stashed changes
 =======
     [Header("✨ Hiệu Ứng Ánh Sáng")]
     [Tooltip("Màu ánh sáng (trắng hoặc vàng đều đẹp)")]
@@ -23,6 +28,7 @@ public class DoorLightEffect : MonoBehaviour
     public float fadeOutTime = 1.5f;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     [Header(" Âm Thanh (Tùy chọn)")]
     [Tooltip("Âm thanh khi mở cửa")]
     public AudioClip doorOpenSound;
@@ -30,6 +36,8 @@ public class DoorLightEffect : MonoBehaviour
     private Image fadeImage;
     private AudioSource audioSource;
 =======
+=======
+>>>>>>> Stashed changes
     [Header("🔊 Âm Thanh (Tùy chọn)")]
     [Tooltip("Âm thanh khi mở cửa")]
     public AudioClip doorOpenSound;
@@ -38,14 +46,22 @@ public class DoorLightEffect : MonoBehaviour
     private Image flashImage;
     private AudioSource audioSource;
     private Animator doorAnimator;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     private bool hasPlayed = false;
 
     void Start()
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         // Tự động tạo Canvas và Image
         CreateFadeUI();
+=======
+        // Tạo UI ánh sáng che toàn màn hình
+        CreateLightFlashUI();
+>>>>>>> Stashed changes
 =======
         // Tạo UI ánh sáng che toàn màn hình
         CreateLightFlashUI();
@@ -58,6 +74,7 @@ public class DoorLightEffect : MonoBehaviour
             audioSource.clip = doorOpenSound;
             audioSource.playOnAwake = false;
         }
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     }
 
@@ -75,6 +92,8 @@ public class DoorLightEffect : MonoBehaviour
             canvas.sortingOrder = 9999; // Hiển thị trên cùng
             canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
 =======
+=======
+>>>>>>> Stashed changes
 
         // Tìm Animator trên cửa
         doorAnimator = GetComponent<Animator>();
@@ -109,11 +128,15 @@ public class DoorLightEffect : MonoBehaviour
             canvas = canvasObj.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 9999;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             canvasObj.AddComponent<GraphicRaycaster>();
         }
 
         // Tạo Image che toàn màn hình
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         GameObject fadeObj = new GameObject("WhiteFadeImage");
         fadeObj.transform.SetParent(canvas.transform, false);
@@ -125,6 +148,8 @@ public class DoorLightEffect : MonoBehaviour
         // Phủ toàn màn hình
         RectTransform rect = fadeObj.GetComponent<RectTransform>();
 =======
+=======
+>>>>>>> Stashed changes
         lightFlashUI = new GameObject("LightFlash");
         lightFlashUI.transform.SetParent(canvas.transform, false);
 
@@ -133,12 +158,16 @@ public class DoorLightEffect : MonoBehaviour
 
         // Phủ toàn màn hình
         RectTransform rect = lightFlashUI.GetComponent<RectTransform>();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
         rect.sizeDelta = Vector2.zero;
         rect.anchoredPosition = Vector2.zero;
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         fadeObj.SetActive(false);
 
@@ -161,6 +190,8 @@ public class DoorLightEffect : MonoBehaviour
         // Phát âm thanh
         if (audioSource != null && doorOpenSound != null)
 =======
+=======
+>>>>>>> Stashed changes
         lightFlashUI.SetActive(false);
     }
 
@@ -172,16 +203,22 @@ public class DoorLightEffect : MonoBehaviour
 
         // Phát âm thanh
         if (audioSource != null)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         {
             audioSource.Play();
         }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         fadeImage.gameObject.SetActive(true);
 
         // Giai đoạn 1: Lóa lên
 =======
+=======
+>>>>>>> Stashed changes
         // Chạy hiệu ứng ánh sáng
         StartCoroutine(LightFlashEffect());
     }
@@ -191,12 +228,16 @@ public class DoorLightEffect : MonoBehaviour
         lightFlashUI.SetActive(true);
 
         // Giai đoạn 1: Ánh sáng lóa lên nhanh
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(0f, 1f, elapsed / fadeInTime);
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
@@ -208,6 +249,8 @@ public class DoorLightEffect : MonoBehaviour
 
         // Giai đoạn 3: Mờ dần
 =======
+=======
+>>>>>>> Stashed changes
             flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
@@ -216,12 +259,16 @@ public class DoorLightEffect : MonoBehaviour
         yield return new WaitForSeconds(holdTime);
 
         // Giai đoạn 3: Ánh sáng mờ dần
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeOutTime);
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
             fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
@@ -239,6 +286,8 @@ public class DoorLightEffect : MonoBehaviour
     }
 }
 =======
+=======
+>>>>>>> Stashed changes
             flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
@@ -248,4 +297,7 @@ public class DoorLightEffect : MonoBehaviour
 }
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
