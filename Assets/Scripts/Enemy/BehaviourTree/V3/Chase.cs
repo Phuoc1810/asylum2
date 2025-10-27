@@ -16,7 +16,7 @@ public class Chase : StateMachineBehaviour
     AudioSource audioSource;
     float chaseSpeed = 4f;
     float losePlayerRange = 15f;
-    float jumpscareRange = 2.5f;
+    float jumpscareRange = 0.5f;
     float timer;
     float lostPlayerTimer; // Timer riêng cho việc mất tích
     float maxChaseTime = 30f; // Thời gian chase tối đa
