@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 3392050810552912983}
   - component: {fileID: 3170721326426830685}
   - component: {fileID: 7425843088930382788}
+  - component: {fileID: 7502141874977136905}
   m_Layer: 0
   m_Name: Interior_Door_01_LOD0
   m_TagString: Untagged
@@ -583,6 +584,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7502141874977136905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5951875646402302491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 15
+  animator: {fileID: 0}
+  itemId: 
+  worldObjectId: 
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  inspectorSound: {fileID: 0}
 --- !u!1 &8174524819860399446
 GameObject:
   m_ObjectHideFlags: 0

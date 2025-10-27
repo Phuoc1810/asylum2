@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class PlayerSaveData : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject AutosaveTXT;
     float[] pos = new float[3];
-    bool[] puzzles = new bool[8];
+    bool[] puzzles = new bool[11];
+    bool[] puzzles_tangham = new bool[5];
     string[] item_name;
     int[] item_num;
     string last_scene_name;
@@ -43,12 +46,14 @@ public class PlayerSaveData : MonoBehaviour
         {
             //Player.gameObject.transform.position = new Vector3(72f, 0.2f, 100f);
             //Player.gameObject.transform.position = new Vector3(28.7f, 0.47f, 47f);
-            Player.gameObject.transform.position = new Vector3(51f, 0.47f, 115f);
+            //Player.gameObject.transform.position = new Vector3(28f, 0.8f, 47f);
+            Player.gameObject.transform.position = new Vector3(14.0600004f, 0.512000024f, 80.1800003f);
             puzzles = new bool[8] { false, false, false , false, false, false, false, false};
             item_name = null;
             item_num = null;
             last_scene_name = "SceneA";
         }
+        AutosaveTXT.SetActive(false);
     }
 
     private void Update()
@@ -94,12 +99,29 @@ public class PlayerSaveData : MonoBehaviour
 
         PlayerData data = new PlayerData(pos, puzzles, item_name, item_num, last_scene_name);
         SaveSystem.Save(data);
+
+        if (AutosaveTXT != null)
+            StartCoroutine(ShowAutosaveTXT());
+    }
+
+    private IEnumerator ShowAutosaveTXT()
+    {
+        AutosaveTXT.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        AutosaveTXT.SetActive(false);
     }
 
     // Dung ham nay khi xong puzzle
-    public void SetBoolPuzzles(int puzzle_num, bool status)
+    public void Autosave(int puzzle_num, bool status)
     {
         puzzles[puzzle_num - 1] = status;
+        Save();
+    }
+
+    public void AutosaveTangham(int puzzle_num, bool status)
+    {
+        puzzles_tangham[puzzle_num - 1] = status;
+        Save();
     }
 
     public string GetLastSceneName() => last_scene_name;

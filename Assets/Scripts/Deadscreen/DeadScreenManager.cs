@@ -56,10 +56,12 @@ public class DeathScreenManager : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip staticSound;
     [Range(0f, 1f)] public float audioVolume = 0.5f;
+    [Header("ModelPlayer")]
+    public GameObject playerModel;
 
     private string[] terminalLines = {
         "═══════════════════════════════════════",
-        "> HỒ SƠ Y TẾ - BỆNH VIỆN TÂM THẦN ST. MERCY",
+        "> HỒ SƠ Y TẾ - BỆNH VIỆN TÂM THẦN ST. MORROW",
         "> Đang truy xuất dữ liệu bác sĩ...",
         "> CẢNH BÁO: Phát hiện dấu hiệu tổn thương nghiêm trọng",
         "> Nhịp tim: 0 bpm... Huyết áp: 0/0...",
@@ -416,6 +418,42 @@ public class DeathScreenManager : MonoBehaviour
         string last_scene_name = this.gameObject.GetComponent<PlayerSaveData>().GetLastSceneName();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene(last_scene_name);
+        deathCanvas.SetActive(false);
+        UnlockPlayerAfterDeath();
+        playerModel.SetActive(true);
+
+    }
+    public static void UnlockPlayerAfterDeath()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj == null)
+        {
+            Debug.LogWarning("[Jumpscare] Cannot unlock player - Player object not found!");
+            return;
+        }
+
+        // Bật lại CharacterController
+        CharacterController controller = playerObj.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = true;
+            Debug.Log("[Jumpscare] CharacterController enabled");
+        }
+
+        // Bật lại các movement scripts
+        MonoBehaviour[] scripts = playerObj.GetComponents<MonoBehaviour>();
+        foreach (var script in scripts)
+        {
+            if (script == null) continue;
+            string name = script.GetType().Name.ToLower();
+            if (name.Contains("move") || name.Contains("control") || name.Contains("player"))
+            {
+                script.enabled = true;
+                Debug.Log($"[Jumpscare] Re-enabled script: {script.GetType().Name}");
+            }
+        }
+
+        Debug.Log("[Jumpscare] Player unlocked after death screen");
     }
 
     public static void TriggerDeath()

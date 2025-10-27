@@ -44,25 +44,6 @@ public class XQuang_doc : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "doc" && Input.GetKeyDown(KeyCode.E))
-        {
-            if (!isOpen)
-            {
-                DocUI.SetActive(true);
-                DocTextUI.SetActive(false);
-                isOpen = true;
-            }
-            else
-            {
-                DocUI.SetActive(false);
-                DocTextUI.SetActive(true);
-                isOpen = false;
-            }
-        }
-    }*/
-
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "doc")
@@ -70,7 +51,7 @@ public class XQuang_doc : MonoBehaviour
             isInteracted = false;
             DocTextUI.SetActive(false);
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().SetBoolPuzzles(5, true);
+            player.gameObject.GetComponent<PlayerSaveData>().Autosave(5, true);
         }
     }
 }

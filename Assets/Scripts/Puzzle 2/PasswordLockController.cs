@@ -177,6 +177,9 @@ public class PasswordLockController : MonoBehaviour
             boxCollider.enabled = false;
         }
 
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.gameObject.GetComponent<PlayerSaveData>().Autosave(2, true);
+
         ExitZoomMode(true);
     }
 
