@@ -4,8 +4,13 @@ using System.Collections;
 
 public class DoorLightEffect : MonoBehaviour
 {
+<<<<<<< Updated upstream
     [Header(" Hiệu Ứng Ánh Sáng")]
     [Tooltip("Màu ánh sáng (trắng)")]
+=======
+    [Header("✨ Hiệu Ứng Ánh Sáng")]
+    [Tooltip("Màu ánh sáng (trắng hoặc vàng đều đẹp)")]
+>>>>>>> Stashed changes
     public Color lightColor = Color.white;
 
     [Tooltip("Thời gian ánh sáng lóa lên (giây)")]
@@ -17,18 +22,34 @@ public class DoorLightEffect : MonoBehaviour
     [Tooltip("Thời gian ánh sáng mờ đi (giây)")]
     public float fadeOutTime = 1.5f;
 
+<<<<<<< Updated upstream
     [Header(" Âm Thanh (Tùy chọn)")]
     [Tooltip("Âm thanh khi mở cửa")]
     public AudioClip doorOpenSound;
 
     private Image fadeImage;
     private AudioSource audioSource;
+=======
+    [Header("🔊 Âm Thanh (Tùy chọn)")]
+    [Tooltip("Âm thanh khi mở cửa")]
+    public AudioClip doorOpenSound;
+
+    private GameObject lightFlashUI;
+    private Image flashImage;
+    private AudioSource audioSource;
+    private Animator doorAnimator;
+>>>>>>> Stashed changes
     private bool hasPlayed = false;
 
     void Start()
     {
+<<<<<<< Updated upstream
         // Tự động tạo Canvas và Image
         CreateFadeUI();
+=======
+        // Tạo UI ánh sáng che toàn màn hình
+        CreateLightFlashUI();
+>>>>>>> Stashed changes
 
         // Setup audio nếu có
         if (doorOpenSound != null)
@@ -37,6 +58,7 @@ public class DoorLightEffect : MonoBehaviour
             audioSource.clip = doorOpenSound;
             audioSource.playOnAwake = false;
         }
+<<<<<<< Updated upstream
     }
 
     void CreateFadeUI()
@@ -52,10 +74,47 @@ public class DoorLightEffect : MonoBehaviour
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = 9999; // Hiển thị trên cùng
             canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
+=======
+
+        // Tìm Animator trên cửa
+        doorAnimator = GetComponent<Animator>();
+        if (doorAnimator == null)
+        {
+            Debug.LogWarning("Không tìm thấy Animator! Gắn Animator vào cửa để hiệu ứng hoạt động.");
+        }
+    }
+
+    void Update()
+    {
+        // Kiểm tra xem animation cửa có đang chạy không
+        if (doorAnimator != null && !hasPlayed)
+        {
+            AnimatorStateInfo stateInfo = doorAnimator.GetCurrentAnimatorStateInfo(0);
+
+            // Nếu đang chạy bất kỳ animation nào (cửa đang mở)
+            if (stateInfo.normalizedTime > 0f && stateInfo.normalizedTime < 0.3f)
+            {
+                TriggerLightEffect();
+            }
+        }
+    }
+
+    void CreateLightFlashUI()
+    {
+        // Tìm hoặc tạo Canvas
+        Canvas canvas = FindObjectOfType<Canvas>();
+        if (canvas == null)
+        {
+            GameObject canvasObj = new GameObject("DoorLightCanvas");
+            canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 9999;
+>>>>>>> Stashed changes
             canvasObj.AddComponent<GraphicRaycaster>();
         }
 
         // Tạo Image che toàn màn hình
+<<<<<<< Updated upstream
         GameObject fadeObj = new GameObject("WhiteFadeImage");
         fadeObj.transform.SetParent(canvas.transform, false);
 
@@ -65,11 +124,22 @@ public class DoorLightEffect : MonoBehaviour
 
         // Phủ toàn màn hình
         RectTransform rect = fadeObj.GetComponent<RectTransform>();
+=======
+        lightFlashUI = new GameObject("LightFlash");
+        lightFlashUI.transform.SetParent(canvas.transform, false);
+
+        flashImage = lightFlashUI.AddComponent<Image>();
+        flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, 0f);
+
+        // Phủ toàn màn hình
+        RectTransform rect = lightFlashUI.GetComponent<RectTransform>();
+>>>>>>> Stashed changes
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
         rect.sizeDelta = Vector2.zero;
         rect.anchoredPosition = Vector2.zero;
 
+<<<<<<< Updated upstream
         fadeObj.SetActive(false);
 
         Debug.Log(" Fade UI đã được tạo!");
@@ -90,18 +160,44 @@ public class DoorLightEffect : MonoBehaviour
 
         // Phát âm thanh
         if (audioSource != null && doorOpenSound != null)
+=======
+        lightFlashUI.SetActive(false);
+    }
+
+    // HÀM NÀY có thể gọi từ bên ngoài (Animation Event hoặc script khác)
+    public void TriggerLightEffect()
+    {
+        if (hasPlayed) return;
+        hasPlayed = true;
+
+        // Phát âm thanh
+        if (audioSource != null)
+>>>>>>> Stashed changes
         {
             audioSource.Play();
         }
 
+<<<<<<< Updated upstream
         fadeImage.gameObject.SetActive(true);
 
         // Giai đoạn 1: Lóa lên
+=======
+        // Chạy hiệu ứng ánh sáng
+        StartCoroutine(LightFlashEffect());
+    }
+
+    IEnumerator LightFlashEffect()
+    {
+        lightFlashUI.SetActive(true);
+
+        // Giai đoạn 1: Ánh sáng lóa lên nhanh
+>>>>>>> Stashed changes
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(0f, 1f, elapsed / fadeInTime);
+<<<<<<< Updated upstream
             fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
@@ -111,11 +207,22 @@ public class DoorLightEffect : MonoBehaviour
         yield return new WaitForSeconds(holdTime);
 
         // Giai đoạn 3: Mờ dần
+=======
+            flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
+            yield return null;
+        }
+
+        // Giai đoạn 2: Giữ ánh sáng
+        yield return new WaitForSeconds(holdTime);
+
+        // Giai đoạn 3: Ánh sáng mờ dần
+>>>>>>> Stashed changes
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeOutTime);
+<<<<<<< Updated upstream
             fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
@@ -131,3 +238,14 @@ public class DoorLightEffect : MonoBehaviour
         hasPlayed = false;
     }
 }
+=======
+            flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
+            yield return null;
+        }
+
+        lightFlashUI.SetActive(false);
+    }
+}
+
+
+>>>>>>> Stashed changes
