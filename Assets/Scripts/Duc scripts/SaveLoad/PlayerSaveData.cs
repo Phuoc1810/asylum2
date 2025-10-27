@@ -105,7 +105,7 @@ public class PlayerSaveData : MonoBehaviour
         if (AutosaveTXT != null)
             StartCoroutine(ShowAutosaveTXT());
     }
-    private void AutoSaveWhenLoad()
+    public void AutoSaveWhenLoad()
     {
         if (hasSavedSceneTangHam) return;
         Scene currentScene = SceneManager.GetActiveScene();
