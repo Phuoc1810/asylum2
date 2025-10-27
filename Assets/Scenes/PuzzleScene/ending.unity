@@ -110727,7 +110727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 265427334444175690, guid: ec4cee6e7ae21c74d9ae8cf75b885477, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 265427334444175690, guid: ec4cee6e7ae21c74d9ae8cf75b885477, type: 3}
       propertyPath: m_TagString
@@ -120205,7 +120205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1188447780
 RectTransform:
   m_ObjectHideFlags: 0
@@ -211200,6 +211200,7 @@ MonoBehaviour:
   menusetting: {fileID: 1627725953}
   panel: {fileID: 982027533}
   canval: {fileID: 1188447779}
+  player: {fileID: 0}
   buttonsetting: {fileID: 1188447784}
 --- !u!4 &2026845220 stripped
 Transform:
