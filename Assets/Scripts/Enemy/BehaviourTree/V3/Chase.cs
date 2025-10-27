@@ -16,7 +16,7 @@ public class Chase : StateMachineBehaviour
     AudioSource audioSource;
     float chaseSpeed = 4f;
     float losePlayerRange = 15f;
-    float jumpscareRange = 0.5f;
+    float jumpscareRange = 2f;
     float timer;
     float lostPlayerTimer; // Timer riêng cho việc mất tích
     float maxChaseTime = 30f; // Thời gian chase tối đa
@@ -49,7 +49,6 @@ public class Chase : StateMachineBehaviour
             audioSource.Play();
         }
         // ✅ TẮT CÁC BOOL CỦA STATE KHÁC
-        animator.SetBool("IsIdle", false);
         animator.SetBool("IsRunning", false);
         animator.SetBool("IsAlert", false);
         animator.SetBool("IsPatrolling", false); // Nếu có
