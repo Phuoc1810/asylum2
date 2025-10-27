@@ -96,7 +96,7 @@ public class InventoryItemEntry : MonoBehaviour, IPointerEnterHandler, IPointerE
             case "flashlight": return "Đèn pin";
             case "director_key": return "Chìa khóa phòng viện trưởng";
             case "broading_key": return "Chìa khóa phòng nội trú 1";
-           
+            case "exit_key": return "Chìa khóa cửa thoát hiểm";
             default: return id;
         }
     }

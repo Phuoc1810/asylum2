@@ -20,20 +20,14 @@ public class Interactable : MonoBehaviour
         BroadingKey,
         Flashlight,
         Barrtery,
-        FileKey,
-        XquangKey,
-        WCKey,
-        KeyStrorage,
+        KeyExit,
+
 
         //=== DOOR ===//
-        Door,
         DoorMaintenance,
         DirectorDoor,
         BroadingDoor,
-        FileDoor,
-        XquangDoor,
-        WCDoor,
-        DoorStrorage,
+        DoorExit,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,

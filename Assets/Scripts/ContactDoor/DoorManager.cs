@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DoorManager : MonoBehaviour
@@ -95,7 +94,7 @@ public class DoorManager : MonoBehaviour
         {
             playerInRange = true;
 
-            if (isFaceActive && doorInteractable != null && 
+            if (isFaceActive && doorInteractable != null &&
                 doorInteractable.Type == Interactable.InteracType.DirectorDoor)
             {
                 TriggerJumpscare();
@@ -129,18 +128,10 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.BroadingDoor:
                 HandleBroadingDoor();
                 break;
-            case Interactable.InteracType.FileDoor:
-                HanldeFileDoor();
+            case Interactable.InteracType.DoorExit:
+                HandleExitDoor();
                 break;
-            case Interactable.InteracType.XquangDoor:
-                HandleXQUangDoor();
-                break;
-            case Interactable.InteracType.WCDoor:
-                HandleWCDoor();
-                break;
-            case Interactable.InteracType.DoorStrorage:
-                HandleStrorageDoor();
-                break;
+
         }
     }
     private void HandleMaintenanceDoor()
@@ -160,9 +151,6 @@ public class DoorManager : MonoBehaviour
         if (hasKey)
         {
             ToggleDoor();
-
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(6, true);
         }
         else
         {
@@ -189,9 +177,6 @@ public class DoorManager : MonoBehaviour
         if (hasDirectorKey)
         {
             ToggleDoor();
-
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(10, true);
         }
         else
         {
@@ -204,73 +189,50 @@ public class DoorManager : MonoBehaviour
         if (hasBroadingKey)
         {
             ToggleDoor();
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+    // Thêm trong DoorManager
+    private IEnumerator LoadSceneAfterLight(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        var transition = GetComponent<SceneTransition>();
+        if (transition != null) transition.LoadTargetScene();
+        else Debug.LogWarning("Không thấy SceneTransition trên cửa exit.");
+    }
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(1, true);
-        }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
-    }
-    private void HanldeFileDoor()
+    private void HandleExitDoor()
     {
-        bool hasFileKey = InventoryService.Instance != null && InventoryService.Instance.Contains("file_key");
-        if (hasFileKey)
-        {
-            ToggleDoor();
+        bool hasExitKey = InventoryService.Instance != null && InventoryService.Instance.Contains("exit_key");
+        if (!hasExitKey) { PlayDoorSound(doorLockedSound); return; }
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(5, true);
-        }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
-    }
-    private void HandleXQUangDoor()
-    {
-        bool hasXQKey = InventoryService.Instance != null && InventoryService.Instance.Contains("xq_key");
-        if (hasXQKey)
-        {
-            ToggleDoor();
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(4, true);
-        }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
-    }
-    private void HandleWCDoor()
-    {
-        bool hasWCKey = InventoryService.Instance != null && InventoryService.Instance.Contains("wc_key");
-        if (hasWCKey)
-        {
-            ToggleDoor();
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(7, true);
-        }
-        else
-        {
-            PlayDoorSound(doorLockedSound);
-        }
-    }
-    private void HandleStrorageDoor()
-    {
-        bool hasStorageKey = InventoryService.Instance != null && InventoryService.Instance.Contains("strorage_key");
-        if (hasStorageKey)
-        {
-            ToggleDoor();
+        ToggleDoor();
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.gameObject.GetComponent<PlayerSaveData>().Autosave(11, true);
-        }
-        else
+        if (isOpen)
         {
-            PlayDoorSound(doorLockedSound);
+            Debug.Log("Cửa exit đã mở! Kích hoạt hiệu ứng...");
+
+            DoorLightEffect lightEffect = GetComponent<DoorLightEffect>(); // ĐÚNG TÊN BIẾN
+            if (lightEffect != null)
+            {
+                lightEffect.TriggerLightEffect();
+                Debug.Log("Đã gọi TriggerLightEffect()!");
+
+                float wait = Mathf.Max(0f,
+                    lightEffect.fadeInTime + lightEffect.holdTime + lightEffect.fadeOutTime); // KHÔNG COMMENT
+                StartCoroutine(LoadSceneAfterLight(wait));
+            }
+            else
+            {
+                Debug.LogWarning("Không tìm thấy DoorLightEffect trên cửa exit. Load scene ngay."); // Debug.LogWarning
+                StartCoroutine(LoadSceneAfterLight(0f));
+            }
         }
     }
+
     private void ToggleDoor()
     {
         isLocked = false;
@@ -292,15 +254,6 @@ public class DoorManager : MonoBehaviour
         {
             isOpen = false;
             PlayDoorSound(doorSlamSound);
-            yield return new WaitForSeconds(2f);
-
-            PlayDoorSound(doorKnockSound);
-
-            if (scaryFace != null)
-            {
-                scaryFace.SetActive(true);
-                isFaceActive = true;
-            }
         }
         else
         {
@@ -343,7 +296,7 @@ public class DoorManager : MonoBehaviour
 
         yield return new WaitForSeconds(textDisplayDuration);
 
-        if(doorStatusText != null)
+        if (doorStatusText != null)
         {
             doorStatusText.text = "";
         }
@@ -395,7 +348,7 @@ public class DoorManager : MonoBehaviour
     }
     private void UpdateMaintenceDoorText()
     {
-        if(InventoryManager.instance == null)
+        if (InventoryManager.instance == null)
         {
             doorStatusText.text = "";
             return;
