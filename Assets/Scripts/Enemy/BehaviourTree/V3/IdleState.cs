@@ -41,7 +41,7 @@ public class IdleState : StateMachineBehaviour
         SetupAudio(animator);
         ScheduleNextBreath();
 
-        Debug.Log("Entered Idle State");
+        //Debug.Log("Entered Idle State");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -58,10 +58,9 @@ public class IdleState : StateMachineBehaviour
         {
             float distanceToPlayer = Vector3.Distance(player.position, animator.transform.position);
 
-            if (distanceToPlayer <= 2.5f)
+            if (distanceToPlayer <= 2f)
             {
                 animator.SetBool("IsJumpscaring", true);
-                Debug.Log("Direct jumpscare from idle");
                 return;
             }
 
@@ -86,7 +85,7 @@ public class IdleState : StateMachineBehaviour
             agent.speed = 2.5f;
         }
 
-        Debug.Log("Exited Idle State");
+        //Debug.Log("Exited Idle State");
     }
 
     void SetupAudio(Animator animator)

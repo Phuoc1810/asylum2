@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,6 +8,13 @@ public class PlayerMovement : MonoBehaviour
     public float mouseSensitivity = 100f;
     public Animator animator;
 
+    [Header("Camera Smooth")]
+    [SerializeField] private float cameraSmoothTime = 0.1f;
+
+    [Header("Breaking Effect")]
+    [SerializeField] private float breathSpeed = 1f;
+    [SerializeField] private float breathAmount = 0.05f;
+
     [Header("Grative setting")]
     private float _velocityVertical = 0f;
     private float _gravity = -9.81f;
@@ -16,6 +23,12 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private float xRotation = 0f;
+
+    private float currentXRotation = 0f;
+    private float xRotationVelocity = 0f;
+
+    private Vector3 originalCameraPos;
+    private float breathTimer = 0f;
 
     public string footstepGroupName = "FootStep";
     [SerializeField] private float walkStepInterval = 6f;
@@ -27,19 +40,20 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (cameraTransform != null)
+        {
+            originalCameraPos = cameraTransform.localPosition;
+        }
     }
 
     void Update()
     {
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = true;
-        if (Cursor.visible == false)
-        {
-            HandleMovement();
-            HandleMouseLook();
-        }
+        if (Cursor.visible) return;
+        HandleMovement();
+        HandleMouseLook();
+        HandleBreathingEffect();
     }
-
     void HandleMouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -48,10 +62,16 @@ public class PlayerMovement : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -75f, 75f);
 
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        currentXRotation = Mathf.SmoothDamp(
+            currentXRotation,
+            xRotation,
+            ref xRotationVelocity,
+            cameraSmoothTime
+            );
+        cameraTransform.localRotation = Quaternion.Euler(currentXRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
-    }
 
+    }
     void HandleMovement()
     {
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -78,6 +98,42 @@ public class PlayerMovement : MonoBehaviour
 
         HanldeFootsteps(isMoving, isRunning);
     }
+    void HandleBreathingEffect()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
+        bool isMoving = (moveX != 0f || moveZ != 0f);
+
+        if (!isMoving)
+        {
+            breathTimer += Time.deltaTime * breathSpeed;
+
+            float breathCycle = Mathf.Sin(breathTimer);
+            float breathSquared = breathCycle * breathCycle * Mathf.Sign(breathCycle);
+
+            float swayX = Mathf.Sin(breathTimer * 1f) * breathAmount * 2f;
+            float swayY = Mathf.Sin(breathTimer * 0.2f) * breathAmount * 0.08f;
+
+            float yOffset = breathSquared * breathAmount + swayY;
+            float zOffset = breathSquared * breathAmount * 0.2f;
+            float xOffset = Mathf.Sin(breathTimer * 0.7f) * breathAmount * 0.1f + swayX;
+
+            Vector3 newCameraPos = originalCameraPos;
+            newCameraPos.y += yOffset;
+            newCameraPos.z += zOffset;
+            newCameraPos.x += xOffset;
+
+            cameraTransform.localPosition = newCameraPos;
+        }
+        else
+        {
+            cameraTransform.localPosition = Vector3.Lerp(
+                cameraTransform.localPosition,
+                originalCameraPos,
+                5 * Time.deltaTime
+                );
+        }
+    }
     void HanldeFootsteps(bool isMoving, bool isRunning)
     {
         if (!isMoving)
@@ -95,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("SoundManager.Instance is null - no footsteps played");
+                //Debug.LogWarning("SoundManager.Instance is null - no footsteps played");
             }
 
             stepTimer = isRunning ? runStepInterval : walkStepInterval;

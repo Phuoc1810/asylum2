@@ -103,9 +103,10 @@ GameObject:
   - component: {fileID: 3175071357331309843}
   - component: {fileID: 8903781805273216126}
   - component: {fileID: 3386769876586843956}
+  - component: {fileID: 635992814706079844}
   m_Layer: 0
   m_Name: Directors_Door_LOD0
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,6 +344,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &635992814706079844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612927489962293171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 15
+  animator: {fileID: 0}
+  itemId: 
+  worldObjectId: 
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  inspectorSound: {fileID: 0}
 --- !u!1 &3892829931981336705
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +704,7 @@ GameObject:
   - component: {fileID: 6272022858117846910}
   m_Layer: 0
   m_Name: Interior_Wall_Door_03
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -338,17 +338,4 @@ public class FlashlightController : MonoBehaviour
     {
         return currentMode == FlashlightMode.UV && uvLight != null && uvLight.enabled;
     }
-    //private void OnGUI()
-    //{
-    //    if (Debug.isDebugBuild)
-    //    {
-    //        GUILayout.BeginArea(new Rect(10, 10, 300, 150));
-    //        GUILayout.Label($"Mode: {currentMode}");
-    //        GUILayout.Label($"Low Battery: {lowModeTimeLeft:F1}s ({(lowModeTimeLeft / lowModeDuration) * 100:F1}%)");
-    //        GUILayout.Label($"High Battery: {highModeTimeLeft:F1}s ({(highModeTimeLeft / highModeDuration) * 100:F1}%)");
-    //        GUILayout.Label($"UV Battery: {uvModeTimeLeft:F1}s ({(uvModeTimeLeft / uvModeDuration) * 100:F1}%)");
-    //        GUILayout.Label($"Has Flashlight: {HasFlashlight()}");
-    //        GUILayout.EndArea();
-    //    }
-    //}
 }

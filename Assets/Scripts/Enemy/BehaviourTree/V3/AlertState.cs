@@ -46,7 +46,7 @@ public class AlertState : StateMachineBehaviour
             }
         }
 
-        Debug.Log("Alert State Started - Enemy detected player!");
+        //Debug.Log("Alert State Started - Enemy detected player!");
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -64,10 +64,10 @@ public class AlertState : StateMachineBehaviour
         float distance = Vector3.Distance(player.position, animator.transform.position);
 
         // Jumpscare nếu người chơi đến quá gần
-        if (distance <= 2.5f)
+        if (distance <= 2f)
         {
             animator.SetBool("IsJumpscaring", true);
-            Debug.Log("Direct jumpscare from alert");
+            //Debug.Log("Direct jumpscare from alert");
             return;
         }
 
@@ -83,7 +83,7 @@ public class AlertState : StateMachineBehaviour
             if (distance < chaseRange && timer > 1f)
             {
                 animator.SetBool("IsRunning", true);
-                Debug.Log("Switching to chase from alert");
+                //Debug.Log("Switching to chase from alert");
                 return;
             }
         }
@@ -92,14 +92,14 @@ public class AlertState : StateMachineBehaviour
         if (distance > losePlayerRange || timer > alertDuration)
         {
             animator.SetBool("IsAlert", false);
-            Debug.Log("Alert lost player, returning to idle");
+            //Debug.Log("Alert lost player, returning to idle");
             return;
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exited Alert State");
+        //Debug.Log("Exited Alert State");
     }
 
     // ✅ AUDIO METHODS
@@ -123,7 +123,7 @@ public class AlertState : StateMachineBehaviour
         if (audioSource != null && alertSound != null)
         {
             audioSource.PlayOneShot(alertSound, alertVolume);
-            Debug.Log("Playing alert sound - Enemy spotted player!");
+            //Debug.Log("Playing alert sound - Enemy spotted player!");
         }
     }
 

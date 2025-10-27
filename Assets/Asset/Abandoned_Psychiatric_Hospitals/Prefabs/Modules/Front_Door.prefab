@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 8536251447575706641}
   - component: {fileID: 8536251447575706640}
   - component: {fileID: 1387813940622220934}
+  - component: {fileID: 5455195193527065966}
   m_Layer: 0
   m_Name: Door_LOD0
   m_TagString: Untagged
@@ -536,6 +537,10 @@ MonoBehaviour:
   txt: {fileID: 3507757318834538360, guid: c71c6f8e00e68f74588799d619331447, type: 3}
   locks: 0
   animator: {fileID: 1387813940622220934}
+  audioSource: {fileID: 0}
+  openDoorSound: {fileID: 0}
+  closeDoorSound: {fileID: 0}
+  lockedDoorSound: {fileID: 0}
 --- !u!95 &1387813940622220934
 Animator:
   serializedVersion: 7
@@ -558,6 +563,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5455195193527065966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3513935463710141254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13330fd318ce843468c90c593e20510b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 15
+  animator: {fileID: 0}
+  itemId: 
+  worldObjectId: 
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  inspectorSound: {fileID: 0}
 --- !u!1 &3761783716334711920
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +914,7 @@ GameObject:
   - component: {fileID: 4010030656369864561}
   m_Layer: 0
   m_Name: Front_Door
-  m_TagString: Untagged
+  m_TagString: AudioDetect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
