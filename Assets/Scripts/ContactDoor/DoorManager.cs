@@ -141,6 +141,9 @@ public class DoorManager : MonoBehaviour
             case Interactable.InteracType.DoorStrorage:
                 HandleStrorageDoor();
                 break;
+            case Interactable.InteracType.Doorending:
+                HandleEndingDoor();
+                break;
         }
     }
     private void HandleMaintenanceDoor()
@@ -271,6 +274,25 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
+    private void HandleEndingDoor()
+    {
+        bool hasEndingKey = InventoryService.Instance != null && InventoryService.Instance.Contains("ending_key");
+        if (hasEndingKey)
+        {
+            ToggleDoor();
+            DoorLightEffect  doorLightEffect = GetComponent<DoorLightEffect>(); 
+            if (doorLightEffect != null)
+            {
+                doorLightEffect.TriggerLightEffect();
+                Debug.LogWarning("Triggered Door Light Effect for Ending Door.");
+            }
+        }
+        else
+        {
+            PlayDoorSound(doorLockedSound);
+        }
+    }
+
     private void ToggleDoor()
     {
         isLocked = false;
