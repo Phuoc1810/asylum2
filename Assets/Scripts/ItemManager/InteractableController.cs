@@ -128,6 +128,7 @@ public class InteractableController : MonoBehaviour
     {
         switch (interactable.Type)
         {
+            case Interactable.InteracType.Keyending:
             case Interactable.InteracType.Screwdriver:
             case Interactable.InteracType.Fuse:
             case Interactable.InteracType.KeyMaintenance:
@@ -166,6 +167,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.XquangDoor:
             case Interactable.InteracType.WCDoor:
             case Interactable.InteracType.DoorStrorage:
+            case Interactable.InteracType.Doorending:
                 HandleDoorInteraction(interactable);
                 break;
             case Interactable.InteracType.DirectorDrawers:

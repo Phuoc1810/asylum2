@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
         XquangKey,
         WCKey,
         KeyStrorage,
+        Keyending,
 
         //=== DOOR ===//
         Door,
@@ -34,6 +35,7 @@ public class Interactable : MonoBehaviour
         XquangDoor,
         WCDoor,
         DoorStrorage,
+        Doorending,
 
         // === INTERACTIVE OBJECTS ===
         ElectricBox,
