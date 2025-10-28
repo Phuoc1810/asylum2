@@ -133,7 +133,7 @@ public class DoorManager : MonoBehaviour
                 HanldeFileDoor();
                 break;
             case Interactable.InteracType.XquangDoor:
-                HandleXQUangDoor();
+                HandleXQuangDoor();
                 break;
             case Interactable.InteracType.WCDoor:
                 HandleWCDoor();
@@ -228,7 +228,7 @@ public class DoorManager : MonoBehaviour
             PlayDoorSound(doorLockedSound);
         }
     }
-    private void HandleXQUangDoor()
+    private void HandleXQuangDoor()
     {
         bool hasXQKey = InventoryService.Instance != null && InventoryService.Instance.Contains("xq_key");
         if (hasXQKey)
