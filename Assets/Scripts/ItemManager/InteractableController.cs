@@ -51,7 +51,7 @@ public class InteractableController : MonoBehaviour
         {
             UpdateNormalState();
         }
-        HanldeInteractionInput();
+        HandleInteractionInput();
     }
     private void InitializeController()
     {
@@ -117,7 +117,7 @@ public class InteractableController : MonoBehaviour
         EnablePlayerControls();
         isHoldingItem = false;
     }
-    private void HanldeInteractionInput()
+    private void HandleInteractionInput()
     {
         if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null && !isHoldingItem)
         {
