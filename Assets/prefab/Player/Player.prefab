@@ -2047,7 +2047,7 @@ MonoBehaviour:
   deathSound: {fileID: 0}
   staticSound: {fileID: 0}
   audioVolume: 0.5
-  playerModel: {fileID: 0}
+  playerModel: {fileID: 7871632402940245572}
 --- !u!114 &1774094804649158095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2060,7 +2060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e399679c2acaf5e4987828fb1ee6e9d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SafeTextUI: {fileID: 470230606500440313}
   KeypadUI: {fileID: 3975957083758291253}
   Holder: {fileID: 9073241067799705295}
   Lights:
@@ -2068,6 +2067,7 @@ MonoBehaviour:
   - {fileID: 6950368054406513694}
   - {fileID: 831147291322959650}
   keypadLight: {fileID: 2888249432029588022}
+  colliderSafeBox: {fileID: 0}
 --- !u!114 &8958071570873414194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16233,5 +16233,10 @@ Animator:
 --- !u!4 &7383219869179014398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1ea3766a1d5398641896a90d22a241cb, type: 3}
+  m_PrefabInstance: {fileID: 7060744983241296661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7871632402940245572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ea3766a1d5398641896a90d22a241cb, type: 3}
   m_PrefabInstance: {fileID: 7060744983241296661}
   m_PrefabAsset: {fileID: 0}
