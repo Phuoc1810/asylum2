@@ -1,221 +1,140 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
-public class Ending : MonoBehaviour
+public class EndingSequencer : MonoBehaviour
 {
-    [Header("UI Targets")]
-    [SerializeField] private TMP_Text textUI;    
-    [SerializeField] private Image imageUI;       
-    [SerializeField] private CanvasGroup group;   
+    [Header("UI (để trống sẽ tự tạo)")]
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private CanvasGroup group;
+    [SerializeField] private TextMeshProUGUI label;
 
-    [Header("Text Style (toàn cục)")]
-    [SerializeField] private TMP_FontAsset font;  
+    [Header("Kiểu chữ")]
+    [SerializeField] private TMP_FontAsset font;
+    [SerializeField] private float fontSize = 80f;
     [SerializeField] private Color textColor = Color.white;
-    [SerializeField] private int fontSize = 64;
+    [SerializeField] private TextAlignmentOptions alignment = TextAlignmentOptions.Center;
 
-    [Header("Timing & Transition")]
-    [SerializeField, Tooltip("Thời gian mờ hiện mỗi dòng")]
-    private float fadeIn = 1.0f;
-    [SerializeField, Tooltip("Thời gian mờ tắt mỗi dòng")]
-    private float fadeOut = 1.0f;
-    [SerializeField, Tooltip("Khoảng nghỉ giữa các dòng sau khi fade out")]
-    private float gapAfterFadeOut = 0.2f;
-    [SerializeField, Tooltip("Nhân tốc độ tổng thể")]
-    private float speed = 1.0f;
+    [Header("Nội dung")]
+    [TextArea] public string theEndText = "THE END";
+    [TextArea] public string[] credits = { "Được thực hiện bởi …", "Lập trình: …", "Thiết kế: …" };
+    [TextArea] public string finalText = "Thanks for playing";
 
-    [Header("Playback")]
-    [SerializeField] private bool playOnStart = true;
-    [SerializeField] private bool loop = false;
+    [Header("Thời gian (giây)")]
+    // THE END: xuất hiện 0s, giữ 5s, biến mất
+    public float theEndFadeIn = 0f;
+    public float theEndHold = 5f;
+    public float theEndFadeOut = 0f;     // 0 = biến mất ngay
 
-    [System.Serializable]
-    public class OutroItem
+    // Credit: xuất hiện 5s, giữ 5s, biến mất
+    public float creditFadeIn = 5f;
+    public float creditHold = 5f;
+    public float creditFadeOut = 0f;     // 0 = biến mất ngay
+
+    // Cuối cùng: “Thanks for playing”
+    public float finalFadeIn = 5f;
+    public bool keepFinalOnScreen = true; // giữ lại không tắt
+    public float finalHold = 5f;        // dùng nếu không giữ lại
+    public float finalFadeOut = 0f;
+
+    [Range(0f, 1f)] public float smooth = 0.8f; // độ mượt (0=linear, 1=smooth)
+
+    void Awake()
     {
-        public enum ItemType { Text, Image }
-
-        [Header("Loại nội dung")]
-        public ItemType type = ItemType.Text;
-
-        [Header("Nội dung")]
-        [TextArea(2, 6)] public string text;
-
-        [Header("Hình")]
-        public Sprite sprite;
-
-        [Header("Thời gian giữ")]
-        public float holdSeconds = 5f;
-
-        [Header("Ghi chú)")]
-        public string note;
+        SetupUI();
+        StartCoroutine(PlaySequence());
     }
 
-    [Header("Danh sách Outtro)")]
-    public List<OutroItem> items = new List<OutroItem>()
+    void SetupUI()
     {
-       
-        new OutroItem { type = OutroItem.ItemType.Text, text = "The End", holdSeconds = 5f, note = "Xuất hiện đầu tiên" },
-        new OutroItem { type = OutroItem.ItemType.Text, text = "Kịch bản: abcxz", holdSeconds = 5f },
-        new OutroItem { type = OutroItem.ItemType.Image, sprite = null, holdSeconds = 5f, note = "Gán sprite vào đây (Hình ảnh: abcxyz)" },
-        new OutroItem { type = OutroItem.ItemType.Text, text = "Thank you abcxyz", holdSeconds = 5f }
-    };
-
-    private Coroutine _playCo;
-
-    private void Reset()
-    {
-       
-        if (!group) group = GetComponentInParent<CanvasGroup>();
-        if (!textUI) textUI = GetComponentInChildren<TMP_Text>(true);
-        if (!imageUI) imageUI = GetComponentInChildren<Image>(true);
-    }
-
-    private void Awake()
-    {
-        if (group == null)
+        if (canvas == null)
         {
-            
-            GameObject g = (textUI ? textUI.transform.parent.gameObject : gameObject);
-            group = g.GetComponent<CanvasGroup>();
-            if (!group) group = g.AddComponent<CanvasGroup>();
+            var go = new GameObject("EndingCanvas");
+            canvas = go.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+            var scaler = go.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+
+            go.AddComponent<GraphicRaycaster>();
+            group = go.AddComponent<CanvasGroup>();
+        }
+        if (group == null) group = canvas.gameObject.AddComponent<CanvasGroup>();
+        group.alpha = 0f;
+
+        if (label == null)
+        {
+            var t = new GameObject("EndingLabel");
+            t.transform.SetParent(canvas.transform, false);
+            label = t.AddComponent<TextMeshProUGUI>();
+            var rt = label.rectTransform;
+            rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+        }
+
+        if (font != null) label.font = font;
+        label.fontSize = fontSize;
+        label.color = textColor;
+        label.alignment = alignment;
+        label.raycastTarget = false;
+    }
+
+    IEnumerator PlaySequence()
+    {
+        // 1) THE END (0s xuất hiện, giữ 5s, biến mất)
+        yield return ShowOne(theEndText, theEndFadeIn, theEndHold, theEndFadeOut);
+
+        // 2) Credits (mỗi dòng: 5s hiện, 5s giữ, biến mất)
+        if (credits != null)
+        {
+            foreach (var c in credits)
+                yield return ShowOne(c, creditFadeIn, creditHold, creditFadeOut);
+        }
+
+        // 3) Final line
+        if (keepFinalOnScreen)
+        {
+            // hiện dần rồi giữ luôn
+            yield return Fade(0f, 1f, finalFadeIn);
+            label.text = finalText; // đổi text tại đầu fade-in
+            // sửa nhỏ: đổi text trước rồi fade
+        }
+        else
+        {
+            yield return ShowOne(finalText, finalFadeIn, finalHold, finalFadeOut);
         }
     }
 
-    private void Start()
+    IEnumerator ShowOne(string text, float fadeIn, float hold, float fadeOut)
     {
-        ApplyGlobalTextStyle();
+        label.text = text;
+        group.alpha = 0f;
 
-       
-        SetAlpha(0f);
-        ShowText(false);
-        ShowImage(false);
+        if (fadeIn > 0f) yield return Fade(0f, 1f, fadeIn);
+        else group.alpha = 1f;
 
-        if (playOnStart)
-        {
-            Play();
-        }
+        if (hold > 0f) yield return new WaitForSecondsRealtime(hold);
+
+        if (fadeOut > 0f) yield return Fade(1f, 0f, fadeOut);
+        else group.alpha = 0f;
     }
 
-    public void Play()
+    IEnumerator Fade(float from, float to, float dur)
     {
-        if (_playCo != null) StopCoroutine(_playCo);
-        _playCo = StartCoroutine(CoPlay());
-    }
-
-    public void StopPlayback()
-    {
-        if (_playCo != null) StopCoroutine(_playCo);
-        _playCo = null;
-        SetAlpha(0f);
-        ShowText(false);
-        ShowImage(false);
-    }
-
-    private IEnumerator CoPlay()
-    {
-        do
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-                var it = items[i];
-                
-                if (it.type == OutroItem.ItemType.Text)
-                {
-                    if (textUI)
-                    {
-                        textUI.text = it.text ?? "";
-                        ApplyGlobalTextStyle();
-                        ShowText(true);
-                    }
-                    ShowImage(false);
-                }
-                else 
-                {
-                    if (imageUI)
-                    {
-                        imageUI.sprite = it.sprite;
-                        imageUI.SetNativeSize(); 
-                        imageUI.enabled = (it.sprite != null);
-                    }
-                    ShowImage(true);
-                    ShowText(false);
-                }
-
-                
-                yield return Fade(0f, 1f, fadeIn / Mathf.Max(0.0001f, speed));
-
-                
-                float hold = Mathf.Max(0f, it.holdSeconds) / Mathf.Max(0.0001f, speed);
-                yield return new WaitForSeconds(hold);
-
-                yield return Fade(1f, 0f, fadeOut / Mathf.Max(0.0001f, speed));
-
-               
-                if (gapAfterFadeOut > 0f)
-                    yield return new WaitForSeconds(gapAfterFadeOut / Mathf.Max(0.0001f, speed));
-            }
-        }
-        while (loop);
-
-        
-        ShowText(false);
-        ShowImage(false);
-    }
-
-    private IEnumerator Fade(float from, float to, float duration)
-    {
-        if (duration <= 0f)
-        {
-            SetAlpha(to);
-            yield break;
-        }
-
         float t = 0f;
-        SetAlpha(from);
-        while (t < duration)
+        group.alpha = from;
+        if (dur <= 0f) { group.alpha = to; yield break; }
+
+        while (t < dur)
         {
-            t += Time.deltaTime;
-            float a = Mathf.Lerp(from, to, Mathf.SmoothStep(0f, 1f, t / duration));
-            SetAlpha(a);
+            t += Time.unscaledDeltaTime;
+            float x = Mathf.Clamp01(t / dur);
+            float eased = Mathf.Lerp(x, Mathf.SmoothStep(0f, 1f, x), smooth);
+            group.alpha = Mathf.Lerp(from, to, eased);
             yield return null;
         }
-        SetAlpha(to);
-    }
-
-    private void SetAlpha(float a)
-    {
-        if (group) group.alpha = a;
-    }
-
-    private void ShowText(bool on)
-    {
-        if (textUI) textUI.gameObject.SetActive(on);
-    }
-
-    private void ShowImage(bool on)
-    {
-        if (imageUI) imageUI.gameObject.SetActive(on);
-    }
-
-    private void ApplyGlobalTextStyle()
-    {
-        if (!textUI) return;
-        if (font) textUI.font = font;
-        textUI.color = textColor;
-        if (fontSize > 0) textUI.fontSize = fontSize;
-    }
-
-   
-    [ContextMenu("Fill Example (Theo yêu cầu)")]
-    private void FillExample()
-    {
-        items = new List<OutroItem>()
-        {
-            new OutroItem { type = OutroItem.ItemType.Text, text = "The End", holdSeconds = 5f },
-            new OutroItem { type = OutroItem.ItemType.Text, text = "Kịch bản: abcxz", holdSeconds = 5f },
-            new OutroItem { type = OutroItem.ItemType.Image, sprite = null, holdSeconds = 5f, note = "Gán sprite = abcxyz" },
-            new OutroItem { type = OutroItem.ItemType.Text, text = "Thank you abcxyz", holdSeconds = 5f },
-        };
+        group.alpha = to;
     }
 }
