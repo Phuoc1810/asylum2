@@ -29,7 +29,11 @@ public class DoorLightEffect : MonoBehaviour
 #endif
     [SerializeField, HideInInspector] private string sceneNameRuntime;
     [Tooltip("Độ trễ (giây) trước khi load scene sau khi hiệu ứng xong")]
-    public float delayBeforeLoad = 0f;
+    public float delayBeforeLoad = 5f;
+    [SerializeField] private GameObject camera;
+    private GameObject player;
+
+    private DeathScreenManager deathScreenManager;
 
     private Image fadeImage;
     private AudioSource audioSource;
@@ -48,6 +52,9 @@ public class DoorLightEffect : MonoBehaviour
             audioSource.playOnAwake = false;
             audioSource.spatialBlend = 0f;
         }
+        deathScreenManager = FindObjectOfType<DeathScreenManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        camera.SetActive(false);
     }
 
     void CreateFadeUI()
@@ -94,7 +101,9 @@ public class DoorLightEffect : MonoBehaviour
             audioSource.Play();
 
         fadeImage.gameObject.SetActive(true);
-
+        
+        camera.SetActive(true);
+        Destroy(player);
         // Fade in
         float elapsed = 0f;
         while (elapsed < fadeInTime)
@@ -124,14 +133,13 @@ public class DoorLightEffect : MonoBehaviour
 
         Debug.Log(" Hiệu ứng hoàn thành! Chuẩn bị load scene...");
 
-        yield return new WaitForSecondsRealtime(delayBeforeLoad);
-        if (!string.IsNullOrEmpty(sceneNameRuntime))
+        DoorLoadWithFade loader = gameObject.GetComponent<DoorLoadWithFade>();
+        if (loader != null)
         {
-            SceneManager.LoadScene(sceneNameRuntime);
-        }
-        else
-        {
-            Debug.LogError(" Chưa gán scene đích trong DoorLightEffect!");
+            yield return new WaitForSecondsRealtime(delayBeforeLoad);
+            loader.sceneToLoad = sceneNameRuntime;
+            StartCoroutine(loader.LoadSceneRoutine());
+            deathScreenManager.enabled = false;
         }
     }
 
