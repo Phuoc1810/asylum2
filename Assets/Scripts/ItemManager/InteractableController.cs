@@ -157,6 +157,7 @@ public class InteractableController : MonoBehaviour
             case Interactable.InteracType.BoxDirectorKey:
             case Interactable.InteracType.NoteKnock:
             case Interactable.InteracType.NoteDrawer:
+            case Interactable.InteracType.Newspaper:
                 StartInspectingItem(interactable.gameObject, interactable.Type);
                 break;
 
