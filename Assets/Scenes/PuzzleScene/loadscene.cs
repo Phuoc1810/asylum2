@@ -57,12 +57,10 @@ public class DoorLoadWithFade : MonoBehaviour
 
     void Update()
     {
-        if (isLoading || !playerInRange || autoLoadOnEnter) return;
-        if (Input.GetKeyDown(interactKey))
-            StartCoroutine(LoadSceneRoutine());
+       
     }
 
-    IEnumerator LoadSceneRoutine()
+    public IEnumerator LoadSceneRoutine()
     {
         if (isLoading || string.IsNullOrEmpty(sceneToLoad)) yield break;
         isLoading = true;
