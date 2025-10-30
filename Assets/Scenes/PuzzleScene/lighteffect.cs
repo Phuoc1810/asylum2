@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class DoorLightEffect : MonoBehaviour
 {
     [Header(" Hiệu Ứng Ánh Sáng")]
-    [Tooltip("Màu ánh sáng (trắng hoặc vàng đều đẹp)")]
+    [Tooltip("Màu ánh sáng (trắng)")]
     public Color lightColor = Color.white;
 
     [Tooltip("Thời gian ánh sáng lóa lên (giây)")]
@@ -21,89 +22,129 @@ public class DoorLightEffect : MonoBehaviour
     [Tooltip("Âm thanh khi mở cửa")]
     public AudioClip doorOpenSound;
 
-    private GameObject lightFlashUI;
-    private Image flashImage;
+    [Header(" Cài Đặt Scene")]
+    [Tooltip("Kéo thả scene đích vào đây (phải có trong Build Settings)")]
+#if UNITY_EDITOR
+    [SerializeField] private UnityEditor.SceneAsset targetScene;
+#endif
+    [SerializeField, HideInInspector] private string sceneNameRuntime;
+    [Tooltip("Độ trễ (giây) trước khi load scene sau khi hiệu ứng xong")]
+    public float delayBeforeLoad = 0f;
+
+    private Image fadeImage;
     private AudioSource audioSource;
-    private Animator doorAnimator;
     private bool hasPlayed = false;
 
     void Start()
     {
-        CreateLightFlashUI();
-    }
+        // Tự động tạo Canvas và Image
+        CreateFadeUI();
 
-    void Update()
-    {
-       
-    }
-
-    void CreateLightFlashUI()
-    {
-        // Tìm hoặc tạo Canvas
-        Canvas canvas = FindObjectOfType<Canvas>();
-        if (canvas == null)
+        // Setup audio nếu có
+        if (doorOpenSound != null)
         {
-            GameObject canvasObj = new GameObject("DoorLightCanvas");
-            canvas = canvasObj.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 9999;
-            canvasObj.AddComponent<GraphicRaycaster>();
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = doorOpenSound;
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f;
         }
+    }
 
-        // Tạo Image che toàn màn hình
-        lightFlashUI = new GameObject("LightFlash");
-        lightFlashUI.transform.SetParent(canvas.transform, false);
+    void CreateFadeUI()
+    {
+        // Tạo Canvas overlay riêng
+        GameObject canvasObj = new GameObject("FadeCanvas");
+        var canvas = canvasObj.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 9999;
+        canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
+        canvasObj.AddComponent<GraphicRaycaster>();
 
-        flashImage = lightFlashUI.AddComponent<Image>();
-        flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, 0f);
+        // Image phủ toàn màn hình
+        GameObject fadeObj = new GameObject("WhiteFadeImage");
+        fadeObj.transform.SetParent(canvas.transform, false);
+        fadeImage = fadeObj.AddComponent<Image>();
+        fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, 0f);
+        fadeImage.raycastTarget = false;
 
-        // Phủ toàn màn hình
-        RectTransform rect = lightFlashUI.GetComponent<RectTransform>();
+        RectTransform rect = fadeObj.GetComponent<RectTransform>();
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
         rect.sizeDelta = Vector2.zero;
         rect.anchoredPosition = Vector2.zero;
 
-        lightFlashUI.SetActive(false);
+        fadeObj.SetActive(false);
     }
 
-    // HÀM NÀY có thể gọi từ bên ngoài (Animation Event hoặc script khác)
     public void TriggerLightEffect()
     {
-        // Chạy hiệu ứng ánh sáng
-        StartCoroutine(LightFlashEffect());
+        if (!hasPlayed)
+        {
+            Debug.Log(" Kích hoạt hiệu ứng ánh sáng!");
+            StartCoroutine(LightFlashEffect());
+        }
     }
 
-    private IEnumerator LightFlashEffect()
+    IEnumerator LightFlashEffect()
     {
-        yield return new WaitForSeconds(4f);
-        lightFlashUI.SetActive(true);
+        hasPlayed = true;
 
-        // Giai đoạn 1: Ánh sáng lóa lên nhanh
+        // Âm thanh
+        if (audioSource != null && doorOpenSound != null)
+            audioSource.Play();
+
+        fadeImage.gameObject.SetActive(true);
+
+        // Fade in
         float elapsed = 0f;
         while (elapsed < fadeInTime)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(0f, 1f, elapsed / fadeInTime);
-            flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
+            fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
 
-        // Giai đoạn 2: Giữ ánh sáng
-        yield return new WaitForSeconds(holdTime);
+        // Giữ sáng
+        fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, 1f);
+        yield return new WaitForSecondsRealtime(holdTime);
 
-        // Giai đoạn 3: Ánh sáng mờ dần
+        // Fade out
         elapsed = 0f;
         while (elapsed < fadeOutTime)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeOutTime);
-            flashImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
+            fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, alpha);
             yield return null;
         }
 
-        lightFlashUI.SetActive(false);
+        fadeImage.color = new Color(lightColor.r, lightColor.g, lightColor.b, 0f);
+        fadeImage.gameObject.SetActive(false);
+
+        Debug.Log(" Hiệu ứng hoàn thành! Chuẩn bị load scene...");
+
+        yield return new WaitForSecondsRealtime(delayBeforeLoad);
+        if (!string.IsNullOrEmpty(sceneNameRuntime))
+        {
+            SceneManager.LoadScene(sceneNameRuntime);
+        }
+        else
+        {
+            Debug.LogError(" Chưa gán scene đích trong DoorLightEffect!");
+        }
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (targetScene != null)
+            sceneNameRuntime = targetScene.name;
+    }
+#endif
+
+    public void ResetEffect()
+    {
+        hasPlayed = false;
     }
 }
-
-
