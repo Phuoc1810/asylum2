@@ -50,7 +50,11 @@ public class Interactable : MonoBehaviour
         ArtPiece,
         Quiz,
         Keypad,
-        Newspaper
+        Newspaper,
+        Note1,
+        Note2,
+        Note3,
+        Note4
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;

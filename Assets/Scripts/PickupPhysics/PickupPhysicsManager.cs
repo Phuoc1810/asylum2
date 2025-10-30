@@ -25,6 +25,7 @@ public class PickupPhysicsManager : MonoBehaviour
     [SerializeField] private float noteKnockScale = 0.5f;
     [SerializeField] private float noteDrawerScale = 0.6f;
     [SerializeField] private float newspaperScale = 0.5f;
+    [SerializeField] private float otherItemScale = 1f;
 
     [SerializeField] private Transform targetHoldPosition;
 
@@ -92,6 +93,9 @@ public class PickupPhysicsManager : MonoBehaviour
                 break;
             case Interactable.InteracType.Newspaper:
                 currentItem.transform.localScale = originalScale * newspaperScale;
+                break;
+            case Interactable.InteracType.Note1:
+                currentItem.transform.localScale = originalScale * otherItemScale;
                 break;
         }
     }
@@ -221,6 +225,11 @@ public class PickupPhysicsManager : MonoBehaviour
             {
                 inspectionInforText.text = "Một tờ báo";
                 itemsInformationText.text = "Bệnh viện Saint Morrow được chọn làm cơ sở thử nghiệm phục hồi cảm xúc ở bệnh nhân rối loạn tâm thần. Dự án mang tên Asylum.";
+            }
+            else if (currentItemType == Interactable.InteracType.Note1)
+            {
+                inspectionInforText.text = "Ghi chú lạ";
+                itemsInformationText.text = "Phòng bảo trì bên cạnh có cửa bị lỏng, không ai dám chạm vào sau lần đó… Cần một chiếc tua vít để sửa lại";
             }
             else
             {
