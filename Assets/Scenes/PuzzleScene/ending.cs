@@ -97,9 +97,8 @@ public class EndingSequencer : MonoBehaviour
         if (keepFinalOnScreen)
         {
             // hiện dần rồi giữ luôn
+            label.text = finalText;
             yield return Fade(0f, 1f, finalFadeIn);
-            label.text = finalText; // đổi text tại đầu fade-in
-            // sửa nhỏ: đổi text trước rồi fade
         }
         else
         {
