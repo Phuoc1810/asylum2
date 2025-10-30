@@ -119494,7 +119494,7 @@ MonoBehaviour:
   label: {fileID: 0}
   font: {fileID: 11400000, guid: ec7299e389da88a4789803f123c3b2ec, type: 2}
   fontSize: 80
-  textColor: {r: 0.4245283, g: 0.054067288, b: 0.054067288, a: 1}
+  textColor: {r: 0.42352942, g: 0.2111957, b: 0.054901954, a: 1}
   alignment: 514
   theEndText: THE END
   credits:
@@ -119515,7 +119515,7 @@ MonoBehaviour:
   keepFinalOnScreen: 1
   finalHold: 5
   finalFadeOut: 0
-  smooth: 0.8
+  smooth: 1
 --- !u!1 &1188447779
 GameObject:
   m_ObjectHideFlags: 0
