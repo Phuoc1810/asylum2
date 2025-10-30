@@ -96,7 +96,16 @@ public class InventoryItemEntry : MonoBehaviour, IPointerEnterHandler, IPointerE
             case "flashlight": return "Đèn pin";
             case "director_key": return "Chìa khóa phòng viện trưởng";
             case "broading_key": return "Chìa khóa phòng nội trú 1";
-           
+            case "endgame_key": return "Chìa khóa cuối cùng";
+            case "Electric_Room_key": return "Chìa khóa phòng điện";
+            case "Key_Morgue": return "Chìa khóa nhà xác";
+            case "strorage_key":return "Chìa khóa kho hàng";
+            case "wc_key": return "Chìa khóa nhà vệ sinh";
+            case "xq_key": return "Chìa khóa phòng X-quang";
+            case "Document_Room_Key": return "Chìa khóa phòng hồ sơ bệnh án";
+            case "file_key": return "Chìa khóa tủ hồ sơ";
+
+
             default: return id;
         }
     }
