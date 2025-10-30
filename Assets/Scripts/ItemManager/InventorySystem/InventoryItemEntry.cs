@@ -90,20 +90,25 @@ public class InventoryItemEntry : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         switch (id)
         {
-            case "screwdriver": return "Tua vít";
-            case "fuse": return "Cầu chì";
-            case "key_maintenance": return "Chìa khóa phòng bảo trì";
-            case "flashlight": return "Đèn pin";
-            case "director_key": return "Chìa khóa phòng viện trưởng";
-            case "broading_key": return "Chìa khóa phòng nội trú 1";
-            case "endgame_key": return "Chìa khóa cuối cùng";
-            case "Electric_Room_key": return "Chìa khóa phòng điện";
-            case "Key_Morgue": return "Chìa khóa nhà xác";
-            case "strorage_key":return "Chìa khóa kho hàng";
-            case "wc_key": return "Chìa khóa nhà vệ sinh";
-            case "xq_key": return "Chìa khóa phòng X-quang";
-            case "Document_Room_Key": return "Chìa khóa phòng hồ sơ bệnh án";
-            case "file_key": return "Chìa khóa tủ hồ sơ";
+            case "screwdriver": return "Tua vít";//1
+            case "fuse": return "Cầu chì";//2
+            case "key_maintenance": return "Chìa khóa phòng bảo trì";//3
+            case "flashlight": return "Đèn pin";//4
+            case "director_key": return "Chìa khóa phòng viện trưởng";//4
+            case "broading_key": return "Chìa khóa phòng nội trú 1";//5
+            case "endgame_key": return "Chìa khóa cuối cùng";//6
+            case "Electric_Room_key": return "Chìa khóa phòng điện";//7
+            case "Key_Morgue": return "Chìa khóa nhà xác";//8
+            case "strorage_key":return "Chìa khóa kho hàng";//9
+            case "wc_key": return "Chìa khóa nhà vệ sinh";//10
+            case "xq_key": return "Chìa khóa phòng X-quang";//11
+            case "Document_Room_Key": return "Chìa khóa phòng hồ sơ bệnh án";//12
+            case "file_key": return "Chìa khóa tủ hồ sơ";//13
+            case "battery": return "Pin dự phòng";//14
+            case "bolt_cutter": return "Kìm cộng lực";//15
+            case "crowbar": return "Xà beng";//16   
+            case "hammer": return "Búa tạ";//17
+            case "scissors": return "Kéo cắt dây";//18
 
 
             default: return id;
