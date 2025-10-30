@@ -124321,7 +124321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracks:
   - trackName: MainMenu
-    clip: {fileID: 8300000, guid: a54196a8cd71dcc48abf46ed069827d1, type: 3}
+    clip: {fileID: 8300000, guid: 89515a6c164c0c240be12a36cccfdd13, type: 3}
   - trackName: stop
     clip: {fileID: 0}
 --- !u!114 &1215934519
@@ -211884,6 +211884,7 @@ MonoBehaviour:
   menusetting: {fileID: 1627725953}
   panel: {fileID: 982027533}
   canval: {fileID: 1188447779}
+  player: {fileID: 0}
   buttonsetting: {fileID: 1188447784}
 --- !u!4 &2026845220 stripped
 Transform:
