@@ -47,10 +47,14 @@ public class Interactable : MonoBehaviour
         NoteKnock,
         NoteDrawer,
 
-        // === MINI-GAMES ===
         ArtPiece,
         Quiz,
-        Keypad
+        Keypad,
+        Newspaper,
+        Note1,
+        Note2,
+        Note3,
+        Note4
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;
