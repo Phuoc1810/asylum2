@@ -54,7 +54,7 @@ public class Interactable : MonoBehaviour
         Note1,
         Note2,
         Note3,
-        Note4
+        Note4,
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;
