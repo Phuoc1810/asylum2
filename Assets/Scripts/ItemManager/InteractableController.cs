@@ -13,6 +13,7 @@ public class InteractableController : MonoBehaviour
     [Header("Player Components")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private HeadBobbingController headBobbingController;
+    [SerializeField] private GameObject flashlightController;
 
     [Header("Pickup System")]
     [SerializeField] private PickupPhysicsManager pickupPhysicsManager;
@@ -63,6 +64,7 @@ public class InteractableController : MonoBehaviour
         {
             interactionPromptPanel.SetActive(false);
         }
+        
     }
     private void UpdateNormalState()
     {
@@ -162,6 +164,17 @@ public class InteractableController : MonoBehaviour
                 case Interactable.InteracType.Note2:
                 case Interactable.InteracType.Note3:
                 case Interactable.InteracType.Note4:
+            case Interactable.InteracType.Note5:
+            case Interactable.InteracType.Note6:
+            case Interactable.InteracType.Note7:
+            case Interactable.InteracType.Note8:
+            case Interactable.InteracType.Note9:
+            case Interactable.InteracType.Note10:
+            case Interactable.InteracType.Note11:
+            case Interactable.InteracType.Note12:
+            case Interactable.InteracType.Note13:
+            case Interactable.InteracType.Note14:
+            case Interactable.InteracType.Note15:
                 StartInspectingItem(interactable.gameObject, interactable.Type);
                 break;
 
@@ -340,6 +353,8 @@ public class InteractableController : MonoBehaviour
             playerMovement.enabled = false;
         if (headBobbingController != null)
             headBobbingController.enabled = false;
+        if(flashlightController != null)
+            flashlightController.SetActive(false);
 
         ShowInteractionPrompt(false);
 
@@ -357,6 +372,8 @@ public class InteractableController : MonoBehaviour
             headBobbingController.enabled = true;
         if (aimPanel != null)
             aimPanel.SetActive(true);
+        if(flashlightController != null)
+            flashlightController.SetActive(true);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

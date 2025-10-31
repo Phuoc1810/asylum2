@@ -54,7 +54,18 @@ public class Interactable : MonoBehaviour
         Note1,
         Note2,
         Note3,
-        Note4
+        Note4,
+        Note5,
+        Note6,
+        Note7,
+        Note8,
+        Note9,
+        Note10,
+        Note11,
+        Note12,
+        Note13,
+        Note14,
+        Note15,
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;
