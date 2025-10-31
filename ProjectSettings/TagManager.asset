@@ -25,6 +25,7 @@ TagManager:
   - exit1
   - NOTE
   - exit2
+  - menu
   layers:
   - Default
   - TransparentFX
