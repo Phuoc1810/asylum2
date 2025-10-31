@@ -164,6 +164,17 @@ public class InteractableController : MonoBehaviour
                 case Interactable.InteracType.Note2:
                 case Interactable.InteracType.Note3:
                 case Interactable.InteracType.Note4:
+            case Interactable.InteracType.Note5:
+            case Interactable.InteracType.Note6:
+            case Interactable.InteracType.Note7:
+            case Interactable.InteracType.Note8:
+            case Interactable.InteracType.Note9:
+            case Interactable.InteracType.Note10:
+            case Interactable.InteracType.Note11:
+            case Interactable.InteracType.Note12:
+            case Interactable.InteracType.Note13:
+            case Interactable.InteracType.Note14:
+            case Interactable.InteracType.Note15:
                 StartInspectingItem(interactable.gameObject, interactable.Type);
                 break;
 
