@@ -16,7 +16,7 @@ public class JumpscareState : StateMachineBehaviour
 
     [Header("Timing")]
     public float inDuration = 0.35f;
-    public float holdDuration = 5.0f;
+    public float holdDuration = 0.1f;
 
     [Header("Camera Easing")]
     public AnimationCurve easeIn = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -53,7 +53,7 @@ public class JumpscareState : StateMachineBehaviour
     public bool showDeathScreen = true;
 
     [Tooltip("Delay trước khi hiện death screen (giây).")]
-    public float deathScreenDelay = 0.5f;
+    public float deathScreenDelay = 0.005f;
 
     // ================== INTERNAL ==================
     Transform player;
