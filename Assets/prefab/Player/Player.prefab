@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1235931996142857829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8491046920683566231
 RectTransform:
   m_ObjectHideFlags: 0
@@ -693,7 +693,6 @@ GameObject:
   - component: {fileID: 7337206146041810945}
   - component: {fileID: 8219244481173750920}
   - component: {fileID: 1487221751259534400}
-  - component: {fileID: 3900125949374920388}
   m_Layer: 5
   m_Name: right
   m_TagString: Untagged
@@ -804,7 +803,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: right
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -814,25 +813,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3900125949374920388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484765248463942987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c71cfcd337b0b24388e96ba698b4bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 1487221751259534400}
-  Lock: {fileID: 0}
-  LOCK: {fileID: 0}
-  nametag: lock2
-  namescript: right
-  count: 0
-  dem: 0
 --- !u!1 &716897149592695917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,7 +1728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5902291701233047635
 Transform:
   m_ObjectHideFlags: 0
@@ -1886,7 +1866,7 @@ MonoBehaviour:
   playerMovement: {fileID: 7705308101797831722}
   headBobbingController: {fileID: 2841939040076885753}
   flashlightController: {fileID: 0}
-  pickupPhysicsManager: {fileID: 0}
+  pickupPhysicsManager: {fileID: 5614316754530781418}
   interactionPromptPanel: {fileID: 6941327684119807570}
   aimPanel: {fileID: 423480997571905575}
 --- !u!136 &8825327100509578451
@@ -1919,7 +1899,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556823954775265658}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96cc6137c6547604d9db06a7d00558a2, type: 3}
   m_Name: 
@@ -2140,7 +2120,6 @@ GameObject:
   - component: {fileID: 3672685680715925862}
   - component: {fileID: 4852678750165776993}
   - component: {fileID: 3043316303157089173}
-  - component: {fileID: 4173534704460555848}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2312,7 +2291,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lockmaneger, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2322,24 +2301,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4173534704460555848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615914666105541504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78836c337f8c0bc40ac2836e76ae32f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 3043316303157089173}
-  exit: {fileID: 0}
-  EXIT: {fileID: 0}
-  nametag: exit2
-  count: 0
-  dem: 0
 --- !u!1 &1691168413325336471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2616,7 +2577,6 @@ GameObject:
   - component: {fileID: 5795904359518845386}
   - component: {fileID: 710743880023260253}
   - component: {fileID: 2762132299433501144}
-  - component: {fileID: 1990644181423808951}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2798,24 +2758,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1990644181423808951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761459567955799026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9791e9293a996429a0268aba04d62b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 2762132299433501144}
-  exit: {fileID: 0}
-  EXIT: {fileID: 0}
-  nametag: NOTE
-  count: 0
-  dem: 0
 --- !u!1 &1900395231770719395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3629,7 +3571,6 @@ GameObject:
   - component: {fileID: 2286824549901490931}
   - component: {fileID: 7238178957570369037}
   - component: {fileID: 7928209470945895795}
-  - component: {fileID: 617151282529319872}
   m_Layer: 5
   m_Name: 4
   m_TagString: Untagged
@@ -3741,7 +3682,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock4, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3764,24 +3705,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alphathreshold: 0.1
---- !u!114 &617151282529319872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2422637220765565293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585d66748c14f954da2e9df564ea0e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 7238178957570369037}
-  lock3: {fileID: 0}
-  LOCK3: {fileID: 0}
-  nametag: lock3
-  count: 1
-  dem: 0
 --- !u!1 &2479697471298628696
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,12 +4374,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2888249432029588022}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8870284169562086875}
+  m_Father: {fileID: 9165433067221171709}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &6325189183619157912
 Light:
@@ -4561,7 +4484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7824648099549481587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4734,7 +4657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3344675037628538020
 Transform:
   m_ObjectHideFlags: 0
@@ -4763,7 +4686,6 @@ GameObject:
   - component: {fileID: 1689351929712791624}
   - component: {fileID: 3238283982263417034}
   - component: {fileID: 8433009266221984582}
-  - component: {fileID: 8953843085672860098}
   m_Layer: 5
   m_Name: up
   m_TagString: Untagged
@@ -4874,7 +4796,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: upp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4884,25 +4806,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8953843085672860098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3097067443597389178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c71cfcd337b0b24388e96ba698b4bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 8433009266221984582}
-  Lock: {fileID: 0}
-  LOCK: {fileID: 0}
-  nametag: lock2
-  namescript: upp
-  count: 0
-  dem: 0
 --- !u!1 &3104940352621390237
 GameObject:
   m_ObjectHideFlags: 0
@@ -5372,7 +5275,6 @@ GameObject:
   - component: {fileID: 8696181358940768423}
   - component: {fileID: 7974794951356250508}
   - component: {fileID: 636102269744664297}
-  - component: {fileID: 5615588431253551295}
   m_Layer: 5
   m_Name: 3
   m_TagString: Untagged
@@ -5484,7 +5386,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock4, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5507,24 +5409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alphathreshold: 0.1
---- !u!114 &5615588431253551295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438969721503675682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585d66748c14f954da2e9df564ea0e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 7974794951356250508}
-  lock3: {fileID: 0}
-  LOCK3: {fileID: 0}
-  nametag: lock3
-  count: 2
-  dem: 0
 --- !u!1 &3444848879845948354
 GameObject:
   m_ObjectHideFlags: 0
@@ -5979,7 +5863,6 @@ GameObject:
   - component: {fileID: 4168423165561979576}
   - component: {fileID: 2394456490227252376}
   - component: {fileID: 2486197435564521615}
-  - component: {fileID: 4363191650280893006}
   m_Layer: 5
   m_Name: 'Button 1 '
   m_TagString: Untagged
@@ -6100,24 +5983,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4363191650280893006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3820942332902330148}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36e9dda7d4913f48a5b3d1475e59023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 2486197435564521615}
-  door3: {fileID: 0}
-  dOOR3: {fileID: 0}
-  nametag: lock1
-  count: 0
-  dem: 0
 --- !u!1 &3834404542640148400
 GameObject:
   m_ObjectHideFlags: 0
@@ -6383,7 +6248,7 @@ GameObject:
   - component: {fileID: 2278798277209188169}
   m_Layer: 5
   m_Name: NOTElock
-  m_TagString: notelock
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7162,7 +7027,6 @@ GameObject:
   - component: {fileID: 653685760761746141}
   - component: {fileID: 1305359910818308631}
   - component: {fileID: 2848546122566718989}
-  - component: {fileID: 8753596419492983787}
   m_Layer: 5
   m_Name: Button 3
   m_TagString: Untagged
@@ -7273,7 +7137,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DOOR3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7283,24 +7147,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8753596419492983787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4339737731054311491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36e9dda7d4913f48a5b3d1475e59023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 2848546122566718989}
-  door3: {fileID: 0}
-  dOOR3: {fileID: 0}
-  nametag: lock1
-  count: 3
-  dem: 0
 --- !u!1 &4433769184571547401
 GameObject:
   m_ObjectHideFlags: 0
@@ -7568,7 +7414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5375770743725148519}
   m_Layer: 5
-  m_Name: quiz
+  m_Name: GameObject
   m_TagString: notepic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7732,7 +7578,7 @@ GameObject:
   - component: {fileID: 4780521716275434883}
   m_Layer: 5
   m_Name: lock3
-  m_TagString: lock3
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9000,7 +8846,6 @@ GameObject:
   - component: {fileID: 6629278988927358005}
   - component: {fileID: 5554361762118112042}
   - component: {fileID: 989559447911054061}
-  - component: {fileID: 8705021328408706071}
   m_Layer: 5
   m_Name: left
   m_TagString: Untagged
@@ -9111,7 +8956,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: left
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9121,25 +8966,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8705021328408706071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5617129498212618072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c71cfcd337b0b24388e96ba698b4bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 989559447911054061}
-  Lock: {fileID: 0}
-  LOCK: {fileID: 0}
-  nametag: lock2
-  namescript: left
-  count: 0
-  dem: 0
 --- !u!1 &5653002136996600495
 GameObject:
   m_ObjectHideFlags: 0
@@ -9152,7 +8978,6 @@ GameObject:
   - component: {fileID: 6397943127179482996}
   - component: {fileID: 4722879012821556979}
   - component: {fileID: 8960454689781649944}
-  - component: {fileID: 2424320098465754460}
   m_Layer: 5
   m_Name: exit
   m_TagString: Untagged
@@ -9324,7 +9149,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lockmaneger, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9334,24 +9159,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2424320098465754460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5653002136996600495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78836c337f8c0bc40ac2836e76ae32f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 8960454689781649944}
-  exit: {fileID: 0}
-  EXIT: {fileID: 0}
-  nametag: exit1
-  count: 0
-  dem: 0
 --- !u!1 &5695843157725948928
 GameObject:
   m_ObjectHideFlags: 0
@@ -9364,7 +9171,6 @@ GameObject:
   - component: {fileID: 7648056539240633230}
   - component: {fileID: 1424015190820709212}
   - component: {fileID: 262461828324234941}
-  - component: {fileID: 3093190585462604000}
   m_Layer: 5
   m_Name: Button 4
   m_TagString: Untagged
@@ -9475,7 +9281,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DOOR3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9485,24 +9291,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3093190585462604000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5695843157725948928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36e9dda7d4913f48a5b3d1475e59023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 262461828324234941}
-  door3: {fileID: 0}
-  dOOR3: {fileID: 0}
-  nametag: lock1
-  count: 4
-  dem: 0
 --- !u!1 &5799547350360365594
 GameObject:
   m_ObjectHideFlags: 0
@@ -9988,7 +9776,6 @@ GameObject:
   - component: {fileID: 7919192696641364161}
   - component: {fileID: 3345004219243846581}
   - component: {fileID: 4429202275070817351}
-  - component: {fileID: 492182362015570945}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -10103,7 +9890,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10113,25 +9900,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &492182362015570945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6150249821131948898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c71cfcd337b0b24388e96ba698b4bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 4429202275070817351}
-  Lock: {fileID: 0}
-  LOCK: {fileID: 0}
-  nametag: lock2
-  namescript: close
-  count: 0
-  dem: 0
 --- !u!1 &6180602689178190578
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,7 +9932,6 @@ Transform:
   - {fileID: 1201009175537712190}
   - {fileID: 4536104669362760073}
   - {fileID: 6219264606256688385}
-  - {fileID: 4898365328732330504}
   m_Father: {fileID: 9165433067221171709}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6247194829514496984
@@ -10415,7 +10182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3777560303168429409
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10743,7 +10510,6 @@ GameObject:
   - component: {fileID: 1219029081000414326}
   - component: {fileID: 5793224302732422544}
   - component: {fileID: 8847769285988655450}
-  - component: {fileID: 9128507273876765460}
   m_Layer: 5
   m_Name: Button 2
   m_TagString: Untagged
@@ -10854,7 +10620,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DOOR3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10864,24 +10630,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9128507273876765460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6596072795029731799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36e9dda7d4913f48a5b3d1475e59023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 8847769285988655450}
-  door3: {fileID: 0}
-  dOOR3: {fileID: 0}
-  nametag: lock1
-  count: 2
-  dem: 0
 --- !u!1 &6628886606488994373
 GameObject:
   m_ObjectHideFlags: 0
@@ -11294,7 +11042,6 @@ GameObject:
   - component: {fileID: 2683489323921835271}
   - component: {fileID: 4561371528788265157}
   - component: {fileID: 3904070487075644051}
-  - component: {fileID: 3419782504695778476}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -11466,7 +11213,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NOTE, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11476,24 +11223,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3419782504695778476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6788555558568963772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9791e9293a996429a0268aba04d62b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 3904070487075644051}
-  exit: {fileID: 0}
-  EXIT: {fileID: 0}
-  nametag: NOTE
-  count: 0
-  dem: 0
 --- !u!1 &6817455471038083941
 GameObject:
   m_ObjectHideFlags: 0
@@ -12521,7 +12250,6 @@ GameObject:
   - component: {fileID: 7495808697289577636}
   - component: {fileID: 229921584294614792}
   - component: {fileID: 3313738583483215104}
-  - component: {fileID: 6116464815529095371}
   m_Layer: 5
   m_Name: Button 5
   m_TagString: Untagged
@@ -12632,7 +12360,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DOOR3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12642,24 +12370,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6116464815529095371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7487124728162367974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36e9dda7d4913f48a5b3d1475e59023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 3313738583483215104}
-  door3: {fileID: 0}
-  dOOR3: {fileID: 0}
-  nametag: lock1
-  count: 1
-  dem: 0
 --- !u!1 &7617368289198129552
 GameObject:
   m_ObjectHideFlags: 0
@@ -13291,7 +13001,6 @@ GameObject:
   - component: {fileID: 669693428119112244}
   - component: {fileID: 4679420201554505476}
   - component: {fileID: 2647620526932015070}
-  - component: {fileID: 1852714331425962361}
   m_Layer: 5
   m_Name: down
   m_TagString: Untagged
@@ -13402,7 +13111,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock3, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: downn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13412,25 +13121,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1852714331425962361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7787571067244944494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c71cfcd337b0b24388e96ba698b4bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 2647620526932015070}
-  Lock: {fileID: 0}
-  LOCK: {fileID: 0}
-  nametag: lock2
-  namescript: downn
-  count: 0
-  dem: 0
 --- !u!1 &7789646275831725291
 GameObject:
   m_ObjectHideFlags: 0
@@ -13540,6 +13230,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2640309788946896100}
+  - {fileID: 4898365328732330504}
   - {fileID: 8870284169562086875}
   m_Father: {fileID: 5264243344577030450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13797,7 +13488,6 @@ GameObject:
   - component: {fileID: 931743462960237779}
   - component: {fileID: 8774799100387172141}
   - component: {fileID: 346782030983397174}
-  - component: {fileID: 9064575377558858501}
   m_Layer: 5
   m_Name: 2
   m_TagString: Untagged
@@ -13909,7 +13599,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock4, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13932,24 +13622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alphathreshold: 0.1
---- !u!114 &9064575377558858501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8047678020559219722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585d66748c14f954da2e9df564ea0e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 8774799100387172141}
-  lock3: {fileID: 0}
-  LOCK3: {fileID: 0}
-  nametag: lock3
-  count: 3
-  dem: 0
 --- !u!1 &8125759149236278236
 GameObject:
   m_ObjectHideFlags: 0
@@ -14962,7 +14634,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
   m_Range: 477.54688
   m_SpotAngle: 42.46547
@@ -15586,7 +15258,6 @@ GameObject:
   - component: {fileID: 7313854617713997310}
   - component: {fileID: 3314124327491097392}
   - component: {fileID: 3797556189942590673}
-  - component: {fileID: 2480773651783860812}
   m_Layer: 5
   m_Name: 1
   m_TagString: Untagged
@@ -15698,7 +15369,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: lock4, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: locknumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15721,24 +15392,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alphathreshold: 0.1
---- !u!114 &2480773651783860812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8748860034943698642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585d66748c14f954da2e9df564ea0e85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 3314124327491097392}
-  lock3: {fileID: 0}
-  LOCK3: {fileID: 0}
-  nametag: lock3
-  count: 0
-  dem: 0
 --- !u!1 &8767462413251013981
 GameObject:
   m_ObjectHideFlags: 0
