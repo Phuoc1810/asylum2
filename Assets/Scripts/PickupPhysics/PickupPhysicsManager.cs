@@ -97,6 +97,7 @@ public class PickupPhysicsManager : MonoBehaviour
             case Interactable.InteracType.Note1:
                 currentItem.transform.localScale = originalScale * otherItemScale;
                 break;
+                
         }
     }
     private void DisableItemPhysics()
@@ -230,6 +231,21 @@ public class PickupPhysicsManager : MonoBehaviour
             {
                 inspectionInforText.text = "Ghi chú lạ";
                 itemsInformationText.text = "Phòng bảo trì bên cạnh có cửa bị lỏng, không ai dám chạm vào sau lần đó… Cần một chiếc tua vít để sửa lại";
+            }
+            else if (currentItemType == Interactable.InteracType.Note2)
+            {
+                inspectionInforText.text = "Ghi chú lạ";
+                itemsInformationText.text = "Có báo cáo ghi lại rằng: Đã có đứa trẻ nhìn thấy mã số trên tường ở gần phòng an ninh. Đứa bé có đèn UV. Thật nguy hiểm, may thay là nó không biết rằng đó là mã số cái hộp gỗ ở trong phòng.";
+            }
+            else if (currentItemType == Interactable.InteracType.Note3)
+            {
+                inspectionInforText.text = "Hồ sơ bệnh nhân số 01";
+                itemsInformationText.text = "Ngày 15/02/1997  \r\nGiới tính: Nam  \r\nTình trạng: Bệnh nhân được chuyển đến từ khu nội trú trong tình trạng hoang mang cực độ, liên tục kêu “ánh sáng trong đầu tôi đang cháy”.  \r\n\r\nChẩn đoán:  \r\nQuét X-Quang cho thấy cấu trúc não bộ xuất hiện vùng xáo trộn mạnh quanh thùy trán.  \r\nPhản ứng cảm xúc giảm dần, nhịp tim và sóng não vẫn ổn định ở mức thấp.  \r\nKhông còn phản ứng khi tiếp xúc với kích thích âm thanh hoặc ánh sáng mạnh.  \r\n\r\nGhi chú của bác sĩ phụ trách:  \r\n> “Không còn sợ hãi. Không còn cảm xúc.  \r\n> Chúng ta đã tiến gần hơn đến sự tĩnh lặng tuyệt đối.”  \r\n\r\nKý tên:  \r\n**Dr. ███████**  \r\nKhoa Nghiên cứu Thần kinh  \r\nSaint Morrow Hospital  \r\n\r\n⚠️ Hồ sơ này được niêm phong theo quy định nội bộ.  \r\n**Mã lưu trữ: 1502**   " +"";
+            }
+            else if (currentItemType == Interactable.InteracType.Note4)
+            {
+                inspectionInforText.text = "Hồ sơ điều trị";
+                itemsInformationText.text = "BỆNH VIỆN SAINT MORROW  \r\nKHOA TÂM THẦN LÂM SÀNG  \r\nHỒ SƠ BỆNH ÁN – KHÔNG XÁC ĐỊNH  \r\n\r\nTên bệnh nhân: [DỮ LIỆU BỊ MỜ]  \r\nGiới tính: Không rõ  \r\nTuổi: Không xác định  \r\n\r\nTình trạng ban đầu:  \r\nBệnh nhân được tìm thấy trong tư thế ngồi co rút bên góc phòng, da tái nhợt, mắt mở to không chớp.  \r\nLiên tục lặp lại cụm từ: “Tôi vẫn nghe họ… Tôi vẫn nghe họ…”  \r\n\r\nKết quả kiểm tra:  \r\nPhản xạ thần kinh gần như mất hẳn, đồng tử không phản ứng với ánh sáng.  \r\nSóng não dao động bất thường, ghi nhận những đỉnh cao tương tự trạng thái hoảng loạn,  \r\nnhưng nhịp tim duy trì ở mức thấp ổn định – không tương thích với sợ hãi tự nhiên.  \r\n\r\nGhi chú của bác sĩ phụ trách:  \r\n> “Cảm xúc của bệnh nhân bị tước bỏ, nhưng ký ức vẫn còn.”  \r\n\r\nTình trạng hiện tại: Không xác định. ";
             }
             else
             {
