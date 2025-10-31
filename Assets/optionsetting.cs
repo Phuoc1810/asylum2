@@ -11,10 +11,13 @@ public class optionsetting : MonoBehaviour
     public buttonsetting buttonsetting;
     public void backToMEnu()
     {
+        
         if (buttonsetting.count == 0)
         {
-            panel.SetActive(false);
+
             menusetting.SetActive(true);
+            panel.SetActive(false);
+            
         }
         else if (buttonsetting.count == 1)
         {
@@ -22,7 +25,7 @@ public class optionsetting : MonoBehaviour
             {
                 Destroy(player);
             }
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
             Destroy(canval);
         }
 
@@ -30,6 +33,7 @@ public class optionsetting : MonoBehaviour
     public void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+       
     }
     public void backToWindow()
     {
