@@ -1865,6 +1865,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   playerMovement: {fileID: 7705308101797831722}
   headBobbingController: {fileID: 2841939040076885753}
+  flashlightController: {fileID: 0}
   pickupPhysicsManager: {fileID: 5614316754530781418}
   interactionPromptPanel: {fileID: 6941327684119807570}
   aimPanel: {fileID: 423480997571905575}
@@ -3066,6 +3067,7 @@ MonoBehaviour:
   boxDirectorKeyHoldPosition: {fileID: 0}
   noteKnock: {fileID: 0}
   noteDrawer: {fileID: 0}
+  newspaper: {fileID: 0}
   moveSpeed: 3
   rotationSpeed: 20
   inspectionInforPanel: {fileID: 7434830368440739443}
@@ -3074,6 +3076,8 @@ MonoBehaviour:
   boxDirectorKeyScale: 0.6
   noteKnockScale: 0.5
   noteDrawerScale: 1.2
+  newspaperScale: 0.5
+  otherItemScale: 1
   targetHoldPosition: {fileID: 2640309788946896100}
 --- !u!1 &2219581746889477568
 GameObject:
@@ -4370,12 +4374,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2888249432029588022}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8870284169562086875}
+  m_Father: {fileID: 9165433067221171709}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &6325189183619157912
 Light:
@@ -9928,7 +9932,6 @@ Transform:
   - {fileID: 1201009175537712190}
   - {fileID: 4536104669362760073}
   - {fileID: 6219264606256688385}
-  - {fileID: 4898365328732330504}
   m_Father: {fileID: 9165433067221171709}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6247194829514496984
@@ -13227,6 +13230,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2640309788946896100}
+  - {fileID: 4898365328732330504}
   - {fileID: 8870284169562086875}
   m_Father: {fileID: 5264243344577030450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
