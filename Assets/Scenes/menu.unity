@@ -135484,7 +135484,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100.000046, y: 24.99997}
+  m_AnchoredPosition: {x: 100.00006, y: 25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1302162316
@@ -150209,7 +150209,7 @@ MonoBehaviour:
   settingpannel: {fileID: 982027533}
   graphicsetting: {fileID: 1026200299}
   audiosetting: {fileID: 1086186455}
-  menustting: {fileID: 1436097598}
+  menustting: {fileID: 1627725953}
   buttonsettings: {fileID: 1188447784}
 --- !u!114 &1436097604
 MonoBehaviour:
@@ -168448,7 +168448,7 @@ GameObject:
   - component: {fileID: 1627725954}
   m_Layer: 0
   m_Name: menu
-  m_TagString: Untagged
+  m_TagString: menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

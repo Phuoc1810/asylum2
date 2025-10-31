@@ -28,6 +28,7 @@ public class buttonsetting : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Confined;
                 Cursor.visible = true;
+
             }
             if (count == 0)
             {
