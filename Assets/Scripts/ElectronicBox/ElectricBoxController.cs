@@ -6,6 +6,7 @@ public class ElectricBoxController : MonoBehaviour
     [SerializeField] private GameObject fuseObject;
     [SerializeField] private GameObject[] lights;
     [SerializeField] private Interactable electricBoxHanlde;
+    [SerializeField] private DoorManager storageDoor2;
 
     [Header("State")]
     [SerializeField] private bool isActive = false;
@@ -26,6 +27,10 @@ public class ElectricBoxController : MonoBehaviour
         }
 
         TurnOffAllLights();
+        if (storageDoor2 == null)
+        {
+            storageDoor2 = FindStorageDoor2();
+        }
     }
     public bool InstallFuse()
     {
@@ -67,12 +72,39 @@ public class ElectricBoxController : MonoBehaviour
         {
             TurnOnAllLights();
             PlaySound(true);
+
+            OpenStorageDoor2();
         }
         else
         {
             TurnOffAllLights();
             PlaySound(false);
         }
+    }
+    private void OpenStorageDoor2()
+    {
+        if (storageDoor2 == null)
+        {
+            return;
+        }
+
+        storageDoor2.ForceOpenDoor();
+
+    }
+    private DoorManager FindStorageDoor2()
+    {
+        DoorManager[] allDoors = FindObjectsOfType<DoorManager>();
+
+        foreach (DoorManager door in allDoors)
+        {
+            Interactable interactable = door.GetComponent<Interactable>();
+            if (interactable != null && interactable.Type == Interactable.InteracType.stroragedoor2)
+            {
+                Debug.Log("Found Storage Door 2!");
+                return door;
+            }
+        }
+        return null;
     }
     private void TurnOnAllLights()
     {

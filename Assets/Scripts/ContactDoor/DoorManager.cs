@@ -300,6 +300,17 @@ public class DoorManager : MonoBehaviour
 
         PlayDoorSound(isOpen ? doorOpenSound : doorClosedSound);
     }
+    public void ForceOpenDoor()
+    {
+        if (isOpen) return; 
+
+        isLocked = false;
+        isOpen = true;
+
+        PlayDoorSound(doorOpenSound);
+
+        Debug.LogWarning($"Door {gameObject.name} force opened!");
+    }
     public void OnDrawerPuzzleSolved()
     {
         if (doorInteractable == null || doorInteractable.Type != Interactable.InteracType.DirectorDoor)

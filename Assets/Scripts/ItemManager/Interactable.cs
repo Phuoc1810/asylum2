@@ -66,6 +66,8 @@ public class Interactable : MonoBehaviour
         Note13,
         Note14,
         Note15,
+
+        stroragedoor2
     }
     [Header("Interaction Setting")]
     [SerializeField] private InteracType type;
